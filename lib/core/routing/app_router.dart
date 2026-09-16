@@ -2,17 +2,18 @@ import 'package:atelier_customer/features/auth/presentation/pages/forgot_passwor
 import 'package:atelier_customer/features/auth/presentation/pages/login_screen.dart';
 import 'package:atelier_customer/features/auth/presentation/pages/register_screen.dart';
 import 'package:atelier_customer/features/auth/presentation/pages/reset_password_screen.dart';
+import 'package:atelier_customer/features/cart/presentation/pages/cart_screen.dart';
+import 'package:atelier_customer/features/favorites/presentation/pages/favorites_screen.dart';
+import 'package:atelier_customer/features/home/presentation/pages/home_screen.dart';
+import 'package:atelier_customer/features/looks/presentation/pages/looks_screen.dart';
+import 'package:atelier_customer/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:atelier_customer/features/products/presentation/pages/product_details_screen.dart';
+import 'package:atelier_customer/features/profile/presentation/pages/profile_screen.dart';
+import 'package:atelier_customer/features/shop/presentation/pages/shop_screen.dart';
+import 'package:atelier_customer/features/splash/presentation/pages/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import '../../features/favorites/presentation/pages/favorites_screen.dart';
-import '../../features/home/presentation/pages/home_screen.dart';
-import '../../features/looks/presentation/pages/looks_screen.dart';
-import '../../features/onboarding/presentation/pages/onboarding_screen.dart';
-import '../../features/profile/presentation/pages/profile_screen.dart';
-import '../../features/shop/presentation/pages/shop_screen.dart';
-import '../../features/splash/presentation/pages/splash_screen.dart';
-import '../theme/app_colors.dart';
 import 'routes.dart';
 
 class AppRouter {
@@ -55,6 +56,26 @@ class AppRouter {
         path: Routes.resetPassword,
         builder: (context, state) {
           return const ResetPasswordScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.productDetails,
+        builder: (context, state) {
+          final productId = state.pathParameters['productId'];
+
+          if (productId == null || productId.isEmpty) {
+            return const Scaffold(
+              body: Center(child: Text('Product not found.')),
+            );
+          }
+
+          return ProductDetailsScreen(productId: productId);
+        },
+      ),
+      GoRoute(
+        path: Routes.cart,
+        builder: (context, state) {
+          return const CartScreen();
         },
       ),
       StatefulShellRoute.indexedStack(
@@ -137,9 +158,7 @@ class _AppShell extends StatelessWidget {
       bottomNavigationBar: NavigationBar(
         selectedIndex: navigationShell.currentIndex,
         onDestinationSelected: _onDestinationSelected,
-        backgroundColor: Theme.of(context).brightness == Brightness.dark
-            ? AppColors.darkSurface
-            : AppColors.lightSurface,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         destinations: const [
           NavigationDestination(
             icon: Icon(Icons.home_outlined),

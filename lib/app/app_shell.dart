@@ -1,9 +1,9 @@
-import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../core/theme/app_colors.dart';
 import '../core/theme/app_spacing.dart';
+import '../core/theme/app_text_style.dart';
 
 class AppShell extends StatelessWidget {
   const AppShell({required this.navigationShell, super.key});
@@ -87,7 +87,7 @@ class _AtelierBottomNavigationBar extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: AppSpacing.s8,
-            vertical: AppSpacing.s8,
+            vertical: AppSpacing.s2,
           ),
           child: Row(
             children: List.generate(_items.length, (index) {
@@ -98,24 +98,24 @@ class _AtelierBottomNavigationBar extends StatelessWidget {
                 child: InkWell(
                   onTap: () => onDestinationSelected(index),
                   borderRadius: BorderRadius.circular(12),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: AppSpacing.s4,
-                    ),
+                  child: SizedBox(
+                    height: 42,
                     child: Column(
-                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Icon(
                           isSelected ? item.activeIcon : item.icon,
-                          size: 22,
+                          size: 18,
                           color: isSelected
                               ? colorScheme.onSurface
                               : colorScheme.onSurface.withValues(alpha: 0.55),
                         ),
-                        const SizedBox(height: AppSpacing.s4),
+                        const SizedBox(height: 2),
                         Text(
                           item.label,
                           style: AppTextStyles.labelSmall.copyWith(
+                            fontSize: 8,
+                            height: 1,
                             color: isSelected
                                 ? colorScheme.onSurface
                                 : colorScheme.onSurface.withValues(alpha: 0.55),

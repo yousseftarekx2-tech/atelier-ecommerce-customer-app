@@ -6,6 +6,10 @@ import 'app/app.dart';
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
+import 'features/cart/cubit/cart_cubit.dart';
+import 'features/favorites/cubit/favorites_cubit.dart';
+import 'features/home/cubit/home_cubit.dart';
+import 'features/products/data/repositories/product_repository_impl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -16,10 +20,20 @@ Future<void> main() async {
   );
 
   final authRemoteDataSource = AuthRemoteDataSource(Supabase.instance.client);
-
   final authRepository = AuthRepositoryImpl(authRemoteDataSource);
-
   final authCubit = AuthCubit(authRepository);
 
-  runApp(BlocProvider.value(value: authCubit, child: const AtelierApp()));
+  final productRepository = ProductRepositoryImpl();
+
+  runApp(
+    MultiBlocProvider(
+      providers: [
+        BlocProvider.value(value: authCubit),
+        BlocProvider(create: (_) => CartCubit()),
+        BlocProvider(create: (_) => FavoritesCubit()),
+        BlocProvider(create: (_) => HomeCubit(productRepository)..loadHome()),
+      ],
+      child: const AtelierApp(),
+    ),
+  );
 }
