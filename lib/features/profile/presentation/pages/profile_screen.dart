@@ -200,7 +200,7 @@ class _AuthenticatedProfile extends StatelessWidget {
                 subtitle: 'Language, appearance, and preferences.',
                 primaryTextColor: primaryTextColor,
                 secondaryTextColor: secondaryTextColor,
-                onTap: () => _showComingSoon(context),
+                onTap: () => context.push(Routes.settings),
                 showDivider: false,
               ),
             ],

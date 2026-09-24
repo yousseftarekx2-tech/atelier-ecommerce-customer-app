@@ -1,3 +1,6 @@
+import 'package:atelier_customer/features/settings/cubit/settings_cubit.dart';
+import 'package:atelier_customer/features/settings/data/datasource/settings_local_data_source.dart';
+import 'package:atelier_customer/features/settings/data/repositories/settings_repository_impl.dart';
 import 'package:atelier_customer/features/style/cubit/style_cubit.dart';
 import 'package:atelier_customer/features/style/data/datasource/style_remote_data_source.dart';
 import 'package:atelier_customer/features/style/data/repositories/style_repository_impl.dart';
@@ -29,7 +32,9 @@ Future<void> main() async {
     publishableKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
   );
 
-  final authRemoteDataSource = AuthRemoteDataSource(Supabase.instance.client);
+  final authRemoteDataSource = AuthRemoteDataSource(
+    Supabase.instance.client,
+  );
 
   final authRepository = AuthRepositoryImpl(authRemoteDataSource);
 
@@ -37,7 +42,9 @@ Future<void> main() async {
 
   final productRepository = ProductRepositoryImpl();
 
-  final styleRemoteDataSource = StyleRemoteDataSource(Supabase.instance.client);
+  final styleRemoteDataSource = StyleRemoteDataSource(
+    Supabase.instance.client,
+  );
 
   final styleRepository = StyleRepositoryImpl(styleRemoteDataSource);
 
@@ -47,7 +54,9 @@ Future<void> main() async {
     Supabase.instance.client,
   );
 
-  final addressRepository = AddressRepositoryImpl(addressRemoteDataSource);
+  final addressRepository = AddressRepositoryImpl(
+    addressRemoteDataSource,
+  );
 
   final addressCubit = AddressCubit(addressRepository);
 
@@ -55,13 +64,25 @@ Future<void> main() async {
 
   final prefs = await SharedPreferences.getInstance();
 
+  final settingsLocalDataSource = SettingsLocalDataSource(prefs);
+
+  final settingsRepository = SettingsRepositoryImpl(
+    settingsLocalDataSource,
+  );
+
+  final settingsCubit = SettingsCubit(settingsRepository);
+
+  settingsCubit.loadSettings();
+
   final recentlyViewedDataSource = RecentlyViewedLocalDataSource(prefs);
 
   final recentlyViewedRepository = RecentlyViewedRepositoryImpl(
     recentlyViewedDataSource,
   );
 
-  final recentlyViewedCubit = RecentlyViewedCubit(recentlyViewedRepository);
+  final recentlyViewedCubit = RecentlyViewedCubit(
+    recentlyViewedRepository,
+  );
 
   runApp(
     MultiBlocProvider(
@@ -72,8 +93,11 @@ Future<void> main() async {
         BlocProvider.value(value: recentlyViewedCubit),
         BlocProvider.value(value: addressCubit),
         BlocProvider(create: (_) => HomeCubit(productRepository)..loadHome()),
+        BlocProvider.value(value: settingsCubit),
       ],
-      child: AtelierApp(styleCubit: styleCubit),
+      child: AtelierApp(
+        styleCubit: styleCubit,
+      ),
     ),
   );
 }

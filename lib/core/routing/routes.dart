@@ -18,6 +18,12 @@ abstract final class Routes {
 
   static const String favorites = '/favorites';
   static const String profile = '/profile';
+  static const String settings = '/profile/settings';
+  static const String accountInformation = '/profile/settings/account';
+  static const String passwordSecurity = '/profile/settings/password-security';
+  static const String privacyData = '/profile/settings/privacy-data';
+  static const String helpSupport = '/profile/settings/help-support';
+  static const String about = '/profile/settings/about';
   static const String cart = '/cart';
   static const String checkout = '/checkout';
   static const orderConfirmation = '/order-confirmation';

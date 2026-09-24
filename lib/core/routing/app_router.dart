@@ -17,6 +17,12 @@ import 'package:atelier_customer/features/orders/presentation/screens/orders_scr
 import 'package:atelier_customer/features/products/presentation/pages/product_details_screen.dart';
 import 'package:atelier_customer/features/profile/presentation/pages/profile_screen.dart';
 import 'package:atelier_customer/features/recently_viewed/presentation/screens/recently_viewed_screen.dart';
+import 'package:atelier_customer/features/settings/presentation/screens/about_screen.dart';
+import 'package:atelier_customer/features/settings/presentation/screens/account_information_screen.dart';
+import 'package:atelier_customer/features/settings/presentation/screens/help_support_screen.dart';
+import 'package:atelier_customer/features/settings/presentation/screens/password_security_screen.dart';
+import 'package:atelier_customer/features/settings/presentation/screens/privacy_data_screen.dart';
+import 'package:atelier_customer/features/settings/presentation/screens/settings_screen.dart';
 import 'package:atelier_customer/features/shop/presentation/pages/shop_screen.dart';
 import 'package:atelier_customer/features/splash/presentation/pages/splash_screen.dart';
 import 'package:atelier_customer/features/style/presentation/screens/my_style_screen.dart';
@@ -158,7 +164,42 @@ class AppRouter {
         path: Routes.address,
         builder: (context, state) => const AddressScreen(),
       ),
-
+      GoRoute(
+        path: Routes.settings,
+        builder: (context, state) {
+          return const SettingsScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.accountInformation,
+        builder: (context, state) {
+          return const AccountInformationScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.passwordSecurity,
+        builder: (context, state) {
+          return const PasswordSecurityScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.privacyData,
+        builder: (context, state) {
+          return const PrivacyDataScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.helpSupport,
+        builder: (context, state) {
+          return const HelpSupportScreen();
+        },
+      ),
+      GoRoute(
+        path: Routes.about,
+        builder: (context, state) {
+          return const AboutScreen();
+        },
+      ),
       // Main App Shell
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {

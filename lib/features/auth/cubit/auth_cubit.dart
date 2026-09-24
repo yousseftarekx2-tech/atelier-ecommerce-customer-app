@@ -84,6 +84,36 @@ class AuthCubit extends Cubit<AuthState> {
     }
   }
 
+  Future<void> updateFullName({required String fullName}) async {
+    final currentState = state;
+
+    if (currentState is! AuthAuthenticated) {
+      return;
+    }
+
+    final trimmedName = fullName.trim();
+
+    if (trimmedName.isEmpty) {
+      emit(const AuthFailure('Full name cannot be empty.'));
+      return;
+    }
+
+    emit(const AuthLoading());
+
+    try {
+      final user = await _authRepository.updateFullName(fullName: trimmedName);
+
+      if (user == null) {
+        emit(const AuthFailure('Unable to update your name.'));
+        return;
+      }
+
+      emit(AuthAuthenticated(user));
+    } catch (error) {
+      emit(AuthFailure(_mapError(error)));
+    }
+  }
+
   Future<void> signOut() async {
     emit(const AuthLoading());
 

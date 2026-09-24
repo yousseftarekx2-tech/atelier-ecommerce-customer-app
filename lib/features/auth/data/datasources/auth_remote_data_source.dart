@@ -37,6 +37,14 @@ class AuthRemoteDataSource {
     await _client.auth.updateUser(UserAttributes(password: password));
   }
 
+  Future<User?> updateFullName({required String fullName}) async {
+    final response = await _client.auth.updateUser(
+      UserAttributes(data: {'full_name': fullName}),
+    );
+
+    return response.user;
+  }
+
   Future<void> signOut() {
     return _client.auth.signOut();
   }

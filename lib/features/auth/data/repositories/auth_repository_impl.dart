@@ -52,6 +52,13 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
+  Future<AuthUser?> updateFullName({required String fullName}) async {
+    final user = await _remoteDataSource.updateFullName(fullName: fullName);
+
+    return _mapUser(user);
+  }
+
+  @override
   Future<void> signOut() {
     return _remoteDataSource.signOut();
   }

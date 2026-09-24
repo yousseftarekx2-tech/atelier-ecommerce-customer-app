@@ -13,6 +13,8 @@ abstract interface class AuthRepository {
 
   Future<void> updatePassword({required String password});
 
+  Future<AuthUser?> updateFullName({required String fullName});
+
   Future<void> signOut();
 
   AuthUser? getCurrentUser();
