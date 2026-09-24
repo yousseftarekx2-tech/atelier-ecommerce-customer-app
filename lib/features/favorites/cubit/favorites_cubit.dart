@@ -1,14 +1,16 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FavoritesCubit extends Cubit<Set<String>> {
-  FavoritesCubit() : super(<String>{});
+import 'favorites_state.dart';
+
+class FavoritesCubit extends Cubit<FavoritesState> {
+  FavoritesCubit() : super(const FavoritesInitial());
 
   bool isFavorite(String productId) {
-    return state.contains(productId);
+    return state.productIds.contains(productId);
   }
 
   void toggle(String productId) {
-    final updatedFavorites = {...state};
+    final updatedFavorites = {...state.productIds};
 
     if (updatedFavorites.contains(productId)) {
       updatedFavorites.remove(productId);
@@ -16,20 +18,20 @@ class FavoritesCubit extends Cubit<Set<String>> {
       updatedFavorites.add(productId);
     }
 
-    emit(updatedFavorites);
+    emit(FavoritesUpdated(updatedFavorites));
   }
 
   void remove(String productId) {
-    if (!state.contains(productId)) {
+    if (!state.productIds.contains(productId)) {
       return;
     }
 
-    final updatedFavorites = {...state}..remove(productId);
+    final updatedFavorites = {...state.productIds}..remove(productId);
 
-    emit(updatedFavorites);
+    emit(FavoritesUpdated(updatedFavorites));
   }
 
   void clear() {
-    emit(<String>{});
+    emit(const FavoritesUpdated({}));
   }
 }

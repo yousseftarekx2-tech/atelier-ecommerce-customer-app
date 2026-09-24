@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:atelier_customer/features/orders/cubit/oeder_cubit.dart';
+import 'package:atelier_customer/features/style/cubit/style_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import '../core/routing/app_router.dart';
@@ -8,7 +11,9 @@ import '../core/routing/routes.dart';
 import '../core/theme/app_theme.dart';
 
 class AtelierApp extends StatefulWidget {
-  const AtelierApp({super.key});
+  const AtelierApp({super.key, required this.styleCubit});
+
+  final StyleCubit styleCubit;
 
   @override
   State<AtelierApp> createState() => _AtelierAppState();
@@ -41,13 +46,19 @@ class _AtelierAppState extends State<AtelierApp> {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(
-      title: 'ATELIER',
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.light(),
-      darkTheme: AppTheme.dark(),
-      themeMode: ThemeMode.system,
-      routerConfig: AppRouter.router,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => OrdersCubit()),
+        BlocProvider.value(value: widget.styleCubit),
+      ],
+      child: MaterialApp.router(
+        title: 'ATELIER',
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.light(),
+        darkTheme: AppTheme.dark(),
+        themeMode: ThemeMode.system,
+        routerConfig: AppRouter.router,
+      ),
     );
   }
 }

@@ -10,6 +10,7 @@ import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../auth/cubit/auth_cubit.dart';
+import '../../../style/cubit/style_cubit.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -28,6 +29,8 @@ class _SplashScreenState extends State<SplashScreen>
   late final Animation<double> _scaleAnimation;
   late final Animation<Offset> _slideAnimation;
   late final Animation<double> _lineAnimation;
+
+  bool _initializationHandled = false;
 
   @override
   void initState() {
@@ -96,14 +99,28 @@ class _SplashScreenState extends State<SplashScreen>
     }
   }
 
-  void _handleAuthState(BuildContext context, AuthState state) {
+  Future<void> _handleAuthState(BuildContext context, AuthState state) async {
+    if (_initializationHandled) {
+      return;
+    }
+
     if (state is AuthAuthenticated) {
-      context.go(Routes.home);
+      _initializationHandled = true;
+
+      await context.read<StyleCubit>().loadPreferences();
+
+      if (!mounted) {
+        return;
+      }
+
+      this.context.go(Routes.home);
       return;
     }
 
     if (state is AuthUnauthenticated || state is AuthFailure) {
-      _handleUnauthenticated();
+      _initializationHandled = true;
+
+      await _handleUnauthenticated();
     }
   }
 

@@ -29,12 +29,7 @@ class CartScreen extends StatelessWidget {
               : _CheckoutBar(
                   total: state.totalPrice,
                   onCheckout: () {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Checkout will be available soon.'),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
+                    context.push(Routes.checkout);
                   },
                 ),
         );
@@ -134,7 +129,7 @@ class _CartContent extends StatelessWidget {
     return ListView(
       padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
       children: [
-        const _DeliveryBanner(),
+        _DeliveryBanner(subtotal: state.totalPrice),
         const SizedBox(height: 22),
         const _SectionHeader(),
         const SizedBox(height: 10),
@@ -153,10 +148,17 @@ class _CartContent extends StatelessWidget {
 }
 
 class _DeliveryBanner extends StatelessWidget {
-  const _DeliveryBanner();
+  const _DeliveryBanner({required this.subtotal});
+
+  final int subtotal;
+
+  static const int freeDeliveryThreshold = 5000;
 
   @override
   Widget build(BuildContext context) {
+    final remaining = freeDeliveryThreshold - subtotal;
+    final isUnlocked = remaining <= 0;
+
     return Container(
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
@@ -180,22 +182,26 @@ class _DeliveryBanner extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 11),
-          const Expanded(
+          Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Complimentary Delivery',
-                  style: TextStyle(
+                  isUnlocked
+                      ? 'Complimentary Delivery'
+                      : 'Free Delivery Available',
+                  style: const TextStyle(
                     color: Color(0xFF151515),
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                SizedBox(height: 3),
+                const SizedBox(height: 3),
                 Text(
-                  'Free standard shipping on orders over EGP 5,000',
-                  style: TextStyle(
+                  isUnlocked
+                      ? 'Free standard shipping on your order'
+                      : 'Add EGP ${_formatPrice(remaining)} to unlock free delivery',
+                  style: const TextStyle(
                     color: Color(0xFF666666),
                     fontSize: 10,
                     height: 1.25,
@@ -207,13 +213,17 @@ class _DeliveryBanner extends StatelessWidget {
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
             decoration: BoxDecoration(
-              color: const Color(0xFFEAF4EC),
+              color: isUnlocked
+                  ? const Color(0xFFEAF4EC)
+                  : const Color(0xFFF4F3F0),
               borderRadius: BorderRadius.circular(5),
             ),
-            child: const Text(
-              'Unlocked',
+            child: Text(
+              isUnlocked ? 'Unlocked' : 'EGP 5,000',
               style: TextStyle(
-                color: Color(0xFF3D7A4A),
+                color: isUnlocked
+                    ? const Color(0xFF3D7A4A)
+                    : const Color(0xFF666666),
                 fontSize: 9,
                 fontWeight: FontWeight.w700,
               ),
@@ -221,6 +231,13 @@ class _DeliveryBanner extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  String _formatPrice(int value) {
+    return value.toString().replaceAllMapped(
+      RegExp(r'\B(?=(\d{3})+(?!\d))'),
+      (match) => ',',
     );
   }
 }

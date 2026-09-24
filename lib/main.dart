@@ -1,8 +1,15 @@
+import 'package:atelier_customer/features/style/cubit/style_cubit.dart';
+import 'package:atelier_customer/features/style/data/datasource/style_remote_data_source.dart';
+import 'package:atelier_customer/features/style/data/repositories/style_repository_impl.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'app/app.dart';
+import 'features/address/cubit/address_cubit.dart';
+import 'features/address/data/datasource/address_remote_data_source.dart';
+import 'features/address/data/repositories/address_repository_impl.dart';
 import 'features/auth/cubit/auth_cubit.dart';
 import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
@@ -10,6 +17,9 @@ import 'features/cart/cubit/cart_cubit.dart';
 import 'features/favorites/cubit/favorites_cubit.dart';
 import 'features/home/cubit/home_cubit.dart';
 import 'features/products/data/repositories/product_repository_impl.dart';
+import 'features/recently_viewed/cubit/recently_viewed_cubit.dart';
+import 'features/recently_viewed/data/datasource/recently_viewed_local_data_source.dart';
+import 'features/recently_viewed/data/repositories/recently_viewed_repository_impl.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,10 +30,38 @@ Future<void> main() async {
   );
 
   final authRemoteDataSource = AuthRemoteDataSource(Supabase.instance.client);
+
   final authRepository = AuthRepositoryImpl(authRemoteDataSource);
+
   final authCubit = AuthCubit(authRepository);
 
   final productRepository = ProductRepositoryImpl();
+
+  final styleRemoteDataSource = StyleRemoteDataSource(Supabase.instance.client);
+
+  final styleRepository = StyleRepositoryImpl(styleRemoteDataSource);
+
+  final styleCubit = StyleCubit(styleRepository);
+
+  final addressRemoteDataSource = AddressRemoteDataSource(
+    Supabase.instance.client,
+  );
+
+  final addressRepository = AddressRepositoryImpl(addressRemoteDataSource);
+
+  final addressCubit = AddressCubit(addressRepository);
+
+  await addressCubit.loadAddresses();
+
+  final prefs = await SharedPreferences.getInstance();
+
+  final recentlyViewedDataSource = RecentlyViewedLocalDataSource(prefs);
+
+  final recentlyViewedRepository = RecentlyViewedRepositoryImpl(
+    recentlyViewedDataSource,
+  );
+
+  final recentlyViewedCubit = RecentlyViewedCubit(recentlyViewedRepository);
 
   runApp(
     MultiBlocProvider(
@@ -31,9 +69,11 @@ Future<void> main() async {
         BlocProvider.value(value: authCubit),
         BlocProvider(create: (_) => CartCubit()),
         BlocProvider(create: (_) => FavoritesCubit()),
+        BlocProvider.value(value: recentlyViewedCubit),
+        BlocProvider.value(value: addressCubit),
         BlocProvider(create: (_) => HomeCubit(productRepository)..loadHome()),
       ],
-      child: const AtelierApp(),
+      child: AtelierApp(styleCubit: styleCubit),
     ),
   );
 }

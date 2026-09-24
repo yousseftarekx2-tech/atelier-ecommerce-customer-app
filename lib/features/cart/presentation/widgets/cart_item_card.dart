@@ -123,15 +123,31 @@ class _ProductImage extends StatelessWidget {
             width: 84,
             height: 105,
             color: const Color(0xFFF4F3F0),
-            child: Image.asset(
-              image,
-              fit: BoxFit.cover,
-              errorBuilder: (_, _, _) {
-                return const Center(
-                  child: Icon(Icons.image_outlined, color: Color(0xFF999999)),
-                );
-              },
-            ),
+            child: image.startsWith('http')
+                ? Image.network(
+                    image,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) {
+                      return const Center(
+                        child: Icon(
+                          Icons.image_outlined,
+                          color: Color(0xFF999999),
+                        ),
+                      );
+                    },
+                  )
+                : Image.asset(
+                    image,
+                    fit: BoxFit.cover,
+                    errorBuilder: (_, _, _) {
+                      return const Center(
+                        child: Icon(
+                          Icons.image_outlined,
+                          color: Color(0xFF999999),
+                        ),
+                      );
+                    },
+                  ),
           ),
         ),
         if (badge != null && badge!.isNotEmpty)

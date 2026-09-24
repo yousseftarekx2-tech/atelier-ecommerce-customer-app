@@ -1,17 +1,27 @@
+import 'package:atelier_customer/features/address/cubit/address_cubit.dart';
+import 'package:atelier_customer/features/address/presentation/screens/address_screen.dart';
 import 'package:atelier_customer/features/auth/presentation/pages/forgot_password_screen.dart';
 import 'package:atelier_customer/features/auth/presentation/pages/login_screen.dart';
 import 'package:atelier_customer/features/auth/presentation/pages/register_screen.dart';
 import 'package:atelier_customer/features/auth/presentation/pages/reset_password_screen.dart';
 import 'package:atelier_customer/features/cart/presentation/pages/cart_screen.dart';
+import 'package:atelier_customer/features/checkout/presentation/screens/checkout_screen.dart';
 import 'package:atelier_customer/features/favorites/presentation/pages/favorites_screen.dart';
 import 'package:atelier_customer/features/home/presentation/pages/home_screen.dart';
+import 'package:atelier_customer/features/looks/presentation/pages/look_details_screen.dart';
 import 'package:atelier_customer/features/looks/presentation/pages/looks_screen.dart';
 import 'package:atelier_customer/features/onboarding/presentation/pages/onboarding_screen.dart';
+import 'package:atelier_customer/features/orders/presentation/screens/order_confirmation_screen.dart';
+import 'package:atelier_customer/features/orders/presentation/screens/order_details_screen.dart';
+import 'package:atelier_customer/features/orders/presentation/screens/orders_screen.dart';
 import 'package:atelier_customer/features/products/presentation/pages/product_details_screen.dart';
 import 'package:atelier_customer/features/profile/presentation/pages/profile_screen.dart';
+import 'package:atelier_customer/features/recently_viewed/presentation/screens/recently_viewed_screen.dart';
 import 'package:atelier_customer/features/shop/presentation/pages/shop_screen.dart';
 import 'package:atelier_customer/features/splash/presentation/pages/splash_screen.dart';
+import 'package:atelier_customer/features/style/presentation/screens/my_style_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 import 'routes.dart';
@@ -58,6 +68,8 @@ class AppRouter {
           return const ResetPasswordScreen();
         },
       ),
+
+      // Product Details
       GoRoute(
         path: Routes.productDetails,
         builder: (context, state) {
@@ -72,12 +84,82 @@ class AppRouter {
           return ProductDetailsScreen(productId: productId);
         },
       ),
+
+      // Cart
       GoRoute(
         path: Routes.cart,
         builder: (context, state) {
           return const CartScreen();
         },
       ),
+
+      // Checkout
+      GoRoute(
+        path: Routes.checkout,
+        builder: (context, state) {
+          return BlocProvider(
+            create: (context) => AddressCubit(context.read())..loadAddresses(),
+            child: const CheckoutScreen(),
+          );
+        },
+      ),
+
+      // Order Confirmation
+      GoRoute(
+        path: Routes.orderConfirmation,
+        builder: (context, state) {
+          return const OrderConfirmationScreen();
+        },
+      ),
+
+      // Orders
+      GoRoute(
+        path: Routes.orders,
+        builder: (context, state) {
+          return const OrdersScreen();
+        },
+      ),
+
+      // Order Details
+      GoRoute(
+        path: Routes.orderDetails,
+        builder: (context, state) {
+          final orderId = state.pathParameters['orderId'];
+
+          if (orderId == null || orderId.isEmpty) {
+            return const Scaffold(
+              body: Center(child: Text('Order not found.')),
+            );
+          }
+
+          return OrderDetailsScreen(orderId: orderId);
+        },
+      ),
+
+      // Look Details
+      GoRoute(
+        path: Routes.lookDetails,
+        builder: (context, state) {
+          final lookId = state.pathParameters['lookId']!;
+
+          return LookDetailsScreen(lookId: lookId);
+        },
+      ),
+
+      GoRoute(
+        path: Routes.style,
+        builder: (context, state) => const MyStyleScreen(),
+      ),
+      GoRoute(
+        path: Routes.view,
+        builder: (context, state) => const RecentlyViewedScreen(),
+      ),
+      GoRoute(
+        path: Routes.address,
+        builder: (context, state) => const AddressScreen(),
+      ),
+
+      // Main App Shell
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
           return _AppShell(navigationShell: navigationShell);

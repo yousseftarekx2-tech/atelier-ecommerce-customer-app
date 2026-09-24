@@ -1,21 +1,39 @@
-import 'package:equatable/equatable.dart';
+import 'package:atelier_customer/features/products/domain/entities/product.dart';
 
-import '../../products/domain/entities/product.dart';
+import '../presentation/widgets/shop_sort_sheet.dart';
 
-sealed class ShopState extends Equatable {
-  const ShopState({required this.products, required this.selectedCategory});
-
-  final List<Product> products;
-  final String selectedCategory;
-
-  @override
-  List<Object?> get props => [products, selectedCategory];
+sealed class ShopState {
+  const ShopState();
 }
 
 final class ShopInitial extends ShopState {
-  const ShopInitial({required super.products, super.selectedCategory = 'All'});
+  const ShopInitial();
 }
 
-final class ShopUpdated extends ShopState {
-  const ShopUpdated({required super.products, super.selectedCategory = 'All'});
+final class ShopLoaded extends ShopState {
+  const ShopLoaded({
+    required this.products,
+    required this.selectedCategory,
+    this.searchQuery = '',
+    this.selectedMinPrice = 0,
+    this.selectedMaxPrice = 10000,
+    this.onlyAvailable = false,
+    this.selectedSizes = const [],
+    this.sortOption = ShopSortOption.recommended,
+  });
+
+  final List<Product> products;
+  final String selectedCategory;
+  final String searchQuery;
+  final double selectedMinPrice;
+  final double selectedMaxPrice;
+  final bool onlyAvailable;
+  final List<String> selectedSizes;
+  final ShopSortOption sortOption;
+}
+
+final class ShopError extends ShopState {
+  const ShopError(this.message);
+
+  final String message;
 }

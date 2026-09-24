@@ -1,3 +1,4 @@
+import 'package:atelier_customer/features/recently_viewed/cubit/recently_viewed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -37,6 +38,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
     _product = ProductMockData.findById(widget.productId);
 
     if (_product != null) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (!mounted) return;
+
+        context.read<RecentlyViewedCubit>().addProduct(_product.id);
+      });
+
       _selectedColor = _product.colors.first;
       _selectedSize = _product.sizes.contains('M') ? 'M' : _product.sizes.first;
     } else {

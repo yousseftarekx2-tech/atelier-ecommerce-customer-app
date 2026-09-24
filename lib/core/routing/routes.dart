@@ -10,9 +10,27 @@ abstract final class Routes {
   static const String home = '/home';
   static const String shop = '/shop';
   static const String looks = '/looks';
+  static const String lookDetails = '/looks/:lookId';
+
+  static String lookDetailsPath(String lookId) {
+    return '/looks/$lookId';
+  }
+
   static const String favorites = '/favorites';
   static const String profile = '/profile';
   static const String cart = '/cart';
+  static const String checkout = '/checkout';
+  static const orderConfirmation = '/order-confirmation';
+  static const String orders = '/orders';
+  static const String style = '/style';
+  static const String view = '/view';
+  static const String address = '/address';
+
+  static const String orderDetails = '/orders/:orderId';
+
+  static String orderDetailsPath(String orderId) {
+    return '/orders/$orderId';
+  }
 
   static const String productDetails = '/product/:productId';
 

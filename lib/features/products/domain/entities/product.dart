@@ -18,6 +18,8 @@ class Product {
     this.material,
     this.fit,
     this.styleTags = const [],
+    this.colorTags = const [],
+    this.lifestyleTags = const [],
     this.careInstructions,
     this.deliveryInfo,
     this.isFeatured = false,
@@ -44,6 +46,8 @@ class Product {
   final String? material;
   final String? fit;
   final List<String> styleTags;
+  final List<String> colorTags;
+  final List<String> lifestyleTags;
   final String? careInstructions;
   final String? deliveryInfo;
 

@@ -5,9 +5,13 @@ class CartSummary extends StatelessWidget {
 
   final int subtotal;
 
+  static const int freeDeliveryThreshold = 5000;
+  static const int standardShipping = 150;
+
   @override
   Widget build(BuildContext context) {
-    const shipping = 0;
+    final hasFreeShipping = subtotal >= freeDeliveryThreshold;
+    final shipping = hasFreeShipping ? 0 : standardShipping;
     final total = subtotal + shipping;
 
     return Column(
@@ -34,10 +38,14 @@ class CartSummary extends StatelessWidget {
               const SizedBox(height: 16),
               _SummaryRow(label: 'Subtotal', value: _formatPrice(subtotal)),
               const SizedBox(height: 11),
-              const _SummaryRow(
+              _SummaryRow(
                 label: 'Estimated shipping',
-                value: 'FREE',
-                valueColor: Color(0xFF3D7A4A),
+                value: hasFreeShipping
+                    ? 'FREE'
+                    : _formatPrice(standardShipping),
+                valueColor: hasFreeShipping
+                    ? const Color(0xFF3D7A4A)
+                    : const Color(0xFF151515),
               ),
               const Padding(
                 padding: EdgeInsets.symmetric(vertical: 15),

@@ -1,4 +1,5 @@
 import 'package:atelier_customer/features/cart/cubit/cart_state.dart';
+import 'package:atelier_customer/features/style/cubit/style_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -6,6 +7,7 @@ import 'package:go_router/go_router.dart';
 import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../cart/cubit/cart_cubit.dart';
+import '../../../style/domain/entities/style_preferences.dart';
 import '../../cubit/home_cubit.dart';
 import '../../cubit/home_state.dart';
 import '../../data/home_mock_data.dart';
@@ -41,104 +43,109 @@ class HomeScreen extends StatelessWidget {
     final topSafeArea = MediaQuery.paddingOf(context).top;
     final headerHeight = topSafeArea + 56;
 
-    return Scaffold(
-      backgroundColor: theme.colorScheme.surfaceContainerLowest,
-      body: Stack(
-        children: [
-          BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              if (state is HomeError) {
-                return Center(child: Text(state.message));
-              }
+    return BlocListener<StyleCubit, StylePreferences>(
+      listener: (context, preferences) {
+        context.read<HomeCubit>().updateStylePreferences(preferences);
+      },
+      child: Scaffold(
+        backgroundColor: theme.colorScheme.surfaceContainerLowest,
+        body: Stack(
+          children: [
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                if (state is HomeError) {
+                  return Center(child: Text(state.message));
+                }
 
-              return CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(child: SizedBox(height: headerHeight)),
-                  SliverPadding(
-                    padding: const EdgeInsets.fromLTRB(
-                      AppSpacing.s20,
-                      AppSpacing.s16,
-                      AppSpacing.s20,
-                      0,
+                return CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(child: SizedBox(height: headerHeight)),
+                    SliverPadding(
+                      padding: const EdgeInsets.fromLTRB(
+                        AppSpacing.s20,
+                        AppSpacing.s16,
+                        AppSpacing.s20,
+                        0,
+                      ),
+                      sliver: SliverList(
+                        delegate: SliverChildListDelegate([
+                          HomeSearchBar(
+                            onChanged: context.read<HomeCubit>().search,
+                          ),
+                          const SizedBox(height: AppSpacing.s20),
+                          if (state.isSearching)
+                            _buildSearchResults(context, state)
+                          else ...[
+                            HomeHeroSection(
+                              onExplorePressed: () => _showComingSoon(context),
+                            ),
+                            const SizedBox(height: AppSpacing.s36),
+                            HomeProductSection(
+                              eyebrow: 'FEATURED',
+                              title: 'Picked for you',
+                              description: 'Pieces that match your style.',
+                              products: state.pickedForYou,
+                              showViewAll: true,
+                              onViewAllTap: () => _openShop(context),
+                              onProductTap: (product) =>
+                                  _openProductDetails(context, product.id),
+                            ),
+                            const SizedBox(height: AppSpacing.s36),
+                            HomeShopTheLook(
+                              onShopPressed: () => _showComingSoon(context),
+                            ),
+                            const SizedBox(height: AppSpacing.s40),
+                            HomeProductSection(
+                              title: 'Trending now',
+                              products: state.trendingNow,
+                              onProductTap: (product) =>
+                                  _openProductDetails(context, product.id),
+                            ),
+                            const SizedBox(height: AppSpacing.s40),
+                            HomeProductSection(
+                              title: 'New arrivals',
+                              description: 'Fresh pieces, just in.',
+                              products: state.newArrivals,
+                              onProductTap: (product) =>
+                                  _openProductDetails(context, product.id),
+                            ),
+                            const SizedBox(height: AppSpacing.s40),
+                            Text(
+                              'Explore collections',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
+                            const SizedBox(height: AppSpacing.s16),
+                            HomeCollectionGrid(
+                              collections: HomeMockData.collections,
+                            ),
+                            const SizedBox(height: AppSpacing.s40),
+                            HomeArchiveCta(
+                              onExplorePressed: () => _showComingSoon(context),
+                            ),
+                            const SizedBox(height: 120),
+                          ],
+                        ]),
+                      ),
                     ),
-                    sliver: SliverList(
-                      delegate: SliverChildListDelegate([
-                        HomeSearchBar(
-                          onChanged: context.read<HomeCubit>().search,
-                        ),
-                        const SizedBox(height: AppSpacing.s20),
-                        if (state.isSearching)
-                          _buildSearchResults(context, state)
-                        else ...[
-                          HomeHeroSection(
-                            onExplorePressed: () => _showComingSoon(context),
-                          ),
-                          const SizedBox(height: AppSpacing.s36),
-                          HomeProductSection(
-                            eyebrow: 'FEATURED',
-                            title: 'Picked for you',
-                            description: 'Pieces that match your style.',
-                            products: state.pickedForYou,
-                            showViewAll: true,
-                            onViewAllTap: () => _openShop(context),
-                            onProductTap: (product) =>
-                                _openProductDetails(context, product.id),
-                          ),
-                          const SizedBox(height: AppSpacing.s36),
-                          HomeShopTheLook(
-                            onShopPressed: () => _showComingSoon(context),
-                          ),
-                          const SizedBox(height: AppSpacing.s40),
-                          HomeProductSection(
-                            title: 'Trending now',
-                            products: state.trendingNow,
-                            onProductTap: (product) =>
-                                _openProductDetails(context, product.id),
-                          ),
-                          const SizedBox(height: AppSpacing.s40),
-                          HomeProductSection(
-                            title: 'New arrivals',
-                            description: 'Fresh pieces, just in.',
-                            products: state.newArrivals,
-                            onProductTap: (product) =>
-                                _openProductDetails(context, product.id),
-                          ),
-                          const SizedBox(height: AppSpacing.s40),
-                          Text(
-                            'Explore collections',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          const SizedBox(height: AppSpacing.s16),
-                          HomeCollectionGrid(
-                            collections: HomeMockData.collections,
-                          ),
-                          const SizedBox(height: AppSpacing.s40),
-                          HomeArchiveCta(
-                            onExplorePressed: () => _showComingSoon(context),
-                          ),
-                          const SizedBox(height: 120),
-                        ],
-                      ]),
-                    ),
-                  ),
-                ],
-              );
-            },
-          ),
-          SafeArea(
-            bottom: false,
-            child: BlocSelector<CartCubit, CartState, int>(
-              selector: (state) => state.itemCount,
-              builder: (context, cartItemCount) {
-                return HomeHeader(
-                  cartItemCount: cartItemCount,
-                  onNotificationsPressed: () => _showComingSoon(context),
-                  onCartPressed: () => context.push(Routes.cart),
+                  ],
                 );
               },
             ),
-          ),
-        ],
+            SafeArea(
+              bottom: false,
+              child: BlocSelector<CartCubit, CartState, int>(
+                selector: (state) => state.itemCount,
+                builder: (context, cartItemCount) {
+                  return HomeHeader(
+                    cartItemCount: cartItemCount,
+                    onNotificationsPressed: () => _showComingSoon(context),
+                    onCartPressed: () => context.push(Routes.cart),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
