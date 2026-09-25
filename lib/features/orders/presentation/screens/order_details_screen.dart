@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,85 +7,108 @@ import '../../domain/entities/order.dart';
 import '../../domain/entities/order_item.dart';
 import '../../../../core/routing/routes.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({
-    super.key,
-    required this.orderId,
-  });
+class OrderDetailsScreen extends StatefulWidget {
+  const OrderDetailsScreen({super.key, required this.orderId});
 
   final String orderId;
 
   @override
+  State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
+}
+
+class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+  late Future<Order?> _orderFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _orderFuture = context.read<OrdersCubit>().getOrderById(widget.orderId);
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final order = context.read<OrdersCubit>().getOrderById(orderId);
+    return FutureBuilder<Order?>(
+      future: _orderFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        }
 
-    if (order == null) {
-      return const _OrderNotFoundView();
-    }
+        if (snapshot.hasError) {
+          return const _OrderNotFoundView();
+        }
 
-    return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          onPressed: () => context.pop(),
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
-        ),
-        title: const Text('ATELIER'),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            onPressed: () => context.push(Routes.cart),
-            icon: const Icon(Icons.shopping_bag_outlined),
+        final order = snapshot.data;
+
+        if (order == null) {
+          return const _OrderNotFoundView();
+        }
+
+        return Scaffold(
+          appBar: AppBar(
+            leading: IconButton(
+              onPressed: () => context.pop(),
+              icon: const Icon(Icons.arrow_back_ios_new_rounded),
+            ),
+            title: const Text('ATELIER'),
+            centerTitle: true,
+            actions: [
+              IconButton(
+                onPressed: () => context.push(Routes.cart),
+                icon: const Icon(Icons.shopping_bag_outlined),
+              ),
+            ],
           ),
-        ],
-      ),
-      body: SafeArea(
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 20, 16, 48),
-          children: [
-            _OrderHeader(order: order),
-            const SizedBox(height: 24),
+          body: SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(16, 20, 16, 48),
+              children: [
+                _OrderHeader(order: order),
+                const SizedBox(height: 24),
 
-            _OrderStatusCard(order: order),
-            const SizedBox(height: 24),
+                _OrderStatusCard(order: order),
+                const SizedBox(height: 24),
 
-            _SectionTitle(
-              title: 'ITEMS IN THIS ORDER',
-              trailing: '${order.items.length}',
+                _SectionTitle(
+                  title: 'ITEMS IN THIS ORDER',
+                  trailing: '${order.items.length}',
+                ),
+                const SizedBox(height: 10),
+                _OrderItemsCard(items: order.items),
+                const SizedBox(height: 24),
+
+                const _SectionTitle(title: 'DELIVERY & ADDRESS'),
+                const SizedBox(height: 10),
+                _DeliveryCard(order: order),
+                const SizedBox(height: 24),
+
+                const _SectionTitle(title: 'PAYMENT'),
+                const SizedBox(height: 10),
+                _PaymentCard(order: order),
+                const SizedBox(height: 24),
+
+                const _SectionTitle(title: 'ORDER SUMMARY'),
+                const SizedBox(height: 10),
+                _OrderSummary(order: order),
+                const SizedBox(height: 28),
+
+                OutlinedButton(
+                  onPressed: () => context.go(Routes.home),
+                  child: const Text('CONTINUE SHOPPING'),
+                ),
+              ],
             ),
-            const SizedBox(height: 10),
-            _OrderItemsCard(items: order.items),
-            const SizedBox(height: 24),
-
-            const _SectionTitle(title: 'DELIVERY & ADDRESS'),
-            const SizedBox(height: 10),
-            _DeliveryCard(order: order),
-            const SizedBox(height: 24),
-
-            const _SectionTitle(title: 'PAYMENT'),
-            const SizedBox(height: 10),
-            _PaymentCard(order: order),
-            const SizedBox(height: 24),
-
-            const _SectionTitle(title: 'ORDER SUMMARY'),
-            const SizedBox(height: 10),
-            _OrderSummary(order: order),
-            const SizedBox(height: 28),
-
-            OutlinedButton(
-              onPressed: () => context.go(Routes.home),
-              child: const Text('CONTINUE SHOPPING'),
-            ),
-          ],
-        ),
-      ),
+          ),
+        );
+      },
     );
   }
 }
 
 class _OrderHeader extends StatelessWidget {
-  const _OrderHeader({
-    required this.order,
-  });
+  const _OrderHeader({required this.order});
 
   final Order order;
 
@@ -136,9 +158,7 @@ class _OrderHeader extends StatelessWidget {
 }
 
 class _OrderStatusCard extends StatelessWidget {
-  const _OrderStatusCard({
-    required this.order,
-  });
+  const _OrderStatusCard({required this.order});
 
   final Order order;
 
@@ -187,10 +207,7 @@ class _OrderStatusCard extends StatelessWidget {
                     color: colorScheme.surfaceContainerHighest,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: Icon(
-                    _statusIcon(order.status),
-                    size: 17,
-                  ),
+                  child: Icon(_statusIcon(order.status), size: 17),
                 ),
               ],
             ),
@@ -204,9 +221,7 @@ class _OrderStatusCard extends StatelessWidget {
 }
 
 class _StatusTimeline extends StatelessWidget {
-  const _StatusTimeline({
-    required this.currentStep,
-  });
+  const _StatusTimeline({required this.currentStep});
 
   final int currentStep;
 
@@ -266,8 +281,9 @@ class _StatusTimeline extends StatelessWidget {
                           boxShadow: isCurrent
                               ? [
                                   BoxShadow(
-                                    color: colorScheme.onSurface
-                                        .withValues(alpha: 0.12),
+                                    color: colorScheme.onSurface.withValues(
+                                      alpha: 0.12,
+                                    ),
                                     blurRadius: 0,
                                     spreadRadius: 4,
                                   ),
@@ -289,8 +305,9 @@ class _StatusTimeline extends StatelessWidget {
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                         style: theme.textTheme.labelSmall?.copyWith(
-                          fontWeight:
-                              isCurrent ? FontWeight.w700 : FontWeight.w500,
+                          fontWeight: isCurrent
+                              ? FontWeight.w700
+                              : FontWeight.w500,
                           color: isCompleted
                               ? colorScheme.onSurface
                               : colorScheme.onSurfaceVariant,
@@ -309,9 +326,7 @@ class _StatusTimeline extends StatelessWidget {
 }
 
 class _OrderItemsCard extends StatelessWidget {
-  const _OrderItemsCard({
-    required this.items,
-  });
+  const _OrderItemsCard({required this.items});
 
   final List<OrderItem> items;
 
@@ -325,11 +340,7 @@ class _OrderItemsCard extends StatelessWidget {
           for (var index = 0; index < items.length; index++) ...[
             _OrderItemTile(item: items[index]),
             if (index != items.length - 1)
-              const Divider(
-                height: 1,
-                indent: 16,
-                endIndent: 16,
-              ),
+              const Divider(height: 1, indent: 16, endIndent: 16),
           ],
         ],
       ),
@@ -338,9 +349,7 @@ class _OrderItemsCard extends StatelessWidget {
 }
 
 class _OrderItemTile extends StatelessWidget {
-  const _OrderItemTile({
-    required this.item,
-  });
+  const _OrderItemTile({required this.item});
 
   final OrderItem item;
 
@@ -364,9 +373,7 @@ class _OrderItemTile extends StatelessWidget {
                 errorBuilder: (_, _, _) {
                   return ColoredBox(
                     color: colorScheme.surfaceContainerHighest,
-                    child: const Icon(
-                      Icons.image_not_supported_outlined,
-                    ),
+                    child: const Icon(Icons.image_not_supported_outlined),
                   );
                 },
                 loadingBuilder: (context, child, progress) {
@@ -380,9 +387,7 @@ class _OrderItemTile extends StatelessWidget {
                       child: SizedBox(
                         width: 18,
                         height: 18,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 1.5,
-                        ),
+                        child: CircularProgressIndicator(strokeWidth: 1.5),
                       ),
                     ),
                   );
@@ -441,9 +446,7 @@ class _OrderItemTile extends StatelessWidget {
 }
 
 class _DeliveryCard extends StatelessWidget {
-  const _DeliveryCard({
-    required this.order,
-  });
+  const _DeliveryCard({required this.order});
 
   final Order order;
 
@@ -510,9 +513,7 @@ class _DeliveryCard extends StatelessWidget {
 }
 
 class _PaymentCard extends StatelessWidget {
-  const _PaymentCard({
-    required this.order,
-  });
+  const _PaymentCard({required this.order});
 
   final Order order;
 
@@ -560,8 +561,7 @@ class _PaymentCard extends StatelessWidget {
                 ],
               ),
             ),
-            if (_isCompletedPayment(order.status))
-              const _PaymentStatusBadge(),
+            if (_isCompletedPayment(order.status)) const _PaymentStatusBadge(),
           ],
         ),
       ),
@@ -577,10 +577,7 @@ class _PaymentStatusBadge extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 5,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: colorScheme.primary.withValues(alpha: 0.08),
         borderRadius: BorderRadius.circular(999),
@@ -588,18 +585,16 @@ class _PaymentStatusBadge extends StatelessWidget {
       child: Text(
         'COMPLETED',
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: colorScheme.primary,
-            ),
+          fontWeight: FontWeight.w700,
+          color: colorScheme.primary,
+        ),
       ),
     );
   }
 }
 
 class _OrderSummary extends StatelessWidget {
-  const _OrderSummary({
-    required this.order,
-  });
+  const _OrderSummary({required this.order});
 
   final Order order;
 
@@ -614,10 +609,7 @@ class _OrderSummary extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _SummaryRow(
-              label: 'Subtotal',
-              value: _formatPrice(order.subtotal),
-            ),
+            _SummaryRow(label: 'Subtotal', value: _formatPrice(order.subtotal)),
             const SizedBox(height: 10),
             _SummaryRow(
               label: 'Shipping',
@@ -662,10 +654,7 @@ class _OrderSummary extends StatelessWidget {
 }
 
 class _SummaryRow extends StatelessWidget {
-  const _SummaryRow({
-    required this.label,
-    required this.value,
-  });
+  const _SummaryRow({required this.label, required this.value});
 
   final String label;
   final String value;
@@ -697,10 +686,7 @@ class _SummaryRow extends StatelessWidget {
 }
 
 class _SectionTitle extends StatelessWidget {
-  const _SectionTitle({
-    required this.title,
-    this.trailing,
-  });
+  const _SectionTitle({required this.title, this.trailing});
 
   final String title;
   final String? trailing;
@@ -735,9 +721,7 @@ class _SectionTitle extends StatelessWidget {
 }
 
 class _InfoLabel extends StatelessWidget {
-  const _InfoLabel({
-    required this.label,
-  });
+  const _InfoLabel({required this.label});
 
   final String label;
 
@@ -748,18 +732,16 @@ class _InfoLabel extends StatelessWidget {
     return Text(
       label,
       style: Theme.of(context).textTheme.labelSmall?.copyWith(
-            fontWeight: FontWeight.w600,
-            letterSpacing: 0.9,
-            color: colorScheme.onSurfaceVariant,
-          ),
+        fontWeight: FontWeight.w600,
+        letterSpacing: 0.9,
+        color: colorScheme.onSurfaceVariant,
+      ),
     );
   }
 }
 
 class _StatusBadge extends StatelessWidget {
-  const _StatusBadge({
-    required this.status,
-  });
+  const _StatusBadge({required this.status});
 
   final String status;
 
@@ -768,16 +750,11 @@ class _StatusBadge extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 10,
-        vertical: 5,
-      ),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       decoration: BoxDecoration(
         color: colorScheme.surfaceContainerHighest,
         borderRadius: BorderRadius.circular(999),
-        border: Border.all(
-          color: colorScheme.outlineVariant,
-        ),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -793,9 +770,9 @@ class _StatusBadge extends StatelessWidget {
           const SizedBox(width: 6),
           Text(
             status,
-            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                ),
+            style: Theme.of(
+              context,
+            ).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
           ),
         ],
       ),
@@ -809,26 +786,20 @@ class _OrderNotFoundView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('ATELIER'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('ATELIER'), centerTitle: true),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(24),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(
-                Icons.receipt_long_outlined,
-                size: 42,
-              ),
+              const Icon(Icons.receipt_long_outlined, size: 42),
               const SizedBox(height: 16),
               Text(
                 'Order not found.',
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               Text(

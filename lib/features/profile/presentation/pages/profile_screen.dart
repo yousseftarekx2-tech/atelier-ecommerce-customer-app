@@ -10,6 +10,8 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../auth/cubit/auth_cubit.dart';
 import '../../../auth/domain/entities/auth_user.dart';
+import '../../../notifications/cubit/notifications_cubit.dart';
+import '../../../notifications/cubit/notifications_state.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -176,14 +178,21 @@ class _AuthenticatedProfile extends StatelessWidget {
                 secondaryTextColor: secondaryTextColor,
                 onTap: () => context.push(Routes.address),
               ),
-              _ProfileTile(
-                icon: Icons.notifications_none_rounded,
-                title: 'Notifications',
-                subtitle: 'Manage your notifications and preferences.',
-                primaryTextColor: primaryTextColor,
-                secondaryTextColor: secondaryTextColor,
-                onTap: () => _showComingSoon(context),
-                showDivider: false,
+              BlocBuilder<NotificationsCubit, NotificationsState>(
+                builder: (context, state) {
+                  return _ProfileTile(
+                    icon: Icons.notifications_none_rounded,
+                    title: 'Notifications',
+                    badge: state.unreadCount > 0
+                        ? '${state.unreadCount}'
+                        : null,
+                    subtitle: 'Manage your notifications and preferences.',
+                    primaryTextColor: primaryTextColor,
+                    secondaryTextColor: secondaryTextColor,
+                    onTap: () => context.push(Routes.notifications),
+                    showDivider: false,
+                  );
+                },
               ),
             ],
           ),
@@ -214,14 +223,6 @@ class _AuthenticatedProfile extends StatelessWidget {
         ],
       ),
     );
-  }
-
-  void _showComingSoon(BuildContext context) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        const SnackBar(content: Text('This feature will be connected soon.')),
-      );
   }
 
   void _showSignOutDialog(BuildContext context) {

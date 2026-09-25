@@ -9,8 +9,26 @@ import '../../cubit/order_state.dart';
 import '../../domain/entities/order.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 
-class OrdersScreen extends StatelessWidget {
+class OrdersScreen extends StatefulWidget {
   const OrdersScreen({super.key});
+
+  @override
+  State<OrdersScreen> createState() => _OrdersScreenState();
+}
+
+class _OrdersScreenState extends State<OrdersScreen> {
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+
+      context.read<OrdersCubit>().loadOrders();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,32 +96,55 @@ class OrdersScreen extends StatelessWidget {
       body: SafeArea(
         child: BlocBuilder<OrdersCubit, OrdersState>(
           builder: (context, state) {
+            if (state is OrdersInitial) {
+              return const Center(child: CircularProgressIndicator());
+            }
+
+            if (state is OrdersError && state.orders.isEmpty) {
+              return _OrdersErrorView(
+                message: state.message,
+                onRetry: () {
+                  context.read<OrdersCubit>().loadOrders();
+                },
+              );
+            }
+
             final orders = state.orders;
 
             if (orders.isEmpty) {
               return const _EmptyOrdersView();
             }
 
-            return SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(16, 24, 16, 40),
-              child: Center(
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(maxWidth: 672),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const _OrdersHeader(),
-                      const SizedBox(height: 24),
-                      ListView.separated(
-                        shrinkWrap: true,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: orders.length,
-                        separatorBuilder: (_, _) => const SizedBox(height: 16),
-                        itemBuilder: (context, index) {
-                          return _OrderCard(order: orders[index]);
-                        },
-                      ),
-                    ],
+            return RefreshIndicator(
+              onRefresh: context.read<OrdersCubit>().loadOrders,
+              child: SingleChildScrollView(
+                physics: const AlwaysScrollableScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(16, 24, 16, 40),
+                child: Center(
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 672),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const _OrdersHeader(),
+                        const SizedBox(height: 24),
+                        if (state is OrdersError)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 16),
+                            child: _InlineErrorMessage(message: state.message),
+                          ),
+                        ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemCount: orders.length,
+                          separatorBuilder: (_, _) =>
+                              const SizedBox(height: 16),
+                          itemBuilder: (context, index) {
+                            return _OrderCard(order: orders[index]);
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -483,6 +524,79 @@ class _EmptyOrdersView extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class _OrdersErrorView extends StatelessWidget {
+  const _OrdersErrorView({required this.message, required this.onRetry});
+
+  final String message;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(32),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.cloud_off_outlined,
+              size: 48,
+              color: Color(0xFF8E8E8E),
+            ),
+            const SizedBox(height: 20),
+            const Text(
+              'Couldn’t load your orders',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Color(0xFF737373),
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              height: 48,
+              child: ElevatedButton(
+                onPressed: onRetry,
+                child: const Text('Try Again'),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _InlineErrorMessage extends StatelessWidget {
+  const _InlineErrorMessage({required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+      decoration: BoxDecoration(
+        color: const Color(0xFFF4F4F2),
+        border: Border.all(color: const Color(0xFFE6E4E0)),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        message,
+        style: const TextStyle(fontSize: 12, color: Color(0xFF737373)),
       ),
     );
   }

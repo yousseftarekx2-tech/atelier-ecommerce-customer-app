@@ -168,9 +168,7 @@ class ShopCubit extends Cubit<ShopState> {
       case ShopSortOption.priceHighToLow:
         products.sort((a, b) => b.price.compareTo(a.price));
       case ShopSortOption.newest:
-        products.sort(
-          (a, b) => b.isNew.toString().compareTo(a.isNew.toString()),
-        );
+        products.sort((a, b) => (b.isNew ? 1 : 0).compareTo(a.isNew ? 1 : 0));
       case ShopSortOption.nameAToZ:
         products.sort(
           (a, b) => a.name.toLowerCase().compareTo(b.name.toLowerCase()),

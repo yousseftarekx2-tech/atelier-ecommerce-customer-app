@@ -357,7 +357,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
         return;
       }
 
-      Navigator.of(context).pop();
+      Navigator.of(context).pop(true);
     } finally {
       if (mounted) {
         setState(() {

@@ -1,7 +1,7 @@
+import 'package:atelier_customer/features/address/presentation/screens/address_form_screen.dart';
 import 'package:atelier_customer/features/address/presentation/screens/location_picker_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:latlong2/latlong.dart';
 
 import '../../cubit/address_cubit.dart';
 import '../../cubit/address_state.dart';
@@ -101,20 +101,111 @@ class AddressSelectionSheet extends StatelessWidget {
                 SizedBox(
                   width: double.infinity,
                   child: OutlinedButton.icon(
-                    onPressed: () async {
-                      final location = await Navigator.of(context).push<LatLng>(
-                        MaterialPageRoute(
-                          builder: (_) => const LocationPickerScreen(),
-                        ),
-                      );
-
-                      if (location == null) {
-                        return;
-                      }
+                    onPressed: () {
+                      _showAddAddressOptions(context);
                     },
                     icon: const Icon(Icons.add),
                     label: const Text('Add New Address'),
                   ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  void _showAddAddressOptions(BuildContext context) {
+    showModalBottomSheet<void>(
+      context: context,
+      showDragHandle: true,
+      builder: (sheetContext) {
+        return SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 8, 20, 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Add New Address',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(height: 6),
+                const Text(
+                  'Choose how you want to add your delivery address.',
+                  style: TextStyle(fontSize: 13, color: Color(0xFF777777)),
+                ),
+                const SizedBox(height: 20),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const CircleAvatar(
+                    child: Icon(Icons.edit_location_alt_outlined),
+                  ),
+                  title: const Text(
+                    'Enter Manually',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: const Text('Enter your address details yourself.'),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () async {
+                    Navigator.of(sheetContext).pop();
+
+                    final saved = await Navigator.of(context).push<bool>(
+                      MaterialPageRoute(
+                        builder: (_) => const AddressFormScreen(),
+                      ),
+                    );
+
+                    if (saved == true && context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
+                ),
+                const SizedBox(height: 8),
+                ListTile(
+                  contentPadding: EdgeInsets.zero,
+                  leading: const CircleAvatar(child: Icon(Icons.map_outlined)),
+                  title: const Text(
+                    'Choose on Map',
+                    style: TextStyle(fontWeight: FontWeight.w600),
+                  ),
+                  subtitle: const Text(
+                    'Pick a location and complete the address details.',
+                  ),
+                  trailing: const Icon(Icons.chevron_right),
+                  onTap: () async {
+                    Navigator.of(sheetContext).pop();
+
+                    final location = await Navigator.of(context)
+                        .push<LocationPickerResult>(
+                          MaterialPageRoute(
+                            builder: (_) => const LocationPickerScreen(),
+                          ),
+                        );
+
+                    if (location == null || !context.mounted) {
+                      return;
+                    }
+
+                    final saved = await Navigator.of(context).push<bool>(
+                      MaterialPageRoute(
+                        builder: (_) => AddressFormScreen(
+                          latitude: location.latitude,
+                          longitude: location.longitude,
+                          initialStreet: location.street,
+                          initialCity: location.city,
+                          initialGovernorate: location.governorate,
+                          initialCountry: location.country,
+                        ),
+                      ),
+                    );
+
+                    if (saved == true && context.mounted) {
+                      Navigator.of(context).pop();
+                    }
+                  },
                 ),
               ],
             ),

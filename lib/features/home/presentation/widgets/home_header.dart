@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
+import '../../../../core/routing/routes.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
+import '../../../notifications/cubit/notifications_cubit.dart';
+import '../../../notifications/cubit/notifications_state.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -46,10 +51,17 @@ class HomeHeader extends StatelessWidget {
               ),
             ),
             const Spacer(),
-            _HeaderIconButton(
-              icon: Icons.notifications_none_rounded,
-              showDot: true,
-              onPressed: onNotificationsPressed,
+            BlocSelector<NotificationsCubit, NotificationsState, int>(
+              selector: (state) => state.unreadCount,
+              builder: (context, unreadCount) {
+                return _HeaderIconButton(
+                  icon: Icons.notifications_none_rounded,
+                  badge: unreadCount > 0 ? '$unreadCount' : null,
+                  onPressed: () {
+                    context.push(Routes.notifications);
+                  },
+                );
+              },
             ),
             const SizedBox(width: AppSpacing.s8),
             _HeaderIconButton(
@@ -69,13 +81,11 @@ class _HeaderIconButton extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     this.badge,
-    this.showDot = false,
   });
 
   final IconData icon;
   final VoidCallback onPressed;
   final String? badge;
-  final bool showDot;
 
   @override
   Widget build(BuildContext context) {
@@ -92,19 +102,6 @@ class _HeaderIconButton extends StatelessWidget {
             padding: EdgeInsets.zero,
             icon: Icon(icon, size: 23, color: colorScheme.onSurface),
           ),
-          if (showDot)
-            Positioned(
-              top: 7,
-              right: 7,
-              child: Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  color: colorScheme.onSurface,
-                  shape: BoxShape.circle,
-                ),
-              ),
-            ),
           if (badge != null)
             Positioned(
               top: 1,
