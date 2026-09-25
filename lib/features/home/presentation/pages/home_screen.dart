@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/cart/cubit/cart_state.dart';
 import 'package:atelier_customer/features/style/cubit/style_cubit.dart';
 import 'package:flutter/material.dart';
@@ -22,12 +23,6 @@ import '../widgets/home_shop_the_look.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
-
-  void _showComingSoon(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('This feature will be connected soon.')),
-    );
-  }
 
   void _openProductDetails(BuildContext context, String productId) {
     context.push(Routes.productDetailsPath(productId));
@@ -77,13 +72,19 @@ class HomeScreen extends StatelessWidget {
                             _buildSearchResults(context, state)
                           else ...[
                             HomeHeroSection(
-                              onExplorePressed: () => _showComingSoon(context),
+                              onExplorePressed: () => _openShop(context),
                             ),
                             const SizedBox(height: AppSpacing.s36),
                             HomeProductSection(
-                              eyebrow: 'FEATURED',
-                              title: 'Picked for you',
-                              description: 'Pieces that match your style.',
+                              eyebrow: AppLocalizations.of(
+                                context,
+                              )!.homeFeatured,
+                              title: AppLocalizations.of(
+                                context,
+                              )!.homePickedForYou,
+                              description: AppLocalizations.of(
+                                context,
+                              )!.homePickedForYouDescription,
                               products: state.pickedForYou,
                               showViewAll: true,
                               onViewAllTap: () => _openShop(context),
@@ -92,26 +93,34 @@ class HomeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: AppSpacing.s36),
                             HomeShopTheLook(
-                              onShopPressed: () => _showComingSoon(context),
+                              onShopPressed: () => context.go(Routes.looks),
                             ),
                             const SizedBox(height: AppSpacing.s40),
                             HomeProductSection(
-                              title: 'Trending now',
+                              title: AppLocalizations.of(
+                                context,
+                              )!.homeTrendingNow,
                               products: state.trendingNow,
                               onProductTap: (product) =>
                                   _openProductDetails(context, product.id),
                             ),
                             const SizedBox(height: AppSpacing.s40),
                             HomeProductSection(
-                              title: 'New arrivals',
-                              description: 'Fresh pieces, just in.',
+                              title: AppLocalizations.of(
+                                context,
+                              )!.homeNewArrivals,
+                              description: AppLocalizations.of(
+                                context,
+                              )!.homeNewArrivalsDescription,
                               products: state.newArrivals,
                               onProductTap: (product) =>
                                   _openProductDetails(context, product.id),
                             ),
                             const SizedBox(height: AppSpacing.s40),
                             Text(
-                              'Explore collections',
+                              AppLocalizations.of(
+                                context,
+                              )!.homeExploreCollections,
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             const SizedBox(height: AppSpacing.s16),
@@ -120,7 +129,7 @@ class HomeScreen extends StatelessWidget {
                             ),
                             const SizedBox(height: AppSpacing.s40),
                             HomeArchiveCta(
-                              onExplorePressed: () => _showComingSoon(context),
+                              onExplorePressed: () => _openShop(context),
                             ),
                             const SizedBox(height: 120),
                           ],
@@ -138,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, cartItemCount) {
                   return HomeHeader(
                     cartItemCount: cartItemCount,
-                    onNotificationsPressed: () => _showComingSoon(context),
+                    onNotificationsPressed: () {},
                     onCartPressed: () => context.push(Routes.cart),
                   );
                 },
@@ -151,6 +160,8 @@ class HomeScreen extends StatelessWidget {
   }
 
   Widget _buildSearchResults(BuildContext context, HomeState state) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (state.searchResults.isEmpty) {
       return Padding(
         padding: const EdgeInsets.symmetric(vertical: AppSpacing.s48),
@@ -165,12 +176,12 @@ class HomeScreen extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.s16),
             Text(
-              'No pieces found',
+              l10n.homeNoPiecesFound,
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: AppSpacing.s6),
             Text(
-              'Try another search.',
+              l10n.homeTryAnotherSearch,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 color: Theme.of(
                   context,
@@ -186,14 +197,13 @@ class HomeScreen extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Search results',
+          l10n.homeSearchResults,
           style: Theme.of(context).textTheme.headlineSmall,
         ),
         const SizedBox(height: AppSpacing.s16),
         LayoutBuilder(
           builder: (context, constraints) {
             final itemWidth = (constraints.maxWidth - AppSpacing.s16) / 2;
-
             final itemHeight = (itemWidth * 1.25) + 82;
 
             return GridView.builder(

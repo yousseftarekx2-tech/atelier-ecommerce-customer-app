@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
@@ -129,6 +130,8 @@ class _TopBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       children: [
         Text(
@@ -150,7 +153,7 @@ class _TopBar extends StatelessWidget {
             border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
           ),
           child: Text(
-            'LOOK ${pageNumber.toString().padLeft(2, '0')} / ${totalPages.toString().padLeft(2, '0')}',
+            l10n.onboardingLookIndicator(pageNumber, totalPages),
             style: AppTextStyles.labelSmall.copyWith(
               color: foregroundColor.withValues(alpha: 0.80),
               letterSpacing: 1.2,
@@ -167,7 +170,7 @@ class _TopBar extends StatelessWidget {
             tapTargetSize: MaterialTapTargetSize.shrinkWrap,
           ),
           child: Text(
-            'SKIP',
+            l10n.onboardingSkip,
             style: AppTextStyles.labelSmall.copyWith(
               color: foregroundColor,
               letterSpacing: 1.2,
@@ -198,6 +201,8 @@ class _BottomContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -242,7 +247,7 @@ class _BottomContent extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'NEXT',
+                  l10n.onboardingNext,
                   style: AppTextStyles.button.copyWith(
                     color: AppColors.black,
                     letterSpacing: 0.2,

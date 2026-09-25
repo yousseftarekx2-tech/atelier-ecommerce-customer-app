@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -12,6 +13,7 @@ class HomeHeroSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return AspectRatio(
       aspectRatio: 4 / 5,
@@ -42,7 +44,7 @@ class HomeHeroSection extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'DROP 01 — AFTER DARK',
+                    l10n.homeHeroEyebrow,
                     style: AppTextStyles.labelSmall.copyWith(
                       color: Colors.white.withValues(alpha: 0.82),
                       letterSpacing: 1.2,
@@ -50,7 +52,7 @@ class HomeHeroSection extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.s8),
                   Text(
-                    'New pieces for\nafter-hours.',
+                    l10n.homeHeroTitle,
                     style: AppTextStyles.displayMedium.copyWith(
                       color: Colors.white,
                       height: 1.05,
@@ -79,6 +81,8 @@ class _HeroButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Material(
       color: Colors.white,
       borderRadius: BorderRadius.circular(AppRadius.pill),
@@ -94,7 +98,7 @@ class _HeroButton extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Explore Drop',
+                l10n.homeExploreDrop,
                 style: AppTextStyles.button.copyWith(color: Colors.black),
               ),
               const SizedBox(width: AppSpacing.s8),

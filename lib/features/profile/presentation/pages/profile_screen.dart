@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -19,6 +20,7 @@ class ProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final isDark = theme.brightness == Brightness.dark;
 
     final backgroundColor = isDark
@@ -56,7 +58,7 @@ class ProfileScreen extends StatelessWidget {
           scrolledUnderElevation: 0,
           centerTitle: false,
           title: Text(
-            'Profile',
+            l10n.profileTitle,
             style: AppTextStyles.headingSmall.copyWith(
               color: primaryTextColor,
               fontWeight: FontWeight.w700,
@@ -112,6 +114,8 @@ class _AuthenticatedProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.s20,
@@ -128,7 +132,10 @@ class _AuthenticatedProfile extends StatelessWidget {
             secondaryTextColor: secondaryTextColor,
           ),
           const Gap(AppSpacing.s28),
-          _SectionTitle(title: 'ACCOUNT', color: secondaryTextColor),
+          _SectionTitle(
+            title: l10n.profileAccountSection,
+            color: secondaryTextColor,
+          ),
           const Gap(AppSpacing.s8),
           _ProfileGroup(
             surfaceColor: surfaceColor,
@@ -136,26 +143,25 @@ class _AuthenticatedProfile extends StatelessWidget {
             children: [
               _ProfileTile(
                 icon: Icons.shopping_bag_outlined,
-                title: 'My Orders',
-                subtitle: 'Track and manage your purchases.',
+                title: l10n.profileMyOrders,
+                subtitle: l10n.profileMyOrdersSubtitle,
                 primaryTextColor: primaryTextColor,
                 secondaryTextColor: secondaryTextColor,
                 onTap: () => context.push(Routes.orders),
               ),
               _ProfileTile(
                 icon: Icons.auto_awesome_outlined,
-                title: 'My Style',
-                badge: 'SET',
-                subtitle:
-                    'Manage your style, colors, fit, and lifestyle preferences.',
+                title: l10n.profileMyStyle,
+                badge: l10n.profileStyleBadge,
+                subtitle: l10n.profileMyStyleSubtitle,
                 primaryTextColor: primaryTextColor,
                 secondaryTextColor: secondaryTextColor,
                 onTap: () => context.push(Routes.style),
               ),
               _ProfileTile(
                 icon: Icons.history_rounded,
-                title: 'Recently Viewed',
-                subtitle: 'Return to pieces you have explored recently.',
+                title: l10n.profileRecentlyViewed,
+                subtitle: l10n.profileRecentlyViewedSubtitle,
                 primaryTextColor: primaryTextColor,
                 secondaryTextColor: secondaryTextColor,
                 onTap: () => context.push(Routes.view),
@@ -164,7 +170,10 @@ class _AuthenticatedProfile extends StatelessWidget {
             ],
           ),
           const Gap(AppSpacing.s24),
-          _SectionTitle(title: 'PERSONAL', color: secondaryTextColor),
+          _SectionTitle(
+            title: l10n.profilePersonalSection,
+            color: secondaryTextColor,
+          ),
           const Gap(AppSpacing.s8),
           _ProfileGroup(
             surfaceColor: surfaceColor,
@@ -172,8 +181,8 @@ class _AuthenticatedProfile extends StatelessWidget {
             children: [
               _ProfileTile(
                 icon: Icons.location_on_outlined,
-                title: 'Addresses',
-                subtitle: 'Manage your saved delivery addresses.',
+                title: l10n.profileAddresses,
+                subtitle: l10n.profileAddressesSubtitle,
                 primaryTextColor: primaryTextColor,
                 secondaryTextColor: secondaryTextColor,
                 onTap: () => context.push(Routes.address),
@@ -182,11 +191,11 @@ class _AuthenticatedProfile extends StatelessWidget {
                 builder: (context, state) {
                   return _ProfileTile(
                     icon: Icons.notifications_none_rounded,
-                    title: 'Notifications',
+                    title: l10n.profileNotifications,
                     badge: state.unreadCount > 0
                         ? '${state.unreadCount}'
                         : null,
-                    subtitle: 'Manage your notifications and preferences.',
+                    subtitle: l10n.profileNotificationsSubtitle,
                     primaryTextColor: primaryTextColor,
                     secondaryTextColor: secondaryTextColor,
                     onTap: () => context.push(Routes.notifications),
@@ -197,7 +206,10 @@ class _AuthenticatedProfile extends StatelessWidget {
             ],
           ),
           const Gap(AppSpacing.s24),
-          _SectionTitle(title: 'APP', color: secondaryTextColor),
+          _SectionTitle(
+            title: l10n.profileAppSection,
+            color: secondaryTextColor,
+          ),
           const Gap(AppSpacing.s8),
           _ProfileGroup(
             surfaceColor: surfaceColor,
@@ -205,8 +217,8 @@ class _AuthenticatedProfile extends StatelessWidget {
             children: [
               _ProfileTile(
                 icon: Icons.settings_outlined,
-                title: 'Settings',
-                subtitle: 'Language, appearance, and preferences.',
+                title: l10n.profileSettings,
+                subtitle: l10n.profileSettingsSubtitle,
                 primaryTextColor: primaryTextColor,
                 secondaryTextColor: secondaryTextColor,
                 onTap: () => context.push(Routes.settings),
@@ -226,25 +238,25 @@ class _AuthenticatedProfile extends StatelessWidget {
   }
 
   void _showSignOutDialog(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     showDialog<void>(
       context: context,
       builder: (dialogContext) {
         return AlertDialog(
-          title: const Text('Log out of ATELIER?'),
-          content: const Text(
-            'You can sign in again anytime to access your account.',
-          ),
+          title: Text(l10n.profileLogoutTitle),
+          content: Text(l10n.profileLogoutMessage),
           actions: [
             TextButton(
               onPressed: () => dialogContext.pop(),
-              child: const Text('Cancel'),
+              child: Text(l10n.profileCancel),
             ),
             FilledButton(
               onPressed: () {
                 dialogContext.pop();
                 context.read<AuthCubit>().signOut();
               },
-              child: const Text('Log Out'),
+              child: Text(l10n.profileLogout),
             ),
           ],
         );
@@ -266,13 +278,14 @@ class _ProfileIdentity extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final name = user.fullName?.trim();
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'MY ACCOUNT',
+          l10n.profileMyAccount,
           style: AppTextStyles.labelSmall.copyWith(
             color: secondaryTextColor,
             letterSpacing: 1.6,
@@ -280,7 +293,7 @@ class _ProfileIdentity extends StatelessWidget {
         ),
         const Gap(AppSpacing.s6),
         Text(
-          name == null || name.isEmpty ? 'Welcome back.' : name,
+          name == null || name.isEmpty ? l10n.profileWelcomeBack : name,
           style: AppTextStyles.headingLarge.copyWith(
             color: primaryTextColor,
             fontWeight: FontWeight.w700,
@@ -311,6 +324,8 @@ class _GuestProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.s20,
@@ -330,7 +345,7 @@ class _GuestProfile extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Welcome to ATELIER.',
+              l10n.profileGuestTitle,
               style: AppTextStyles.headingSmall.copyWith(
                 color: primaryTextColor,
                 fontWeight: FontWeight.w700,
@@ -338,7 +353,7 @@ class _GuestProfile extends StatelessWidget {
             ),
             const Gap(AppSpacing.s8),
             Text(
-              'Sign in to manage your orders, style preferences, and delivery addresses.',
+              l10n.profileGuestDescription,
               style: AppTextStyles.bodySmall.copyWith(
                 color: secondaryTextColor,
               ),
@@ -349,7 +364,7 @@ class _GuestProfile extends StatelessWidget {
               height: 48,
               child: FilledButton(
                 onPressed: () => context.push(Routes.login),
-                child: const Text('Sign In'),
+                child: Text(l10n.profileSignIn),
               ),
             ),
             const Gap(AppSpacing.s10),
@@ -358,7 +373,7 @@ class _GuestProfile extends StatelessWidget {
               height: 48,
               child: OutlinedButton(
                 onPressed: () => context.push(Routes.register),
-                child: const Text('Create Account'),
+                child: Text(l10n.profileCreateAccount),
               ),
             ),
           ],
@@ -554,6 +569,8 @@ class _LogoutButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SizedBox(
       width: double.infinity,
       height: 52,
@@ -567,7 +584,7 @@ class _LogoutButton extends StatelessWidget {
           ),
         ),
         child: Text(
-          'LOG OUT',
+          l10n.profileLogout,
           style: AppTextStyles.button.copyWith(
             color: primaryTextColor,
             letterSpacing: 1.4,

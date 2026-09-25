@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -97,13 +98,14 @@ class _FavoritesHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'FAVORITES',
+          l10n.favoritesEyebrow,
           style: Theme.of(context).textTheme.labelSmall?.copyWith(
             letterSpacing: 2,
             color: colorScheme.onSurface.withValues(alpha: 0.55),
@@ -111,7 +113,7 @@ class _FavoritesHeader extends StatelessWidget {
         ),
         const SizedBox(height: AppSpacing.s6),
         Text(
-          'Saved for later.',
+          l10n.favoritesTitle,
           style: Theme.of(
             context,
           ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w700),
@@ -121,7 +123,7 @@ class _FavoritesHeader extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'Keep the pieces you love close.',
+                l10n.favoritesSubtitle,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
@@ -129,7 +131,7 @@ class _FavoritesHeader extends StatelessWidget {
             ),
             const SizedBox(width: AppSpacing.s12),
             Text(
-              '$itemCount ${itemCount == 1 ? 'ITEM' : 'ITEMS'}',
+              l10n.favoritesItemCount(itemCount),
               style: Theme.of(context).textTheme.labelSmall?.copyWith(
                 letterSpacing: 1.2,
                 color: colorScheme.onSurface.withValues(alpha: 0.55),
@@ -147,6 +149,7 @@ class _EmptyFavorites extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     return SizedBox(
@@ -158,7 +161,7 @@ class _EmptyFavorites extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
-                'FAVORITES',
+                l10n.favoritesEyebrow,
                 style: Theme.of(context).textTheme.labelSmall?.copyWith(
                   letterSpacing: 2,
                   color: colorScheme.onSurface.withValues(alpha: 0.5),
@@ -166,7 +169,7 @@ class _EmptyFavorites extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.s12),
               Text(
-                'Nothing saved yet.',
+                l10n.favoritesEmptyTitle,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.w700,
@@ -174,7 +177,7 @@ class _EmptyFavorites extends StatelessWidget {
               ),
               const SizedBox(height: AppSpacing.s8),
               Text(
-                'Save the pieces that feel like you and come back to them anytime.',
+                l10n.favoritesEmptyDescription,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                   color: colorScheme.onSurface.withValues(alpha: 0.6),
@@ -185,7 +188,7 @@ class _EmptyFavorites extends StatelessWidget {
                 onPressed: () {
                   context.go(Routes.shop);
                 },
-                child: const Text('Explore Shop'),
+                child: Text(l10n.favoritesExploreShop),
               ),
             ],
           ),

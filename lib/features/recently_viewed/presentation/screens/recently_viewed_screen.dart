@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/core/routing/routes.dart';
 import 'package:atelier_customer/core/theme/app_radius.dart';
 import 'package:atelier_customer/core/theme/app_spacing.dart';
@@ -25,7 +26,9 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
     super.initState();
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (!mounted) return;
+      if (!mounted) {
+        return;
+      }
 
       context.read<RecentlyViewedCubit>().loadRecentlyViewed();
     });
@@ -39,6 +42,8 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
   }
 
   Future<void> _clearHistory() async {
+    final l10n = AppLocalizations.of(context)!;
+
     final shouldClear = await showDialog<bool>(
       context: context,
       builder: (context) {
@@ -47,11 +52,11 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
             borderRadius: BorderRadius.circular(AppRadius.r16),
           ),
           title: Text(
-            'Clear Recently Viewed',
+            l10n.recentlyViewedClearTitle,
             style: AppTextStyles.headingSmall,
           ),
           content: Text(
-            'Are you sure you want to clear your recently viewed history?',
+            l10n.recentlyViewedClearConfirmation,
             style: AppTextStyles.bodyMedium,
           ),
           actions: [
@@ -59,13 +64,13 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
               onPressed: () {
                 Navigator.of(context).pop(false);
               },
-              child: Text('Cancel', style: AppTextStyles.bodyMedium),
+              child: Text(l10n.cancel, style: AppTextStyles.bodyMedium),
             ),
             FilledButton(
               onPressed: () {
                 Navigator.of(context).pop(true);
               },
-              child: Text('Clear', style: AppTextStyles.bodyMedium),
+              child: Text(l10n.clear, style: AppTextStyles.bodyMedium),
             ),
           ],
         );
@@ -81,6 +86,8 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -89,7 +96,10 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
           },
           icon: const Icon(Icons.arrow_back),
         ),
-        title: Text('RECENTLY VIEWED', style: AppTextStyles.headingSmall),
+        title: Text(
+          l10n.recentlyViewedTitle,
+          style: AppTextStyles.headingSmall,
+        ),
         centerTitle: true,
       ),
       body: BlocBuilder<RecentlyViewedCubit, RecentlyViewedState>(
@@ -186,20 +196,22 @@ class _Intro extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('RECENTLY VIEWED', style: AppTextStyles.headingLarge),
+        Text(l10n.recentlyViewedTitle, style: AppTextStyles.headingLarge),
         const Gap(AppSpacing.s4),
-        Text('$itemCount ITEMS', style: AppTextStyles.labelMedium),
-        const Gap(AppSpacing.s16),
         Text(
-          "Pieces you've explored recently.",
-          style: AppTextStyles.bodyLarge,
+          l10n.recentlyViewedItemCount(itemCount),
+          style: AppTextStyles.labelMedium,
         ),
+        const Gap(AppSpacing.s16),
+        Text(l10n.recentlyViewedDescription, style: AppTextStyles.bodyLarge),
         const Gap(AppSpacing.s4),
         Text(
-          'Curated from your active browsing footprint.',
+          l10n.recentlyViewedDescriptionSecondary,
           style: AppTextStyles.bodyMedium,
         ),
       ],
@@ -214,6 +226,8 @@ class _Footer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         SizedBox(
@@ -227,14 +241,14 @@ class _Footer extends StatelessWidget {
               ),
             ),
             child: Text(
-              'Clear Recently Viewed History',
+              l10n.recentlyViewedClearHistory,
               style: AppTextStyles.bodyMedium,
             ),
           ),
         ),
         const Gap(AppSpacing.s12),
         Text(
-          'Session items are retained locally across visits.',
+          l10n.recentlyViewedLocalStorageNote,
           textAlign: TextAlign.center,
           style: AppTextStyles.bodySmall,
         ),
@@ -248,6 +262,8 @@ class _EmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s32),
@@ -257,13 +273,13 @@ class _EmptyView extends StatelessWidget {
             const Icon(Icons.history_outlined, size: AppSpacing.s48),
             const Gap(AppSpacing.s16),
             Text(
-              'Nothing here yet',
+              l10n.recentlyViewedEmptyTitle,
               style: AppTextStyles.headingSmall,
               textAlign: TextAlign.center,
             ),
             const Gap(AppSpacing.s8),
             Text(
-              'Products you explore will appear here.',
+              l10n.recentlyViewedEmptyDescription,
               textAlign: TextAlign.center,
               style: AppTextStyles.bodyMedium,
             ),
@@ -281,6 +297,8 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s32),
@@ -290,14 +308,14 @@ class _ErrorView extends StatelessWidget {
             const Icon(Icons.error_outline, size: AppSpacing.s48),
             const Gap(AppSpacing.s16),
             Text(
-              'Something went wrong',
+              l10n.recentlyViewedErrorTitle,
               style: AppTextStyles.headingSmall,
               textAlign: TextAlign.center,
             ),
             const Gap(AppSpacing.s16),
             OutlinedButton(
               onPressed: onRetry,
-              child: Text('Try Again', style: AppTextStyles.bodyMedium),
+              child: Text(l10n.tryAgain, style: AppTextStyles.bodyMedium),
             ),
           ],
         ),

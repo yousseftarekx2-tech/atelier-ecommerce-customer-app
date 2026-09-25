@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutPaymentSection extends StatefulWidget {
@@ -12,21 +13,25 @@ class _CheckoutPaymentSectionState extends State<CheckoutPaymentSection> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          '04  PAYMENT',
+        Text(
+          '04  ' + l10n.checkoutPayment.toUpperCase(),
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2,
+            color: colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 12),
         _PaymentOption(
-          title: 'Cash on Delivery',
-          subtitle: 'Pay when your order arrives',
+          title: l10n.checkoutCod,
+          subtitle: l10n.checkoutCodSubtitle,
           icon: Icons.payments_outlined,
           value: 'cash_on_delivery',
           selectedValue: _selectedMethod,
@@ -38,13 +43,13 @@ class _CheckoutPaymentSectionState extends State<CheckoutPaymentSection> {
         ),
         const SizedBox(height: 10),
         _PaymentOption(
-          title: 'Card Payment',
-          subtitle: 'Credit or debit card',
+          title: l10n.checkoutCard,
+          subtitle: l10n.checkoutCardSubtitle,
           icon: Icons.credit_card_outlined,
           value: 'card',
           selectedValue: _selectedMethod,
           enabled: false,
-          trailing: 'Coming Soon',
+          trailing: l10n.checkoutComingSoon,
           onTap: null,
         ),
       ],
@@ -75,6 +80,7 @@ class _PaymentOption extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final isSelected = value == selectedValue;
 
     return InkWell(
@@ -84,8 +90,11 @@ class _PaymentOption extends StatelessWidget {
         width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
+          color: colorScheme.surface,
           border: Border.all(
-            color: isSelected ? Colors.black : const Color(0xFFE6E4E0),
+            color: isSelected
+                ? colorScheme.onSurface
+                : colorScheme.outlineVariant,
           ),
           borderRadius: BorderRadius.circular(12),
         ),
@@ -94,7 +103,9 @@ class _PaymentOption extends StatelessWidget {
             Icon(
               icon,
               size: 22,
-              color: enabled ? Colors.black : const Color(0xFFAAAAAA),
+              color: enabled
+                  ? colorScheme.onSurface
+                  : colorScheme.onSurfaceVariant,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -106,7 +117,9 @@ class _PaymentOption extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
-                      color: enabled ? Colors.black : const Color(0xFF999999),
+                      color: enabled
+                          ? colorScheme.onSurface
+                          : colorScheme.onSurfaceVariant,
                     ),
                   ),
                   const SizedBox(height: 5),
@@ -115,8 +128,8 @@ class _PaymentOption extends StatelessWidget {
                     style: TextStyle(
                       fontSize: 12,
                       color: enabled
-                          ? const Color(0xFF777777)
-                          : const Color(0xFFAAAAAA),
+                          ? colorScheme.onSurfaceVariant
+                          : colorScheme.outline,
                     ),
                   ),
                 ],
@@ -125,10 +138,10 @@ class _PaymentOption extends StatelessWidget {
             if (trailing != null)
               Text(
                 trailing!,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 11,
                   fontWeight: FontWeight.w600,
-                  color: Color(0xFF999999),
+                  color: colorScheme.onSurfaceVariant,
                 ),
               )
             else
@@ -137,6 +150,7 @@ class _PaymentOption extends StatelessWidget {
                     ? Icons.radio_button_checked
                     : Icons.radio_button_off,
                 size: 22,
+                color: colorScheme.onSurface,
               ),
           ],
         ),

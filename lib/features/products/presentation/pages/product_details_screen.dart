@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/recently_viewed/cubit/recently_viewed_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -60,13 +61,14 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final product = _product;
 
     if (product == null) {
       return Scaffold(
         backgroundColor: const Color(0xFFFAFAF8),
         appBar: _buildAppBar(context, null),
-        body: const Center(child: Text('Product not found')),
+        body: Center(child: Text(l10n.productNotFound)),
       );
     }
 
@@ -87,33 +89,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             sliver: SliverList(
               delegate: SliverChildListDelegate([
                 _buildProductInfo(context, product),
-
                 const Gap(AppSpacing.s24),
-
                 _buildDivider(context),
-
                 const Gap(AppSpacing.s24),
-
                 _buildColorSection(context, product),
-
                 const Gap(AppSpacing.s28),
-
                 _buildSizeSection(context, product),
-
                 const Gap(AppSpacing.s28),
-
                 _buildAccordions(context, product),
-
                 const Gap(AppSpacing.s32),
-
                 _buildCompleteTheLook(context, product),
-
                 const Gap(AppSpacing.s32),
-
                 _buildReviews(context, product),
-
                 const Gap(AppSpacing.s32),
-
                 _buildRecommendations(context, product),
               ]),
             ),
@@ -212,7 +200,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 );
               },
             ),
-
             if (product.badge != null)
               Positioned(
                 top: AppSpacing.s16,
@@ -235,7 +222,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                 ),
               ),
-
             Positioned(
               top: AppSpacing.s16,
               right: AppSpacing.s16,
@@ -257,7 +243,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
               ),
             ),
-
             if (images.length > 1)
               Positioned(
                 left: 0,
@@ -290,6 +275,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildProductInfo(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -302,9 +289,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             color: const Color(0xFF151515),
           ),
         ),
-
         const Gap(AppSpacing.s10),
-
         if (product.rating != null)
           Row(
             children: [
@@ -324,7 +309,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               if (product.reviewCount != null) ...[
                 const Gap(AppSpacing.s4),
                 Text(
-                  '(${product.reviewCount} reviews)',
+                  '(${product.reviewCount} ${l10n.productReviews})',
                   style: AppTextStyles.bodySmall.copyWith(
                     fontSize: 12,
                     color: const Color(0xFF666666),
@@ -333,9 +318,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ],
             ],
           ),
-
         const Gap(AppSpacing.s14),
-
         Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -347,10 +330,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 color: const Color(0xFF151515),
               ),
             ),
-
             if (product.compareAtPrice != null) ...[
               const Gap(AppSpacing.s10),
-
               Text(
                 '${product.compareAtPrice} EGP',
                 style: AppTextStyles.bodyMedium.copyWith(
@@ -359,16 +340,12 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   decoration: TextDecoration.lineThrough,
                 ),
               ),
-
               const Gap(AppSpacing.s10),
-
               _buildDiscountBadge(context, product),
             ],
           ],
         ),
-
         const Gap(AppSpacing.s16),
-
         Text(
           product.description,
           style: AppTextStyles.bodyMedium.copyWith(
@@ -412,20 +389,20 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildColorSection(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Color: $_selectedColor',
+          '${l10n.productColor}: $_selectedColor',
           style: AppTextStyles.labelLarge.copyWith(
             fontSize: 14,
             fontWeight: FontWeight.w600,
             color: const Color(0xFF151515),
           ),
         ),
-
         const Gap(AppSpacing.s12),
-
         Wrap(
           spacing: AppSpacing.s12,
           runSpacing: AppSpacing.s12,
@@ -473,6 +450,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildSizeSection(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
     const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
     return Column(
@@ -481,7 +459,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         Row(
           children: [
             Text(
-              'Size',
+              l10n.productSize,
               style: AppTextStyles.labelLarge.copyWith(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -497,7 +475,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 tapTargetSize: MaterialTapTargetSize.shrinkWrap,
               ),
               child: Text(
-                'Size Guide',
+                l10n.productSizeGuide,
                 style: AppTextStyles.labelSmall.copyWith(
                   fontSize: 12,
                   color: const Color(0xFF666666),
@@ -506,9 +484,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ],
         ),
-
         const Gap(AppSpacing.s10),
-
         GridView.builder(
           shrinkWrap: true,
           physics: const NeverScrollableScrollPhysics(),
@@ -563,9 +539,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             );
           },
         ),
-
         const Gap(AppSpacing.s12),
-
         Container(
           width: double.infinity,
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 9),
@@ -578,7 +552,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             children: [
               if (product.fit != null)
                 Text(
-                  'Fit: ${product.fit}',
+                  '${l10n.productFit}: ${product.fit}',
                   style: AppTextStyles.bodySmall.copyWith(
                     fontSize: 12,
                     color: const Color(0xFF666666),
@@ -600,8 +574,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   const Gap(6),
                   Text(
                     product.stock > 0
-                        ? '${product.stock} available'
-                        : 'Out of stock',
+                        ? '${product.stock} ${l10n.productAvailable}'
+                        : l10n.productOutOfStock,
                     style: AppTextStyles.bodySmall.copyWith(
                       fontSize: 12,
                       color: product.stock > 0
@@ -620,38 +594,32 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildAccordions(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         _buildAccordion(
-          title: 'Material & Composition',
-          content:
-              product.material ??
-              'Premium fabric composition designed for everyday wear.',
+          title: l10n.productMaterialComposition,
+          content: product.material ?? l10n.productMaterialFallback,
         ),
         _buildAccordion(
-          title: 'Fit & Silhouette',
-          content:
-              product.fit ??
-              'Relaxed silhouette designed for comfortable everyday styling.',
+          title: l10n.productFitSilhouette,
+          content: product.fit ?? l10n.productFitFallback,
           initiallyExpanded: true,
         ),
         _buildAccordion(
-          title: 'Style & Aesthetics',
+          title: l10n.productStyleAesthetics,
           content: product.styleTags.isEmpty
-              ? 'Minimal, modern and easy to style.'
+              ? l10n.productStyleFallback
               : product.styleTags.join(' • '),
         ),
         _buildAccordion(
-          title: 'Care Instructions',
-          content:
-              product.careInstructions ??
-              'Follow the garment care label for best results.',
+          title: l10n.productCareInstructions,
+          content: product.careInstructions ?? l10n.productCareFallback,
         ),
         _buildAccordion(
-          title: 'Delivery & Returns',
-          content:
-              product.deliveryInfo ??
-              'Delivery and return information will be available at checkout.',
+          title: l10n.productDeliveryReturns,
+          content: product.deliveryInfo ?? l10n.productDeliveryFallback,
         ),
       ],
     );
@@ -708,6 +676,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildCompleteTheLook(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     final products = ProductMockData.products
         .where(
           (item) =>
@@ -722,8 +692,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     return _buildHorizontalProductSection(
       context: context,
-      title: 'Complete the Look',
-      subtitle: 'Pieces that pair well with this item.',
+      title: l10n.productCompleteTheLook,
+      subtitle: l10n.productCompleteTheLookSubtitle,
       products: products,
       cardWidth: 160,
       showQuickAdd: true,
@@ -731,6 +701,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildRecommendations(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     final products = ProductMockData.products
         .where((item) => item.id != product.id)
         .take(4)
@@ -742,7 +714,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
 
     return _buildHorizontalProductSection(
       context: context,
-      title: 'You May Also Like',
+      title: l10n.productYouMayAlsoLike,
       products: products,
       cardWidth: 144,
       showQuickAdd: false,
@@ -768,7 +740,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             color: const Color(0xFF151515),
           ),
         ),
-
         if (subtitle != null) ...[
           const Gap(AppSpacing.s4),
           Text(
@@ -779,9 +750,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ),
           ),
         ],
-
         const Gap(AppSpacing.s12),
-
         SizedBox(
           height: showQuickAdd ? 275 : 250,
           child: ListView.separated(
@@ -812,6 +781,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildReviews(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
     final rating = product.rating ?? 0;
     final reviewCount = product.reviewCount ?? 0;
 
@@ -823,30 +793,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildDivider(context),
-
         const Gap(AppSpacing.s24),
-
         Text(
-          'Customer Reviews',
+          l10n.productCustomerReviews,
           style: AppTextStyles.headingSmall.copyWith(
             fontSize: 16,
             fontWeight: FontWeight.w700,
             color: const Color(0xFF151515),
           ),
         ),
-
         const Gap(AppSpacing.s4),
-
         Text(
-          'What customers are saying',
+          l10n.productWhatCustomersAreSaying,
           style: AppTextStyles.bodySmall.copyWith(
             fontSize: 12,
             color: const Color(0xFF999999),
           ),
         ),
-
         const Gap(AppSpacing.s16),
-
         Container(
           width: double.infinity,
           padding: const EdgeInsets.all(14),
@@ -883,7 +847,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   ),
                   const Gap(4),
                   Text(
-                    '$reviewCount community ratings',
+                    '$reviewCount ${l10n.productCommunityRatings}',
                     style: AppTextStyles.bodySmall.copyWith(
                       fontSize: 11,
                       color: const Color(0xFF666666),
@@ -894,25 +858,19 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
             ],
           ),
         ),
-
         const Gap(AppSpacing.s12),
-
-        const _ReviewCard(
-          name: 'Verified customer',
-          date: '2 weeks ago',
-          text: 'Great fit and easy to style. The fabric feels premium.',
+        _ReviewCard(
+          name: l10n.productVerifiedCustomer,
+          date: l10n.productReviewTwoWeeksAgo,
+          text: l10n.productReviewGreatFit,
         ),
-
         const Gap(AppSpacing.s12),
-
-        const _ReviewCard(
-          name: 'Verified customer',
-          date: '1 month ago',
-          text: 'Clean silhouette and exactly what I expected.',
+        _ReviewCard(
+          name: l10n.productVerifiedCustomer,
+          date: l10n.productReviewOneMonthAgo,
+          text: l10n.productReviewCleanSilhouette,
         ),
-
         const Gap(AppSpacing.s12),
-
         SizedBox(
           width: double.infinity,
           height: 46,
@@ -925,7 +883,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               ),
             ),
             child: Text(
-              'View All $reviewCount Reviews',
+              l10n.productViewAllReviews(reviewCount),
               style: AppTextStyles.labelSmall.copyWith(
                 fontSize: 12,
                 fontWeight: FontWeight.w600,
@@ -939,6 +897,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   Widget _buildPurchaseBar(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     final canAdd =
         product.stock > 0 &&
         _selectedSize.isNotEmpty &&
@@ -1024,8 +984,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         );
 
                         ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Added to cart.'),
+                          SnackBar(
+                            content: Text(l10n.productAddedToCart),
                             behavior: SnackBarBehavior.floating,
                           ),
                         );
@@ -1051,10 +1011,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 label: Text(
                   product.stock <= 0
-                      ? 'Out of Stock'
+                      ? l10n.productOutOfStockButton
                       : isAdded
-                      ? 'Added to Cart'
-                      : 'Add to Cart',
+                      ? l10n.productAddedToCartButton
+                      : l10n.productAddToCart,
                   style: AppTextStyles.labelLarge.copyWith(
                     fontSize: 14,
                     fontWeight: FontWeight.w600,
@@ -1070,6 +1030,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void _showQuickAddSheet(BuildContext context, Product product) {
+    final l10n = AppLocalizations.of(context)!;
+
     String selectedSize = product.sizes.contains('M')
         ? 'M'
         : product.sizes.isNotEmpty
@@ -1105,9 +1067,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         ),
                       ),
                     ),
-
                     const Gap(AppSpacing.s18),
-
                     Row(
                       children: [
                         Expanded(
@@ -1115,7 +1075,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                'Quick Add',
+                                l10n.productQuickAdd,
                                 style: AppTextStyles.headingSmall.copyWith(
                                   fontSize: 18,
                                   fontWeight: FontWeight.w700,
@@ -1135,27 +1095,22 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             ],
                           ),
                         ),
-
                         IconButton(
                           onPressed: () => Navigator.of(sheetContext).pop(),
                           icon: const Icon(Icons.close_rounded, size: 20),
                         ),
                       ],
                     ),
-
                     const Gap(AppSpacing.s20),
-
                     Text(
-                      'Select Size',
+                      l10n.productSelectSize,
                       style: AppTextStyles.labelLarge.copyWith(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
                         color: const Color(0xFF151515),
                       ),
                     ),
-
                     const Gap(AppSpacing.s10),
-
                     GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
@@ -1204,9 +1159,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         );
                       },
                     ),
-
                     const Gap(AppSpacing.s20),
-
                     SizedBox(
                       width: double.infinity,
                       height: 48,
@@ -1226,8 +1179,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 Navigator.of(sheetContext).pop();
 
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  const SnackBar(
-                                    content: Text('Added to cart.'),
+                                  SnackBar(
+                                    content: Text(l10n.productAddedToCart),
                                     behavior: SnackBarBehavior.floating,
                                   ),
                                 );
@@ -1239,7 +1192,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        child: const Text('Add to Cart'),
+                        child: Text(l10n.productAddToCart),
                       ),
                     ),
                   ],
@@ -1253,6 +1206,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   }
 
   void _showSizeGuide(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     showModalBottomSheet<void>(
       context: context,
       backgroundColor: Colors.white,
@@ -1271,7 +1226,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Size Guide',
+                  l10n.productSizeGuide,
                   style: AppTextStyles.headingSmall.copyWith(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
@@ -1280,9 +1235,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 ),
                 const Gap(AppSpacing.s12),
                 Text(
-                  'Choose your usual size for the intended fit. '
-                  'Measurements will be connected to the product '
-                  'data later.',
+                  l10n.productSizeGuideDescription,
                   style: AppTextStyles.bodyMedium.copyWith(
                     fontSize: 14,
                     height: 1.55,
@@ -1409,7 +1362,6 @@ class _ProductMiniCard extends StatelessWidget {
                       ),
                     ),
                   ),
-
                   if (showQuickAdd)
                     Positioned(
                       right: 8,
@@ -1436,9 +1388,7 @@ class _ProductMiniCard extends StatelessWidget {
                 ],
               ),
             ),
-
             const Gap(AppSpacing.s8),
-
             Text(
               product.name,
               maxLines: 1,
@@ -1449,9 +1399,7 @@ class _ProductMiniCard extends StatelessWidget {
                 color: const Color(0xFF151515),
               ),
             ),
-
             const Gap(3),
-
             if (showQuickAdd && product.colors.isNotEmpty)
               Text(
                 product.colors.first,
@@ -1462,9 +1410,7 @@ class _ProductMiniCard extends StatelessWidget {
                   color: const Color(0xFF999999),
                 ),
               ),
-
             if (showQuickAdd && product.colors.isNotEmpty) const Gap(3),
-
             Text(
               '${product.price} EGP',
               style: AppTextStyles.priceMedium.copyWith(
@@ -1527,9 +1473,7 @@ class _ReviewCard extends StatelessWidget {
                 ),
             ],
           ),
-
           const Gap(AppSpacing.s8),
-
           Row(
             children: List.generate(
               5,
@@ -1543,9 +1487,7 @@ class _ReviewCard extends StatelessWidget {
               ),
             ),
           ),
-
           const Gap(AppSpacing.s8),
-
           Text(
             text,
             style: AppTextStyles.bodyMedium.copyWith(

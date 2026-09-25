@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -44,7 +45,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   void initState() {
     super.initState();
 
-    // Use the default Android platform-view rendering path.
     MapLibreMap.useHybridComposition = false;
 
     debugPrint('[LOCATION_PICKER] Screen initialized');
@@ -56,8 +56,10 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
-      appBar: AppBar(title: const Text('Select Location'), centerTitle: true),
+      appBar: AppBar(title: Text(l10n.locationPickerTitle), centerTitle: true),
       body: Stack(
         children: [
           MapLibreMap(
@@ -85,7 +87,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
 
               try {
                 final sourceIds = await controller.getSourceIds();
-
                 final style = await controller.getStyle();
 
                 debugPrint(
@@ -190,7 +191,7 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                       height: 20,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text('Confirm Location'),
+                  : Text(l10n.locationPickerConfirm),
             ),
           ),
         ],

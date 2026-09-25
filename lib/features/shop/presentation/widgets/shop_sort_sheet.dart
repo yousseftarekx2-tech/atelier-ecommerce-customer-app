@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_spacing.dart';
@@ -17,15 +18,34 @@ class ShopSortSheet extends StatelessWidget {
   final ShopSortOption selectedOption;
 
   static const options = [
-    (value: ShopSortOption.recommended, label: 'Recommended'),
-    (value: ShopSortOption.priceLowToHigh, label: 'Price: Low to High'),
-    (value: ShopSortOption.priceHighToLow, label: 'Price: High to Low'),
-    (value: ShopSortOption.newest, label: 'Newest'),
-    (value: ShopSortOption.nameAToZ, label: 'Name: A to Z'),
+    ShopSortOption.recommended,
+    ShopSortOption.priceLowToHigh,
+    ShopSortOption.priceHighToLow,
+    ShopSortOption.newest,
+    ShopSortOption.nameAToZ,
   ];
+
+  String _localizedLabel(BuildContext context, ShopSortOption option) {
+    final l10n = AppLocalizations.of(context)!;
+
+    switch (option) {
+      case ShopSortOption.recommended:
+        return l10n.shopSortRecommended;
+      case ShopSortOption.priceLowToHigh:
+        return l10n.shopSortPriceLowToHigh;
+      case ShopSortOption.priceHighToLow:
+        return l10n.shopSortPriceHighToLow;
+      case ShopSortOption.newest:
+        return l10n.shopSortNewest;
+      case ShopSortOption.nameAToZ:
+        return l10n.shopSortNameAToZ;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(
@@ -38,7 +58,7 @@ class ShopSortSheet extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Sort by', style: AppTextStyles.headingSmall),
+            Text(l10n.shopSortProducts, style: AppTextStyles.headingSmall),
             const SizedBox(height: AppSpacing.s12),
             RadioGroup<ShopSortOption>(
               groupValue: selectedOption,
@@ -52,9 +72,9 @@ class ShopSortSheet extends StatelessWidget {
                   ...options.map((option) {
                     return RadioListTile<ShopSortOption>(
                       contentPadding: EdgeInsets.zero,
-                      value: option.value,
+                      value: option,
                       title: Text(
-                        option.label,
+                        _localizedLabel(context, option),
                         style: AppTextStyles.bodyMedium,
                       ),
                     );

@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/address/presentation/widgets/address_selection_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,8 +9,21 @@ import '../../cubit/address_state.dart';
 class CheckoutAddressSection extends StatelessWidget {
   const CheckoutAddressSection({super.key});
 
+  String _labelText(AppLocalizations l10n, String label) {
+    switch (label) {
+      case 'Home':
+        return l10n.addressLabelHome;
+      case 'Work':
+        return l10n.addressLabelWork;
+      default:
+        return l10n.addressLabelOther;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocBuilder<AddressCubit, AddressState>(
       builder: (context, state) {
         final address = state.selectedAddress;
@@ -17,9 +31,9 @@ class CheckoutAddressSection extends StatelessWidget {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '02  SHIPPING ADDRESS',
-              style: TextStyle(
+            Text(
+              l10n.checkoutShippingAddressTitle,
+              style: const TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1.2,
@@ -34,9 +48,12 @@ class CheckoutAddressSection extends StatelessWidget {
                 borderRadius: BorderRadius.circular(12),
               ),
               child: address == null
-                  ? const Text(
-                      'No delivery address selected.',
-                      style: TextStyle(fontSize: 13, color: Color(0xFF777777)),
+                  ? Text(
+                      l10n.checkoutNoAddressSelected,
+                      style: const TextStyle(
+                        fontSize: 13,
+                        color: Color(0xFF777777),
+                      ),
                     )
                   : Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,7 +62,7 @@ class CheckoutAddressSection extends StatelessWidget {
                           children: [
                             Expanded(
                               child: Text(
-                                address.label,
+                                _labelText(l10n, address.label),
                                 style: const TextStyle(
                                   fontSize: 15,
                                   fontWeight: FontWeight.w700,
@@ -69,7 +86,7 @@ class CheckoutAddressSection extends StatelessWidget {
                                   },
                                 );
                               },
-                              child: const Text('Change'),
+                              child: Text(l10n.addressChange),
                             ),
                           ],
                         ),

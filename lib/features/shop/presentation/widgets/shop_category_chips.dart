@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -21,6 +22,25 @@ class ShopCategoryChips extends StatelessWidget {
     'Outerwear',
     'Accessories',
   ];
+
+  String _localizedCategory(BuildContext context, String category) {
+    final l10n = AppLocalizations.of(context)!;
+
+    switch (category) {
+      case 'All':
+        return l10n.shopAll;
+      case 'Tops':
+        return l10n.shopTops;
+      case 'Bottoms':
+        return l10n.shopBottoms;
+      case 'Outerwear':
+        return l10n.shopOuterwear;
+      case 'Accessories':
+        return l10n.shopAccessories;
+      default:
+        return category;
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +76,7 @@ class ShopCategoryChips extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  category,
+                  _localizedCategory(context, category),
                   style: AppTextStyles.labelMedium.copyWith(
                     color: isSelected
                         ? colorScheme.surface

@@ -1,3 +1,8 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
+import 'package:atelier_customer/core/theme/app_colors.dart';
+import 'package:atelier_customer/core/theme/app_radius.dart';
+import 'package:atelier_customer/core/theme/app_spacing.dart';
+import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -18,7 +23,7 @@ class CartScreen extends StatelessWidget {
         final isEmpty = state.items.isEmpty;
 
         return Scaffold(
-          backgroundColor: const Color(0xFFFAFAF8),
+          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
           appBar: _CartAppBar(
             itemCount: state.itemCount,
             onBack: () => context.pop(),
@@ -46,17 +51,20 @@ class _CartAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AppBar(
-      backgroundColor: Colors.white.withValues(alpha: 0.96),
+      backgroundColor: colorScheme.surface,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
       automaticallyImplyLeading: false,
-      bottom: const PreferredSize(
-        preferredSize: Size.fromHeight(1),
-        child: Divider(height: 1, color: Color(0xFFE6E4E0)),
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(1),
+        child: Divider(height: 1, color: colorScheme.outlineVariant),
       ),
-      titleSpacing: 16,
+      titleSpacing: AppSpacing.s16,
       title: Row(
         children: [
           _HeaderButton(icon: Icons.arrow_back, onTap: onBack),
@@ -64,21 +72,19 @@ class _CartAppBar extends StatelessWidget implements PreferredSizeWidget {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
+                Text(
                   'ATELIER',
-                  style: TextStyle(
-                    color: Color(0xFF151515),
-                    fontSize: 16,
+                  style: AppTextStyles.labelLarge.copyWith(
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 2.4,
                   ),
                 ),
-                const SizedBox(height: 1),
+                const SizedBox(height: AppSpacing.s2),
                 Text(
-                  'Your Bag ($itemCount)',
-                  style: const TextStyle(
-                    color: Color(0xFF666666),
-                    fontSize: 10,
+                  l10n.cartItemCount(itemCount),
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -103,8 +109,10 @@ class _HeaderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Material(
-      color: const Color(0xFFF4F3F0),
+      color: colorScheme.surfaceContainerHighest,
       shape: const CircleBorder(),
       child: InkWell(
         onTap: onTap,
@@ -112,7 +120,7 @@ class _HeaderButton extends StatelessWidget {
         child: SizedBox(
           width: 44,
           height: 44,
-          child: Icon(icon, size: 19, color: const Color(0xFF151515)),
+          child: Icon(icon, size: 19, color: colorScheme.onSurface),
         ),
       ),
     );
@@ -127,21 +135,26 @@ class _CartContent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.s16,
+        AppSpacing.s16,
+        AppSpacing.s16,
+        AppSpacing.s24,
+      ),
       children: [
         _DeliveryBanner(subtotal: state.totalPrice),
-        const SizedBox(height: 22),
+        const SizedBox(height: AppSpacing.s24),
         const _SectionHeader(),
-        const SizedBox(height: 10),
+        const SizedBox(height: AppSpacing.s10),
         for (final item in state.items) ...[
           CartItemCard(item: item),
-          const SizedBox(height: 10),
+          const SizedBox(height: AppSpacing.s10),
         ],
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSpacing.s8),
         const _PromoCard(),
-        const SizedBox(height: 16),
+        const SizedBox(height: AppSpacing.s16),
         CartSummary(subtotal: state.totalPrice),
-        const SizedBox(height: 24),
+        const SizedBox(height: AppSpacing.s24),
       ],
     );
   }
@@ -156,15 +169,17 @@ class _DeliveryBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
     final remaining = freeDeliveryThreshold - subtotal;
     final isUnlocked = remaining <= 0;
 
     return Container(
-      padding: const EdgeInsets.all(14),
+      padding: const EdgeInsets.all(AppSpacing.s14),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE6E4E0)),
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadius.r12),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
@@ -172,38 +187,36 @@ class _DeliveryBanner extends StatelessWidget {
             width: 42,
             height: 42,
             decoration: BoxDecoration(
-              color: const Color(0xFFF4F3F0),
-              borderRadius: BorderRadius.circular(10),
+              color: colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(AppRadius.r12),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.local_shipping_outlined,
               size: 20,
-              color: Color(0xFF151515),
+              color: colorScheme.onSurface,
             ),
           ),
-          const SizedBox(width: 11),
+          const SizedBox(width: AppSpacing.s10),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   isUnlocked
-                      ? 'Complimentary Delivery'
-                      : 'Free Delivery Available',
-                  style: const TextStyle(
-                    color: Color(0xFF151515),
-                    fontSize: 12,
+                      ? l10n.cartDeliveryUnlockedTitle
+                      : l10n.cartDeliveryAvailableTitle,
+                  style: AppTextStyles.labelMedium.copyWith(
+                    color: colorScheme.onSurface,
                     fontWeight: FontWeight.w700,
                   ),
                 ),
-                const SizedBox(height: 3),
+                const SizedBox(height: AppSpacing.s3),
                 Text(
                   isUnlocked
-                      ? 'Free standard shipping on your order'
-                      : 'Add EGP ${_formatPrice(remaining)} to unlock free delivery',
-                  style: const TextStyle(
-                    color: Color(0xFF666666),
-                    fontSize: 10,
+                      ? l10n.cartFreeStandardShipping
+                      : l10n.cartAddToFreeDelivery(_formatPrice(remaining)),
+                  style: AppTextStyles.labelSmall.copyWith(
+                    color: colorScheme.onSurfaceVariant,
                     height: 1.25,
                   ),
                 ),
@@ -211,20 +224,24 @@ class _DeliveryBanner extends StatelessWidget {
             ),
           ),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpacing.s8,
+              vertical: AppSpacing.s4,
+            ),
             decoration: BoxDecoration(
               color: isUnlocked
-                  ? const Color(0xFFEAF4EC)
-                  : const Color(0xFFF4F3F0),
-              borderRadius: BorderRadius.circular(5),
+                  ? AppColors.success.withValues(alpha: 0.12)
+                  : colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(AppRadius.r4),
             ),
             child: Text(
-              isUnlocked ? 'Unlocked' : 'EGP 5,000',
-              style: TextStyle(
+              isUnlocked
+                  ? l10n.cartUnlocked
+                  : 'EGP ${_formatPrice(freeDeliveryThreshold)}',
+              style: AppTextStyles.labelSmall.copyWith(
                 color: isUnlocked
-                    ? const Color(0xFF3D7A4A)
-                    : const Color(0xFF666666),
-                fontSize: 9,
+                    ? AppColors.success
+                    : colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w700,
               ),
             ),
@@ -247,21 +264,25 @@ class _SectionHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Row(
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
       children: [
         Expanded(
           child: Text(
-            'Cart Items',
-            style: TextStyle(
-              color: Color(0xFF151515),
-              fontSize: 16,
+            l10n.cartItems,
+            style: AppTextStyles.headingSmall.copyWith(
+              color: colorScheme.onSurface,
               fontWeight: FontWeight.w800,
             ),
           ),
         ),
         Text(
-          'Prices incl. VAT',
-          style: TextStyle(color: Color(0xFF999999), fontSize: 10),
+          l10n.cartPricesInclVat,
+          style: AppTextStyles.labelSmall.copyWith(
+            color: colorScheme.onSurfaceVariant,
+          ),
         ),
       ],
     );
@@ -273,26 +294,34 @@ class _PromoCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 13, vertical: 11),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.s12,
+        vertical: AppSpacing.s10,
+      ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: const Color(0xFFE6E4E0)),
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadius.r12),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         children: [
-          const Icon(
+          Icon(
             Icons.local_offer_outlined,
             size: 18,
-            color: Color(0xFF666666),
+            color: colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(width: 9),
-          const Expanded(
+          const SizedBox(width: AppSpacing.s8),
+          Expanded(
             child: TextField(
               decoration: InputDecoration(
-                hintText: 'Promo code',
-                hintStyle: TextStyle(color: Color(0xFF999999), fontSize: 12),
+                hintText: l10n.cartPromoCode,
+                hintStyle: AppTextStyles.bodySmall.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                ),
                 border: InputBorder.none,
                 isDense: true,
                 contentPadding: EdgeInsets.zero,
@@ -302,14 +331,17 @@ class _PromoCard extends StatelessWidget {
           TextButton(
             onPressed: () {},
             style: TextButton.styleFrom(
-              foregroundColor: const Color(0xFF151515),
-              padding: const EdgeInsets.symmetric(horizontal: 8),
+              foregroundColor: colorScheme.onSurface,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s8),
               minimumSize: Size.zero,
               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
-            child: const Text(
-              'Apply',
-              style: TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+            child: Text(
+              l10n.cartApply,
+              style: AppTextStyles.labelSmall.copyWith(
+                color: colorScheme.onSurface,
+                fontWeight: FontWeight.w700,
+              ),
             ),
           ),
         ],
@@ -323,44 +355,49 @@ class _EmptyCartView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SingleChildScrollView(
-      padding: const EdgeInsets.fromLTRB(20, 54, 20, 40),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpacing.s20,
+        AppSpacing.s52,
+        AppSpacing.s20,
+        AppSpacing.s40,
+      ),
       child: Column(
         children: [
           Container(
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: Colors.white,
+              color: colorScheme.surface,
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFE6E4E0)),
+              border: Border.all(color: colorScheme.outlineVariant),
             ),
-            child: const Icon(
+            child: Icon(
               Icons.shopping_bag_outlined,
               size: 30,
-              color: Color(0xFF666666),
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: 20),
-          const Text(
-            'Your bag is empty',
-            style: TextStyle(
-              color: Color(0xFF151515),
-              fontSize: 21,
+          const SizedBox(height: AppSpacing.s20),
+          Text(
+            l10n.cartEmptyTitle,
+            style: AppTextStyles.headingSmall.copyWith(
+              color: colorScheme.onSurface,
               fontWeight: FontWeight.w800,
             ),
           ),
-          const SizedBox(height: 8),
-          const Text(
-            'Discover pieces made for after-hours.',
+          const SizedBox(height: AppSpacing.s8),
+          Text(
+            l10n.cartEmptyDescription,
             textAlign: TextAlign.center,
-            style: TextStyle(
-              color: Color(0xFF666666),
-              fontSize: 12,
-              height: 1.4,
+            style: AppTextStyles.bodySmall.copyWith(
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
-          const SizedBox(height: 22),
+          const SizedBox(height: AppSpacing.s20),
           SizedBox(
             width: 240,
             height: 48,
@@ -369,40 +406,42 @@ class _EmptyCartView extends StatelessWidget {
                 context.go(Routes.shop);
               },
               style: ElevatedButton.styleFrom(
-                backgroundColor: const Color(0xFF151515),
-                foregroundColor: Colors.white,
+                backgroundColor: colorScheme.onSurface,
+                foregroundColor: colorScheme.surface,
                 elevation: 0,
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(AppRadius.r9),
                 ),
               ),
-              child: const Text(
-                'Continue Shopping',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w700),
+              child: Text(
+                l10n.cartContinueShopping,
+                style: AppTextStyles.button.copyWith(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
-          const SizedBox(height: 42),
-          const Align(
-            alignment: Alignment.centerLeft,
+          const SizedBox(height: AppSpacing.s40),
+          Align(
+            alignment: AlignmentDirectional.centerStart,
             child: Text(
-              'EXPLORE CATEGORIES',
-              style: TextStyle(
-                color: Color(0xFF999999),
-                fontSize: 10,
+              l10n.cartExploreCategories,
+              style: AppTextStyles.labelSmall.copyWith(
+                color: colorScheme.onSurfaceVariant,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1,
               ),
             ),
           ),
-          const SizedBox(height: 12),
-          const Wrap(
-            spacing: 8,
-            runSpacing: 8,
+          const SizedBox(height: AppSpacing.s12),
+          Wrap(
+            spacing: AppSpacing.s8,
+            runSpacing: AppSpacing.s8,
             children: [
-              _CategoryPill(label: 'Overshirts'),
-              _CategoryPill(label: 'Wide Pants'),
-              _CategoryPill(label: 'Boxy Tees'),
+              _CategoryPill(label: l10n.cartCategoryOvershirts),
+              _CategoryPill(label: l10n.cartCategoryWidePants),
+              _CategoryPill(label: l10n.cartCategoryBoxyTees),
             ],
           ),
         ],
@@ -418,18 +457,22 @@ class _CategoryPill extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 9),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpacing.s14,
+        vertical: AppSpacing.s8,
+      ),
       decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: const Color(0xFFE6E4E0)),
+        color: colorScheme.surface,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Text(
         label,
-        style: const TextStyle(
-          color: Color(0xFF666666),
-          fontSize: 11,
+        style: AppTextStyles.labelSmall.copyWith(
+          color: colorScheme.onSurfaceVariant,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -445,20 +488,28 @@ class _CheckoutBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return SafeArea(
       top: false,
       child: SizedBox(
         height: 80,
         child: Container(
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 14),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpacing.s20,
+            AppSpacing.s12,
+            AppSpacing.s20,
+            AppSpacing.s14,
+          ),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.97),
-            border: const Border(top: BorderSide(color: Color(0xFFE6E4E0))),
-            boxShadow: const [
+            color: colorScheme.surface.withValues(alpha: 0.97),
+            border: Border(top: BorderSide(color: colorScheme.outlineVariant)),
+            boxShadow: [
               BoxShadow(
                 blurRadius: 16,
-                offset: Offset(0, -5),
-                color: Color(0x12000000),
+                offset: const Offset(0, -5),
+                color: Colors.black.withValues(alpha: 0.07),
               ),
             ],
           ),
@@ -468,54 +519,56 @@ class _CheckoutBar extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    'TOTAL BAG',
-                    style: TextStyle(
-                      color: Color(0xFF999999),
-                      fontSize: 9,
+                  Text(
+                    l10n.cartTotalBag,
+                    style: AppTextStyles.labelSmall.copyWith(
+                      color: colorScheme.onSurfaceVariant,
                       fontWeight: FontWeight.w800,
                       letterSpacing: 1,
                     ),
                   ),
-                  const SizedBox(height: 3),
+                  const SizedBox(height: AppSpacing.s3),
                   Text(
                     _formatPrice(total),
-                    style: const TextStyle(
-                      color: Color(0xFF151515),
+                    style: AppTextStyles.priceMedium.copyWith(
+                      color: colorScheme.onSurface,
                       fontSize: 17,
                       fontWeight: FontWeight.w800,
                     ),
                   ),
                 ],
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSpacing.s16),
               Expanded(
                 child: SizedBox(
                   height: 52,
                   child: ElevatedButton(
                     onPressed: onCheckout,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: const Color(0xFF151515),
-                      foregroundColor: Colors.white,
+                      backgroundColor: colorScheme.onSurface,
+                      foregroundColor: colorScheme.surface,
                       elevation: 0,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(AppRadius.r9),
                       ),
                     ),
-                    child: const Row(
+                    child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Icon(Icons.lock_outline, size: 15),
-                        SizedBox(width: 7),
-                        Text(
-                          'Proceed to Checkout',
-                          style: TextStyle(
-                            fontSize: 11,
-                            fontWeight: FontWeight.w700,
+                        const Icon(Icons.lock_outline, size: 15),
+                        const SizedBox(width: AppSpacing.s6),
+                        Flexible(
+                          child: Text(
+                            l10n.cartProceedToCheckout,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppTextStyles.button.copyWith(
+                              fontSize: 11,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
                         ),
-                        SizedBox(width: 7),
-                        Icon(Icons.arrow_forward, size: 15),
+                        const SizedBox(width: AppSpacing.s6),
+                        const Icon(Icons.arrow_forward, size: 15),
                       ],
                     ),
                   ),

@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/products/domain/entities/product.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +11,6 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../favorites/cubit/favorites_cubit.dart';
-
 import '../../data/look_mock_data.dart';
 import '../../domain/entities/look.dart';
 
@@ -62,14 +62,64 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
     );
   }
 
+  String _localizedDescription(AppLocalizations l10n, Look look) {
+    switch (look.id) {
+      case 'light-after-dark':
+        return l10n.lookLightAfterDarkDescription;
+      case 'city-static':
+        return l10n.lookCityStaticDescription;
+      case 'off-duty':
+        return l10n.lookOffDutyDescription;
+      case 'after-hours':
+        return l10n.lookAfterHoursDescription;
+      default:
+        return look.description;
+    }
+  }
+
+  String _localizedTag(AppLocalizations l10n, Look look) {
+    switch (look.tag.toLowerCase()) {
+      case 'minimal':
+        return l10n.lookFilterMinimal;
+      case 'street':
+        return l10n.lookFilterStreet;
+      case 'casual':
+        return l10n.lookFilterCasual;
+      case 'classic':
+        return l10n.lookFilterClassic;
+      case 'bold':
+        return l10n.lookFilterBold;
+      case 'active':
+        return l10n.lookFilterActive;
+      default:
+        return look.tag;
+    }
+  }
+
+  String _localizedEyebrow(AppLocalizations l10n, Look look) {
+    switch (look.id) {
+      case 'light-after-dark':
+        return l10n.look01;
+      case 'city-static':
+        return l10n.look02;
+      case 'off-duty':
+        return l10n.look03;
+      case 'after-hours':
+        return l10n.look04;
+      default:
+        return look.eyebrow;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final look = _look;
+    final l10n = AppLocalizations.of(context)!;
 
     if (look == null) {
       return Scaffold(
         body: Center(
-          child: Text('Look not found', style: AppTextStyles.bodyLarge),
+          child: Text(l10n.lookNotFound, style: AppTextStyles.bodyLarge),
         ),
       );
     }
@@ -79,15 +129,15 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
       body: SafeArea(
         child: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: _buildAppBar(context)),
-            SliverToBoxAdapter(child: _buildHero(look)),
+            SliverToBoxAdapter(child: _buildAppBar(context, l10n)),
+            SliverToBoxAdapter(child: _buildHero(look, l10n)),
             SliverPadding(
               padding: const EdgeInsets.all(AppSpacing.s24),
               sliver: SliverList(
                 delegate: SliverChildListDelegate([
-                  _buildLookInfo(look),
+                  _buildLookInfo(look, l10n),
                   const Gap(AppSpacing.s40),
-                  _buildShopTheLook(look),
+                  _buildShopTheLook(look, l10n),
                   const Gap(AppSpacing.s32),
                   _buildProducts(context, look),
                   const Gap(AppSpacing.s40),
@@ -97,11 +147,11 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: _buildPurchaseBar(context),
+      bottomNavigationBar: _buildPurchaseBar(context, l10n),
     );
   }
 
-  Widget _buildAppBar(BuildContext context) {
+  Widget _buildAppBar(BuildContext context, AppLocalizations l10n) {
     return SizedBox(
       height: AppSpacing.s64,
       child: Row(
@@ -125,7 +175,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
     );
   }
 
-  Widget _buildHero(Look look) {
+  Widget _buildHero(Look look, AppLocalizations l10n) {
     return AspectRatio(
       aspectRatio: 4 / 5,
       child: Stack(
@@ -140,7 +190,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  look.eyebrow,
+                  _localizedEyebrow(l10n, look),
                   style: AppTextStyles.labelMedium.copyWith(
                     color: Colors.white,
                     letterSpacing: 2,
@@ -155,7 +205,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
                 ),
                 const Gap(AppSpacing.s4),
                 Text(
-                  look.tag,
+                  _localizedTag(l10n, look),
                   style: AppTextStyles.labelMedium.copyWith(
                     color: Colors.white,
                     letterSpacing: 1.5,
@@ -169,37 +219,37 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
     );
   }
 
-  Widget _buildLookInfo(Look look) {
+  Widget _buildLookInfo(Look look, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(look.title, style: AppTextStyles.headingMedium),
         const Gap(AppSpacing.s8),
-        Text(look.description, style: AppTextStyles.bodyLarge),
+        Text(_localizedDescription(l10n, look), style: AppTextStyles.bodyLarge),
       ],
     );
   }
 
-  Widget _buildShopTheLook(Look look) {
+  Widget _buildShopTheLook(Look look, AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Row(
           children: [
             Expanded(
-              child: Text('Shop The Look', style: AppTextStyles.headingSmall),
+              child: Text(
+                l10n.lookShopTheLook,
+                style: AppTextStyles.headingSmall,
+              ),
             ),
             Text(
-              '${look.availableProductCount} available',
+              l10n.lookAvailableCount(look.availableProductCount),
               style: AppTextStyles.labelMedium,
             ),
           ],
         ),
         const Gap(AppSpacing.s8),
-        Text(
-          'Complete the outfit with the pieces selected for this look.',
-          style: AppTextStyles.bodyMedium,
-        ),
+        Text(l10n.lookShopTheLookDescription, style: AppTextStyles.bodyMedium),
       ],
     );
   }
@@ -232,7 +282,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
     );
   }
 
-  Widget _buildPurchaseBar(BuildContext context) {
+  Widget _buildPurchaseBar(BuildContext context, AppLocalizations l10n) {
     final availableProducts = _availableProducts;
 
     return SafeArea(
@@ -254,13 +304,9 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text('Bundle Total', style: AppTextStyles.labelSmall),
+                Text(l10n.lookBundleTotal, style: AppTextStyles.labelSmall),
                 const Gap(AppSpacing.s2),
-                Text(
-                  // ignore: unnecessary_brace_in_string_interps
-                  '${_bundleTotal} EGP',
-                  style: AppTextStyles.priceMedium,
-                ),
+                Text('$_bundleTotal EGP', style: AppTextStyles.priceMedium),
               ],
             ),
             const Gap(AppSpacing.s16),
@@ -270,7 +316,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
                     ? null
                     : () => _addAvailableItems(context),
                 child: Text(
-                  'Add Available Items (${availableProducts.length})',
+                  l10n.lookAddAvailableItems(availableProducts.length),
                   style: AppTextStyles.button,
                 ),
               ),
@@ -283,6 +329,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
 
   void _addAvailableItems(BuildContext context) {
     final cartCubit = context.read<CartCubit>();
+    final l10n = AppLocalizations.of(context)!;
 
     for (final product in _availableProducts) {
       final selectedSize = _selectedSizes[product.id];
@@ -301,7 +348,7 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('${_availableProducts.length} items added to your bag'),
+        content: Text(l10n.lookItemsAddedToBag(_availableProducts.length)),
       ),
     );
   }
@@ -324,8 +371,8 @@ class _LookProductTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final soldOut = product.stock <= 0;
-
     final isFavorite = context.watch<FavoritesCubit>().isFavorite(product.id);
 
     return Opacity(
@@ -360,7 +407,7 @@ class _LookProductTile extends StatelessWidget {
           Text('${product.price} EGP', style: AppTextStyles.priceMedium),
           const Gap(AppSpacing.s16),
           if (soldOut)
-            Text('SOLD OUT', style: AppTextStyles.labelMedium)
+            Text(l10n.lookSoldOut, style: AppTextStyles.labelMedium)
           else
             _SizeSelector(
               sizes: product.sizes,

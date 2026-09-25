@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/address/presentation/screens/address_form_screen.dart';
 import 'package:atelier_customer/features/address/presentation/screens/location_picker_screen.dart';
 import 'package:flutter/material.dart';
@@ -9,8 +10,21 @@ import '../../cubit/address_state.dart';
 class AddressSelectionSheet extends StatelessWidget {
   const AddressSelectionSheet({super.key});
 
+  String _labelText(AppLocalizations l10n, String label) {
+    switch (label) {
+      case 'Home':
+        return l10n.addressLabelHome;
+      case 'Work':
+        return l10n.addressLabelWork;
+      default:
+        return l10n.addressLabelOther;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocBuilder<AddressCubit, AddressState>(
       builder: (context, state) {
         return SafeArea(
@@ -31,9 +45,12 @@ class AddressSelectionSheet extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-                const Text(
-                  'Delivery Address',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                Text(
+                  l10n.addressDeliveryTitle,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 16),
                 ...state.addresses.map((address) {
@@ -64,7 +81,7 @@ class AddressSelectionSheet extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  address.label,
+                                  _labelText(l10n, address.label),
                                   style: const TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.w700,
@@ -105,7 +122,7 @@ class AddressSelectionSheet extends StatelessWidget {
                       _showAddAddressOptions(context);
                     },
                     icon: const Icon(Icons.add),
-                    label: const Text('Add New Address'),
+                    label: Text(l10n.addressAddNew),
                   ),
                 ),
               ],
@@ -117,6 +134,8 @@ class AddressSelectionSheet extends StatelessWidget {
   }
 
   void _showAddAddressOptions(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     showModalBottomSheet<void>(
       context: context,
       showDragHandle: true,
@@ -128,14 +147,20 @@ class AddressSelectionSheet extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  'Add New Address',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                Text(
+                  l10n.addressAddNew,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
                 const SizedBox(height: 6),
-                const Text(
-                  'Choose how you want to add your delivery address.',
-                  style: TextStyle(fontSize: 13, color: Color(0xFF777777)),
+                Text(
+                  l10n.addressAddNewDescription,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    color: Color(0xFF777777),
+                  ),
                 ),
                 const SizedBox(height: 20),
                 ListTile(
@@ -143,11 +168,11 @@ class AddressSelectionSheet extends StatelessWidget {
                   leading: const CircleAvatar(
                     child: Icon(Icons.edit_location_alt_outlined),
                   ),
-                  title: const Text(
-                    'Enter Manually',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  title: Text(
+                    l10n.addressEnterManually,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  subtitle: const Text('Enter your address details yourself.'),
+                  subtitle: Text(l10n.addressEnterManuallyDescription),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
                     Navigator.of(sheetContext).pop();
@@ -167,13 +192,11 @@ class AddressSelectionSheet extends StatelessWidget {
                 ListTile(
                   contentPadding: EdgeInsets.zero,
                   leading: const CircleAvatar(child: Icon(Icons.map_outlined)),
-                  title: const Text(
-                    'Choose on Map',
-                    style: TextStyle(fontWeight: FontWeight.w600),
+                  title: Text(
+                    l10n.addressChooseOnMap,
+                    style: const TextStyle(fontWeight: FontWeight.w600),
                   ),
-                  subtitle: const Text(
-                    'Pick a location and complete the address details.',
-                  ),
+                  subtitle: Text(l10n.addressChooseOnMapDescription),
                   trailing: const Icon(Icons.chevron_right),
                   onTap: () async {
                     Navigator.of(sheetContext).pop();

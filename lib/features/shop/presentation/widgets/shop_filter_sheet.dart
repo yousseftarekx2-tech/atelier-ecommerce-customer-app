@@ -1,4 +1,4 @@
-
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -27,13 +27,7 @@ class _ShopFilterSheetState extends State<ShopFilterSheet> {
   static const double minPrice = 0;
   static const double maxPrice = 10000;
 
-  static const sizes = [
-    'XS',
-    'S',
-    'M',
-    'L',
-    'XL',
-  ];
+  static const sizes = ['XS', 'S', 'M', 'L', 'XL'];
 
   late RangeValues _priceRange;
   late bool _onlyAvailable;
@@ -54,6 +48,7 @@ class _ShopFilterSheetState extends State<ShopFilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     return SafeArea(
@@ -80,14 +75,14 @@ class _ShopFilterSheetState extends State<ShopFilterSheet> {
             ),
             const SizedBox(height: AppSpacing.s20),
             Text(
-              'Filter',
+              l10n.shopFilterProducts,
               style: AppTextStyles.headingSmall.copyWith(
                 color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: AppSpacing.s24),
             Text(
-              'Price',
+              l10n.shopPrice,
               style: AppTextStyles.labelLarge.copyWith(
                 color: colorScheme.onSurface,
               ),
@@ -119,7 +114,7 @@ class _ShopFilterSheetState extends State<ShopFilterSheet> {
             ),
             const SizedBox(height: AppSpacing.s20),
             Text(
-              'Size',
+              l10n.shopSize,
               style: AppTextStyles.labelLarge.copyWith(
                 color: colorScheme.onSurface,
               ),
@@ -150,7 +145,7 @@ class _ShopFilterSheetState extends State<ShopFilterSheet> {
             SwitchListTile.adaptive(
               contentPadding: EdgeInsets.zero,
               title: Text(
-                'Available only',
+                l10n.shopAvailableOnly,
                 style: AppTextStyles.bodyMedium,
               ),
               value: _onlyAvailable,
@@ -176,7 +171,7 @@ class _ShopFilterSheetState extends State<ShopFilterSheet> {
                     ),
                   );
                 },
-                child: const Text('Apply Filters'),
+                child: Text(l10n.shopApply),
               ),
             ),
           ],

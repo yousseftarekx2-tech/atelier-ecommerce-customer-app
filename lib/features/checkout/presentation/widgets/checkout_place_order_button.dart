@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/orders/cubit/oeder_cubit.dart';
 import 'package:atelier_customer/features/orders/cubit/order_state.dart';
 import 'package:atelier_customer/features/products/data/repositories/product_repository_impl.dart';
@@ -17,11 +18,12 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return BlocListener<OrdersCubit, OrdersState>(
       listener: (context, state) {
         if (state is OrderCreated) {
           context.read<CartCubit>().clear();
-
           context.go('/order-confirmation');
         }
 
@@ -39,20 +41,16 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
             final isCreating = orderState is OrderCreating;
 
             return ElevatedButton(
-              onPressed: isCreating
-                  ? null
-                  : () {
-                      _placeOrder(context);
-                    },
+              onPressed: isCreating ? null : () => _placeOrder(context),
               child: isCreating
                   ? const SizedBox(
                       width: 22,
                       height: 22,
                       child: CircularProgressIndicator(strokeWidth: 2),
                     )
-                  : const Text(
-                      'Place Order',
-                      style: TextStyle(
+                  : Text(
+                      l10n.checkoutPlaceOrder,
+                      style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w700,
                       ),
@@ -65,32 +63,33 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
   }
 
   void _placeOrder(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = context.read<AuthCubit>().state;
     final cartState = context.read<CartCubit>().state;
     final addressState = context.read<AddressCubit>().state;
     final shippingState = context.read<ShippingCubit>().state;
 
     if (authState is! AuthAuthenticated) {
-      _showMessage(context, 'Please sign in before placing your order');
+      _showMessage(context, l10n.checkoutSignInRequired);
       return;
     }
 
     final address = addressState.selectedAddress;
 
     if (address == null) {
-      _showMessage(context, 'Please select a shipping address');
+      _showMessage(context, l10n.checkoutAddressRequired);
       return;
     }
 
     if (cartState.items.isEmpty) {
-      _showMessage(context, 'Your bag is empty');
+      _showMessage(context, l10n.checkoutBagEmpty);
       return;
     }
 
     final customerName = authState.user.fullName;
 
     if (customerName == null || customerName.trim().isEmpty) {
-      _showMessage(context, 'Please complete your profile information');
+      _showMessage(context, l10n.checkoutProfileRequired);
       return;
     }
 
@@ -100,7 +99,7 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
       final product = productRepository.getProductById(item.productId);
 
       if (product == null) {
-        throw Exception('Product not found: ${item.productId}');
+        throw Exception(l10n.checkoutProductNotFound(item.productId));
       }
 
       return OrderItem(

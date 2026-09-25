@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class CheckoutContactSection extends StatelessWidget {
@@ -12,15 +13,19 @@ class CheckoutContactSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Text(
-          '01  CONTACT',
+        Text(
+          '01  ' + l10n.checkoutContact.toUpperCase(),
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
             letterSpacing: 1.2,
+            color: colorScheme.onSurface,
           ),
         ),
         const SizedBox(height: 12),
@@ -28,7 +33,8 @@ class CheckoutContactSection extends StatelessWidget {
           width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            border: Border.all(color: const Color(0xFFE6E4E0)),
+            color: colorScheme.surface,
+            border: Border.all(color: colorScheme.outlineVariant),
             borderRadius: BorderRadius.circular(12),
           ),
           child: Column(
@@ -37,9 +43,10 @@ class CheckoutContactSection extends StatelessWidget {
               if (fullName != null && fullName!.isNotEmpty) ...[
                 Text(
                   fullName!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w600,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 6),
@@ -47,28 +54,35 @@ class CheckoutContactSection extends StatelessWidget {
               if (email != null && email!.isNotEmpty)
                 Text(
                   email!,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 13,
-                    color: Color(0xFF777777),
+                    color: colorScheme.onSurfaceVariant,
                   ),
                 ),
               if ((fullName == null || fullName!.isEmpty) &&
                   (email == null || email!.isEmpty))
-                const Text(
-                  'Account information is unavailable.',
-                  style: TextStyle(fontSize: 13, color: Color(0xFF777777)),
+                Text(
+                  l10n.checkoutAccountUnavailable,
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: colorScheme.onSurfaceVariant,
+                  ),
                 ),
               const SizedBox(height: 16),
-              const Text(
-                'Phone number (optional)',
-                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+              Text(
+                l10n.checkoutPhoneOptional,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w600,
+                  color: colorScheme.onSurface,
+                ),
               ),
               const SizedBox(height: 8),
-              const TextField(
+              TextField(
                 keyboardType: TextInputType.phone,
                 decoration: InputDecoration(
-                  hintText: 'Enter phone number',
-                  border: OutlineInputBorder(),
+                  hintText: l10n.checkoutPhoneHint,
+                  border: const OutlineInputBorder(),
                 ),
               ),
             ],

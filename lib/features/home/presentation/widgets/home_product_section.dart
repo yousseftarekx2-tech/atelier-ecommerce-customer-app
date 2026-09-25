@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_spacing.dart';
@@ -27,6 +28,8 @@ class HomeProductSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -40,7 +43,7 @@ class HomeProductSection extends StatelessWidget {
               if (showViewAll)
                 TextButton(
                   onPressed: onViewAllTap,
-                  child: const Text('View All'),
+                  child: Text(l10n.homeViewAll),
                 ),
             ],
           ),

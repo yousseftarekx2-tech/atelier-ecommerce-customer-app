@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/address/presentation/widgets/checkout_address_section.dart';
 import 'package:atelier_customer/features/checkout/presentation/widgets/checkout_contact_section.dart';
 import 'package:atelier_customer/features/checkout/presentation/widgets/checkout_order_summary.dart';
@@ -18,6 +19,7 @@ class CheckoutScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final authState = context.watch<AuthCubit>().state;
 
     String? fullName;
@@ -36,11 +38,11 @@ class CheckoutScreen extends StatelessWidget {
               onPressed: () => context.pop(),
               icon: const Icon(Icons.arrow_back),
             ),
-            title: const Text('Checkout'),
+            title: Text(l10n.checkoutTitle),
             centerTitle: true,
           ),
           body: state.items.isEmpty
-              ? const Center(child: Text('Your bag is empty'))
+              ? Center(child: Text(l10n.checkoutEmptyBag))
               : BlocProvider(
                   create: (_) => ShippingCubit(subtotal: state.totalPrice),
                   child: SingleChildScrollView(
@@ -48,17 +50,15 @@ class CheckoutScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'Complete your order',
-                          style: TextStyle(
+                        Text(
+                          l10n.checkoutCompleteOrder,
+                          style: const TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.w700,
                           ),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          '${state.itemCount} item${state.itemCount == 1 ? '' : 's'} in your bag',
-                        ),
+                        Text(l10n.checkoutItemCount(state.itemCount)),
                         const SizedBox(height: 28),
                         CheckoutContactSection(
                           fullName: fullName,

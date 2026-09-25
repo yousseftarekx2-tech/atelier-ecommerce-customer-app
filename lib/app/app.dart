@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:atelier_customer/L10n/app_localizations.dart';
+import 'package:atelier_customer/features/favorites/cubit/favorites_cubit.dart';
 import 'package:atelier_customer/features/notifications/cubit/notifications_cubit.dart';
 import 'package:atelier_customer/features/orders/cubit/oeder_cubit.dart';
 import 'package:atelier_customer/features/orders/domain/repositories/orders_repository.dart';
@@ -43,6 +44,7 @@ class _AtelierAppState extends State<AtelierApp> {
   void _listenToAuthStateChanges() {
     final auth = supabase.Supabase.instance.client.auth;
     final notificationsCubit = context.read<NotificationsCubit>();
+    final favoritesCubit = context.read<FavoritesCubit>();
 
     _authStateSubscription = auth.onAuthStateChange.listen((authState) {
       if (authState.event == supabase.AuthChangeEvent.passwordRecovery) {
@@ -52,10 +54,12 @@ class _AtelierAppState extends State<AtelierApp> {
       if (authState.event == supabase.AuthChangeEvent.signedIn ||
           authState.event == supabase.AuthChangeEvent.initialSession) {
         notificationsCubit.loadNotifications();
+        favoritesCubit.loadFavorites();
       }
 
       if (authState.event == supabase.AuthChangeEvent.signedOut) {
         notificationsCubit.loadNotifications();
+        favoritesCubit.clear();
       }
     }, onError: (_) {});
   }
@@ -77,10 +81,12 @@ class _AtelierAppState extends State<AtelierApp> {
         listener: (context, state) {
           if (state is AuthAuthenticated) {
             context.read<NotificationsCubit>().loadNotifications();
+            context.read<FavoritesCubit>().loadFavorites();
           }
 
           if (state is AuthUnauthenticated) {
             context.read<NotificationsCubit>().loadNotifications();
+            context.read<FavoritesCubit>().clear();
           }
         },
         child: BlocBuilder<SettingsCubit, SettingsState>(

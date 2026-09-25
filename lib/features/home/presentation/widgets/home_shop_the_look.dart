@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -11,6 +12,8 @@ class HomeShopTheLook extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return AspectRatio(
       aspectRatio: 4 / 5,
       child: ClipRRect(
@@ -43,7 +46,7 @@ class HomeShopTheLook extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'LIGHT AFTER DARK',
+                    l10n.homeShopTheLookEyebrow,
                     style: AppTextStyles.labelSmall.copyWith(
                       color: Colors.white.withValues(alpha: 0.82),
                       letterSpacing: 1.2,
@@ -51,7 +54,7 @@ class HomeShopTheLook extends StatelessWidget {
                   ),
                   const SizedBox(height: AppSpacing.s8),
                   Text(
-                    'Oversized Tee +\nBaggy Jeans + Bomber',
+                    l10n.homeShopTheLookTitle,
                     style: AppTextStyles.headingLarge.copyWith(
                       color: Colors.white,
                       height: 1.08,
@@ -73,7 +76,7 @@ class HomeShopTheLook extends StatelessWidget {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              'Shop',
+                              l10n.homeShop,
                               style: AppTextStyles.button.copyWith(
                                 color: Colors.black,
                               ),

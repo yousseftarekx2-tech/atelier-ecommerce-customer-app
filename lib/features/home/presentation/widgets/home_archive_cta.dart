@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -12,6 +13,7 @@ class HomeArchiveCta extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final l10n = AppLocalizations.of(context)!;
 
     return Container(
       width: double.infinity,
@@ -23,7 +25,7 @@ class HomeArchiveCta extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            'ATELIER ARCHIVE',
+            l10n.homeArchiveEyebrow,
             style: AppTextStyles.labelSmall.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.55),
               letterSpacing: 1.4,
@@ -31,7 +33,7 @@ class HomeArchiveCta extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.s12),
           Text(
-            'Made to match you.',
+            l10n.homeArchiveTitle,
             textAlign: TextAlign.center,
             style: AppTextStyles.headingLarge.copyWith(
               color: colorScheme.onSurface,
@@ -39,7 +41,7 @@ class HomeArchiveCta extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.s8),
           Text(
-            'Discover pieces, looks, and styles that feel like yours.',
+            l10n.homeArchiveDescription,
             textAlign: TextAlign.center,
             style: AppTextStyles.bodyMedium.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.58),
@@ -62,7 +64,7 @@ class HomeArchiveCta extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Explore all',
+                    l10n.homeExploreAll,
                     style: AppTextStyles.button.copyWith(
                       color: colorScheme.surface,
                     ),

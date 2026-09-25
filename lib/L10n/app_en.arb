@@ -88,5 +88,659 @@
 "aboutCopyright": "Copyright",
 "aboutPrivacy": "Privacy & Data",
 "aboutSupport": "Help & Support",
-"aboutMadeFor": "Designed and built with care for the ATELIER experience."
+"aboutMadeFor": "Designed and built with care for the ATELIER experience.",
+  "@@locale": "en",
+  "settingsTitle": "SETTINGS",
+  "settingsSubtitle": "Make ATELIER work your way.",
+  "settingsPreferences": "PREFERENCES",
+  "settingsAccount": "ACCOUNT",
+  "settingsPrivacy": "PRIVACY",
+  "settingsSupport": "SUPPORT",
+  "settingsAppearance": "Appearance",
+  "settingsAppearanceSubtitle": "Choose how ATELIER looks.",
+  "settingsLanguage": "Language",
+  "settingsLanguageSubtitle": "English or Arabic",
+  "settingsAccountInformation": "Account Information",
+  "settingsAccountInformationSubtitle": "Manage your account details",
+  "settingsPasswordSecurity": "Password & Security",
+  "settingsPasswordSecuritySubtitle": "Manage your password and security",
+  "settingsPrivacyData": "Privacy & Data",
+  "settingsPrivacyDataSubtitle": "Manage your privacy preferences",
+  "settingsHelpSupport": "Help & Support",
+  "settingsHelpSupportSubtitle": "Get help with ATELIER",
+  "settingsAbout": "About ATELIER",
+  "settingsAboutSubtitle": "App information and version",
+  "appearanceSystem": "System",
+  "appearanceLight": "Light",
+  "appearanceDark": "Dark",
+  "languageEnglish": "English",
+  "languageArabic": "Arabic",
+  "aboutLegalese": "© 2026 ATELIER",
+  "accountInformationTitle": "Account Information",
+  "accountInformationIntro": "Manage the personal information associated with your ATELIER account.",
+  "accountInformationFullName": "Full Name",
+  "accountInformationFullNameHint": "Enter your full name",
+  "accountInformationEmail": "Email",
+  "accountInformationSave": "SAVE CHANGES",
+  "accountInformationSaved": "Your account information has been updated.",
+  "accountInformationUnavailable": "Account information is unavailable.",
+  "passwordSecurityTitle": "Password & Security",
+  "passwordSecurityIntro": "Keep your ATELIER account secure by updating your password.",
+  "passwordSecurityNewPassword": "New Password",
+  "passwordSecurityNewPasswordHint": "Enter your new password",
+  "passwordSecurityConfirmPassword": "Confirm Password",
+  "passwordSecurityConfirmPasswordHint": "Re-enter your new password",
+  "passwordSecurityPasswordHint": "Use a strong password that you do not use elsewhere.",
+  "passwordSecuritySave": "SAVE PASSWORD",
+  "passwordSecurityUpdated": "Your password has been updated.",
+  "passwordSecurityFieldsRequired": "Please fill in both password fields.",
+  "passwordSecurityMismatch": "Passwords do not match.",
+  "passwordSecurityMinimumLength": "Password must be at least 6 characters.",
+  "privacyDataTitle": "Privacy & Data",
+  "privacyDataIntro": "Manage the data ATELIER stores locally and understand how your account information is used.",
+  "privacyLocalDataTitle": "LOCAL DATA",
+  "privacyLocalDataDescription": "Some app preferences and recently viewed products are stored locally on your device.",
+  "privacyRecentlyViewed": "Recently Viewed",
+  "privacyRecentlyViewedCount": "{count, plural, =0 {No products saved} =1 {1 product saved} other {{count} products saved}}",
+  "privacyLoading": "Loading...",
+  "privacyClearRecentlyViewedTitle": "Clear Recently Viewed?",
+  "privacyClearRecentlyViewedMessage": "This will remove all recently viewed products from this device.",
+  "privacyCancel": "CANCEL",
+  "privacyClear": "CLEAR",
+  "privacyRecentlyViewedCleared": "Recently viewed products have been cleared.",
+  "privacyAccountDataTitle": "ACCOUNT DATA",
+  "privacyAccountDataDescription": "Your account information is managed securely through your ATELIER account.",
+  "privacyAccountData": "Account Information",
+  "privacyAccountDataSubtitle": "Your name and email are associated with your account.",
+  "helpSupportTitle": "Help & Support",
+  "helpSupportIntro": "Find answers or contact the ATELIER support team.",
+  "helpSupportContactTitle": "CONTACT",
+  "helpSupportContact": "Contact Support",
+  "helpSupportContactSubtitle": "Send us an email and we'll get back to you.",
+  "helpSupportFaqTitle": "FAQ",
+  "helpSupportFaq1Question": "How can I change my password?",
+  "helpSupportFaq1Answer": "Open Settings, choose Password & Security, then enter and confirm your new password.",
+  "helpSupportFaq2Question": "How can I change my language?",
+  "helpSupportFaq2Answer": "Open Settings, choose Language, then select English or Arabic.",
+  "helpSupportFaq3Question": "How can I clear recently viewed products?",
+  "helpSupportFaq3Answer": "Open Settings, choose Privacy & Data, then select Recently Viewed and clear the saved products.",
+  "helpSupportProblemTitle": "PROBLEM",
+  "helpSupportReportProblem": "Report a Problem",
+  "helpSupportReportProblemSubtitle": "Tell us if something isn't working as expected.",
+  "helpSupportEmailSubject": "ATELIER Support Request",
+  "helpSupportEmailBody": "Hi ATELIER Support,\n\nI need help with:\n\n",
+  "helpSupportProblemSubject": "ATELIER Problem Report",
+  "helpSupportProblemBody": "Hi ATELIER Support,\n\nI found a problem in the ATELIER app:\n\n",
+  "helpSupportEmailUnavailable": "Unable to open the email app.",
+  "aboutTitle": "About ATELIER",
+  "aboutDescription": "A modern fashion experience built around discovery, style, and simplicity.",
+  "aboutVersion": "Version",
+  "aboutCopyright": "Copyright",
+  "aboutPrivacy": "Privacy & Data",
+  "aboutSupport": "Help & Support",
+  "aboutMadeFor": "Designed and built with care for the ATELIER experience.",
+  "homeFeatured": "FEATURED",
+  "homePickedForYou": "Picked for you",
+  "homePickedForYouDescription": "Pieces that match your style.",
+  "homeViewAll": "View All",
+  "homeTrendingNow": "Trending now",
+  "homeNewArrivals": "New arrivals",
+  "homeNewArrivalsDescription": "Fresh pieces, just in.",
+  "homeExploreCollections": "Explore collections",
+  "homeNoPiecesFound": "No pieces found",
+  "homeTryAnotherSearch": "Try another search.",
+  "homeSearchResults": "Search results",
+  "homeSearchHint": "Search pieces, styles, colors...",
+  "homeHeroEyebrow": "DROP 01 — AFTER DARK",
+  "homeHeroTitle": "New pieces for\nafter-hours.",
+  "homeExploreDrop": "Explore Drop",
+  "homeShopTheLookEyebrow": "LIGHT AFTER DARK",
+  "homeShopTheLookTitle": "Oversized Tee +\nBaggy Jeans + Bomber",
+  "homeShop": "Shop",
+  "homeArchiveEyebrow": "ATELIER ARCHIVE",
+  "homeArchiveTitle": "Made to match you.",
+  "homeArchiveDescription": "Discover pieces, looks, and styles that feel like yours.",
+  "homeExploreAll": "Explore all",
+    "cartItemCount": "{count, plural, =0 {Your Bag (0)} =1 {Your Bag (1 item)} other {Your Bag ({count} items)}}",
+  "cartDeliveryUnlockedTitle": "Complimentary Delivery",
+  "cartDeliveryAvailableTitle": "Free Delivery Available",
+  "cartFreeStandardShipping": "Free standard shipping on your order",
+  "cartAddToFreeDelivery": "Add EGP {amount} to unlock free delivery",
+  "cartUnlocked": "Unlocked",
+  "cartItems": "Cart Items",
+  "cartPricesInclVat": "Prices incl. VAT",
+  "cartPromoCode": "Promo code",
+  "cartApply": "Apply",
+  "cartSummary": "SUMMARY",
+  "cartSubtotal": "Subtotal",
+  "cartEstimatedShipping": "Estimated shipping",
+  "cartFree": "FREE",
+  "cartTotal": "Total",
+  "cartTaxesIncluded": "Taxes included where applicable.",
+  "cartSecureCheckout": "Secure Checkout",
+  "cartFreeReturns": "14-Day Free Returns",
+  "cartEmptyTitle": "Your bag is empty",
+  "cartEmptyDescription": "Discover pieces made for after-hours.",
+  "cartContinueShopping": "Continue Shopping",
+  "cartExploreCategories": "EXPLORE CATEGORIES",
+  "cartCategoryOvershirts": "Overshirts",
+  "cartCategoryWidePants": "Wide Pants",
+  "cartCategoryBoxyTees": "Boxy Tees",
+  "cartTotalBag": "TOTAL BAG",
+  "cartProceedToCheckout": "Proceed to Checkout",
+  "cartProductUnavailable": "This product is no longer available.",
+  "cartSize": "Size {size}",
+    "@cartItemCount": {
+    "description": "Cart title showing the number of items.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@cartAddToFreeDelivery": {
+    "description": "Message showing the amount remaining to unlock free delivery.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@cartSize": {
+    "description": "Product size displayed in the cart.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+"checkoutTitle": "Checkout",
+"checkoutEmptyBag": "Your bag is empty",
+"checkoutCompleteOrder": "Complete your order",
+"checkoutItemCount": "{count, plural, =0 {No items in your bag} =1 {1 item in your bag} other {{count} items in your bag}}",
+"@checkoutItemCount": {
+  "description": "Number of items currently in the checkout bag.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"checkoutContact": "Contact",
+"checkoutAccountUnavailable": "Account information is unavailable.",
+"checkoutPhoneOptional": "Phone Number",
+"checkoutPhoneHint": "Enter your phone number",
+"checkoutShippingAddress": "Shipping Address",
+"checkoutNoAddress": "No delivery address selected.",
+"checkoutChange": "Change",
+"checkoutShippingMethod": "Shipping Method",
+"shippingStandard": "Standard Delivery",
+"shippingStandardDescription": "3–5 business days",
+"shippingExpress": "Express Delivery",
+"shippingExpressDescription": "1–2 business days",
+"checkoutFree": "Free",
+"checkoutPayment": "Payment",
+"checkoutCod": "Cash on Delivery",
+"checkoutCodSubtitle": "Pay when your order arrives",
+"checkoutCard": "Card Payment",
+"checkoutCardSubtitle": "Credit or debit card",
+"checkoutComingSoon": "Coming Soon",
+"checkoutOrderSummary": "Order Summary",
+"checkoutSubtotal": "Subtotal",
+"checkoutTotal": "Total",
+"checkoutPlaceOrder": "Place Order",
+"checkoutSignInRequired": "Please sign in before placing your order",
+"checkoutAddressRequired": "Please select a shipping address",
+"checkoutBagEmpty": "Your bag is empty",
+"checkoutProfileRequired": "Please complete your profile information",
+"checkoutProductNotFound": "Product not found: {productId}",
+"@checkoutProductNotFound": {
+  "description": "Shown when a product in the cart cannot be found.",
+  "placeholders": {
+    "productId": {
+      "type": "String"
+    }
+  }
+},
+"shopTitle": "Shop",
+"shopSearchHint": "Search products, styles, colors...",
+"shopAll": "All",
+"shopTops": "Tops",
+"shopBottoms": "Bottoms",
+"shopOuterwear": "Outerwear",
+"shopAccessories": "Accessories",
+"shopPieces": "{count} pieces",
+"shopPiece": "{count} piece",
+"shopFilter": "Filter",
+"shopSort": "Sort",
+"shopClear": "Clear",
+"shopApply": "Apply",
+"shopPrice": "Price",
+"shopSize": "Size",
+"shopAvailableOnly": "Available only",
+"shopSortNewest": "Newest",
+"shopSortPriceLowToHigh": "Price: Low to High",
+"shopSortPriceHighToLow": "Price: High to Low",
+"shopSortName": "Name",
+"shopNoProducts": "No products found",
+"shopTryAdjustingFilters": "Try adjusting your search or filters.",
+"shopNoResults": "No results found",
+"shopAddToCart": "Add to Cart",
+"shopOutOfStock": "Out of Stock",
+"shopFilterProducts": "Filter Products",
+"shopSortProducts": "Sort Products",
+"shopSearchHint": "Search products, styles, colors...",
+"shopAll": "All",
+"shopTops": "Tops",
+"shopBottoms": "Bottoms",
+"shopOuterwear": "Outerwear",
+"shopAccessories": "Accessories",
+"shopPiece": "{count} piece",
+"shopPieces": "{count} pieces",
+"shopFilter": "Filter",
+"shopSort": "Sort",
+"shopApply": "Apply",
+"shopPrice": "Price",
+"shopSize": "Size",
+"shopAvailableOnly": "Available only",
+"shopSortRecommended": "Recommended",
+"shopSortPriceLowToHigh": "Price: Low to High",
+"shopSortPriceHighToLow": "Price: High to Low",
+"shopSortNewest": "Newest",
+"shopSortNameAToZ": "Name: A to Z",
+"shopNoProducts": "No products found",
+"shopTryAdjustingFilters": "Try changing your filters or search.",
+"shopFilterProducts": "Filter Products",
+"shopSortProducts": "Sort Products",
+"@shopPiece": {
+  "description": "Singular product count in the shop.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"@shopPieces": {
+  "description": "Plural product count in the shop.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"productNotFound": "Product not found",
+"productReviews": "reviews",
+"productColor": "Color",
+"productSize": "Size",
+"productSizeGuide": "Size Guide",
+"productFit": "Fit",
+"productAvailable": "available",
+"productOutOfStock": "Out of stock",
+"productOutOfStockButton": "Out of Stock",
+"productAddedToCart": "Added to cart.",
+"productAddedToCartButton": "Added to Cart",
+"productAddToCart": "Add to Cart",
+"productQuickAdd": "Quick Add",
+"productSelectSize": "Select Size",
+"productMaterialComposition": "Material & Composition",
+"productFitSilhouette": "Fit & Silhouette",
+"productStyleAesthetics": "Style & Aesthetics",
+"productCareInstructions": "Care Instructions",
+"productDeliveryReturns": "Delivery & Returns",
+"productMaterialFallback": "Premium fabric composition designed for everyday wear.",
+"productFitFallback": "Relaxed silhouette designed for comfortable everyday styling.",
+"productStyleFallback": "Minimal, modern and easy to style.",
+"productCareFallback": "Follow the garment care label for best results.",
+"productDeliveryFallback": "Delivery and return information will be available at checkout.",
+"productCompleteTheLook": "Complete the Look",
+"productCompleteTheLookSubtitle": "Pieces that pair well with this item.",
+"productYouMayAlsoLike": "You May Also Like",
+"productCustomerReviews": "Customer Reviews",
+"productWhatCustomersAreSaying": "What customers are saying",
+"productCommunityRatings": "community ratings",
+"productVerifiedCustomer": "Verified customer",
+"productReviewTwoWeeksAgo": "2 weeks ago",
+"productReviewOneMonthAgo": "1 month ago",
+"productReviewGreatFit": "Great fit and easy to style. The fabric feels premium.",
+"productReviewCleanSilhouette": "Clean silhouette and exactly what I expected.",
+"productViewAllReviews": "View All {count} Reviews",
+"@productViewAllReviews": {
+  "description": "Button showing the number of product reviews.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"productSizeGuideDescription": "Choose your usual size for the intended fit. Measurements will be connected to the product data later.",
+"favoritesEyebrow": "FAVORITES",
+"favoritesTitle": "Saved for later.",
+"favoritesSubtitle": "Keep the pieces you love close.",
+"favoritesItemCount": "{count, plural, =0 {0 ITEMS} =1 {1 ITEM} other {{count} ITEMS}}",
+"@favoritesItemCount": {
+  "description": "Number of favorite products.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"favoritesEmptyTitle": "Nothing saved yet.",
+"favoritesEmptyDescription": "Save the pieces that feel like you and come back to them anytime.",
+"favoritesExploreShop": "Explore Shop",
+"recentlyViewedTitle": "RECENTLY VIEWED",
+"recentlyViewedItemCount": "{count, plural, =0 {0 ITEMS} =1 {1 ITEM} other {{count} ITEMS}}",
+"@recentlyViewedItemCount": {
+  "description": "Number of recently viewed products.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"recentlyViewedDescription": "Pieces you've explored recently.",
+"recentlyViewedDescriptionSecondary": "Curated from your active browsing footprint.",
+"recentlyViewedClearTitle": "Clear Recently Viewed",
+"recentlyViewedClearConfirmation": "Are you sure you want to clear your recently viewed history?",
+"recentlyViewedClearHistory": "Clear Recently Viewed History",
+"recentlyViewedLocalStorageNote": "Session items are retained locally across visits.",
+"recentlyViewedEmptyTitle": "Nothing here yet",
+"recentlyViewedEmptyDescription": "Products you explore will appear here.",
+"recentlyViewedErrorTitle": "Something went wrong",
+"tryAgain": "Try Again",
+"cancel": "Cancel",
+"clear": "Clear",
+"looksEyebrow": "LOOKS",
+"looksTitle": "Wear it together.",
+"looksSubtitle": "Curated outfits built from ATELIER pieces.",
+"lookFilterAll": "All",
+"lookFilterMinimal": "Minimal",
+"lookFilterStreet": "Street",
+"lookFilterCasual": "Casual",
+"lookFilterClassic": "Classic",
+"lookFilterBold": "Bold",
+"lookFilterActive": "Active",
+"lookPieces": "{count} {count, plural, =1 {PIECE} other {PIECES}}",
+"lookLightAfterDarkDescription": "A clean layered uniform built for late city hours and gallery openings.",
+"lookCityStaticDescription": "Clean structure with a decisive street tailoring edge and technical outerwear.",
+"lookOffDutyDescription": "Relaxed silhouette pieces constructed for everyday unscripted movement.",
+"lookAfterHoursDescription": "Sharper tonal silhouettes tailored for dusk onwards and refined nightlife.",
+"look01": "LOOK 01",
+"look02": "LOOK 02",
+"look03": "LOOK 03",
+"look04": "LOOK 04",
+"lookNotFound": "Look not found",
+"lookShopTheLook": "Shop The Look",
+"lookAvailableCount": "{count} available",
+"lookShopTheLookDescription": "Complete the outfit with the pieces selected for this look.",
+"lookBundleTotal": "Bundle Total",
+"lookAddAvailableItems": "Add Available Items ({count})",
+"lookItemsAddedToBag": "{count} items added to your bag",
+"lookSoldOut": "SOLD OUT",
+"profileTitle": "Profile",
+"profileAccountSection": "ACCOUNT",
+"profilePersonalSection": "PERSONAL",
+"profileAppSection": "APP",
+"profileMyOrders": "My Orders",
+"profileMyOrdersSubtitle": "Track and manage your purchases.",
+"profileMyStyle": "My Style",
+"profileStyleBadge": "SET",
+"profileMyStyleSubtitle": "Manage your style, colors, fit, and lifestyle preferences.",
+"profileRecentlyViewed": "Recently Viewed",
+"profileRecentlyViewedSubtitle": "Return to pieces you have explored recently.",
+"profileAddresses": "Addresses",
+"profileAddressesSubtitle": "Manage your saved delivery addresses.",
+"profileNotifications": "Notifications",
+"profileNotificationsSubtitle": "Manage your notifications and preferences.",
+"profileSettings": "Settings",
+"profileSettingsSubtitle": "Language, appearance, and preferences.",
+"profileLogoutTitle": "Log out of ATELIER?",
+"profileLogoutMessage": "You can sign in again anytime to access your account.",
+"profileCancel": "Cancel",
+"profileLogout": "Log Out",
+"profileMyAccount": "MY ACCOUNT",
+"profileWelcomeBack": "Welcome back.",
+"profileGuestTitle": "Welcome to ATELIER.",
+"profileGuestDescription": "Sign in to manage your orders, style preferences, and delivery addresses.",
+"profileSignIn": "Sign In",
+"profileCreateAccount": "Create Account",
+"ordersEyebrow": "MY ORDERS",
+"ordersTitle": "Your purchases.",
+"ordersSubtitle": "Track your orders and revisit what you’ve bought.",
+"orderNumber": "Order {number}",
+"@orderNumber": {
+  "description": "Order number label.",
+  "placeholders": {
+    "number": {
+      "type": "String"
+    }
+  }
+},
+"orderItemCount": "{count, plural, =1 {1 ITEM} other {{count} ITEMS}}",
+"@orderItemCount": {
+  "description": "Number of items in an order.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"orderTotalLabel": "TOTAL",
+"orderTrack": "TRACK ORDER",
+"orderView": "VIEW ORDER",
+"ordersEmptyTitle": "No orders yet",
+"ordersEmptyDescription": "Your purchases will appear here once you place your first order.",
+"ordersStartShopping": "Start Shopping",
+"ordersErrorTitle": "Couldn’t load your orders",
+"orderDetailsEyebrow": "ORDER DETAILS",
+"orderPlacedOn": "Placed on {date} · {count} {count, plural, =1 {item} other {items}}",
+"@orderPlacedOn": {
+  "description": "Order placement date and item count.",
+  "placeholders": {
+    "date": {
+      "type": "String"
+    },
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"orderItemsTitle": "ITEMS IN THIS ORDER",
+"orderDeliveryAddressTitle": "DELIVERY & ADDRESS",
+"orderPaymentTitle": "PAYMENT",
+"orderSummaryTitle": "ORDER SUMMARY",
+"orderContinueShopping": "CONTINUE SHOPPING",
+"orderShippingMethod": "SHIPPING METHOD",
+"orderDeliveryAddress": "DELIVERY ADDRESS",
+"orderQuantity": "Qty: {count}",
+"@orderQuantity": {
+  "description": "Quantity of an order item.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"orderPaymentCompleted": "COMPLETED",
+"orderSubtotal": "Subtotal",
+"orderShipping": "Shipping",
+"orderTotal": "Total",
+"orderPaymentMethod": "Payment: {method}",
+"@orderPaymentMethod": {
+  "description": "Payment method shown in order summary.",
+  "placeholders": {
+    "method": {
+      "type": "String"
+    }
+  }
+},
+"orderNotFound": "Order not found.",
+"orderNotFoundDescription": "This order may no longer be available.",
+"orderSize": "Size {size}",
+"@orderSize": {
+  "description": "Product size in an order.",
+  "placeholders": {
+    "size": {
+      "type": "String"
+    }
+  }
+},
+"orderStatusPlaced": "Placed",
+"orderStatusConfirmed": "Confirmed",
+"orderStatusShipped": "Shipped",
+"orderStatusOutForDelivery": "Out for Delivery",
+"orderStatusDelivered": "Delivered",
+"orderStatusCancelled": "Cancelled",
+"orderStatusDescriptionPlaced": "Your order has been placed successfully.",
+"orderStatusDescriptionConfirmed": "Your order has been confirmed and is being prepared.",
+"orderStatusDescriptionShipped": "Your order has been handed over for delivery.",
+"orderStatusDescriptionOutForDelivery": "Your order is on its way to you.",
+"orderStatusDescriptionDelivered": "Your order was delivered successfully.",
+"orderStatusDescriptionCancelled": "This order has been cancelled.",
+"paymentCashOnDelivery": "Cash on Delivery",
+"paymentCard": "Card Payment",
+"paymentCashOnDeliveryDescription": "Paid upon doorstep delivery",
+"paymentMethodDescription": "Payment method used for this order",
+"notificationsTitle": "Notifications",
+"notificationsMarkAllRead": "Mark all as read",
+"notificationsNow": "Now",
+"notificationsMinutesAgo": "{count}m",
+"@notificationsMinutesAgo": {
+  "description": "Minutes elapsed since a notification was created.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"notificationsHoursAgo": "{count}h",
+"@notificationsHoursAgo": {
+  "description": "Hours elapsed since a notification was created.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"notificationsDaysAgo": "{count}d",
+"@notificationsDaysAgo": {
+  "description": "Days elapsed since a notification was created.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"notificationsEmptyTitle": "No notifications yet",
+"notificationsEmptyDescription": "We will let you know when there is something new.",
+"notificationsErrorTitle": "Something went wrong",
+"notificationsTryAgain": "Try again",
+"addressEditTitle": "EDIT ADDRESS",
+"addressNewTitle": "NEW ADDRESS",
+"addressUpdateDescription": "Update your delivery address.",
+"addressAddDescription": "Add a new delivery address.",
+"addressSaveDescription": "Save your details for a faster checkout experience.",
+"addressFullName": "FULL NAME",
+"addressFullNameHint": "Youssef Tarek",
+"addressPhoneNumber": "PHONE NUMBER",
+"addressPhoneHint": "+20 10 9876 5432",
+"addressLabelTitle": "ADDRESS LABEL",
+"addressLabelHome": "Home",
+"addressLabelWork": "Work",
+"addressLabelOther": "Other",
+"addressStreet": "STREET ADDRESS",
+"addressStreetHint": "15 El-Nasr Street, Apt 4B",
+"addressCity": "CITY",
+"addressCityHint": "Beni Suef",
+"addressGovernorate": "GOVERNORATE",
+"addressGovernorateHint": "Beni Suef",
+"addressDefaultTitle": "DEFAULT ADDRESS",
+"addressDefaultDescription": "Use this address as your primary delivery address.",
+"addressSaveChanges": "SAVE CHANGES",
+"addressSave": "SAVE ADDRESS",
+"addressRequiredField": "This field is required",
+"addressDeliveryTitle": "Delivery Address",
+"addressAddNew": "Add New Address",
+"addressAddNewDescription": "Choose how you want to add your delivery address.",
+"addressEnterManually": "Enter Manually",
+"addressEnterManuallyDescription": "Enter your address details yourself.",
+"addressChooseOnMap": "Choose on Map",
+"addressChooseOnMapDescription": "Pick a location and complete the address details.",
+"locationPickerTitle": "Select Location",
+"locationPickerConfirm": "Confirm Location",
+"checkoutShippingAddressTitle": "02  SHIPPING ADDRESS",
+"checkoutNoAddressSelected": "No delivery address selected.",
+"addressChange": "Change",
+"myStyleTitle": "MY STYLE",
+"myStyleSelectedCount": "{count} SELECTED",
+"@myStyleSelectedCount": {
+  "description": "Number of selected style preferences.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"myStyleIntroTitle": "Tell us what feels like you.",
+"myStyleIntroDescription": "Your preferences help us personalize what you discover.",
+"myStyleSectionStyle": "STYLE",
+"myStyleSectionStyleDescription": "Choose the aesthetics you naturally gravitate toward.",
+"myStyleSectionColors": "COLORS",
+"myStyleSectionColorsDescription": "Choose the tones you naturally reach for.",
+"myStyleSectionLifestyle": "LIFESTYLE",
+"myStyleSectionLifestyleDescription": "What do you dress for most?",
+"myStyleSectionFit": "FIT",
+"myStyleSectionFitDescription": "Choose the silhouettes you prefer.",
+"myStyleReset": "RESET",
+"myStyleSaved": "PREFERENCES SAVED",
+"myStyleSaveFailed": "FAILED TO SAVE PREFERENCES",
+"myStyleSave": "SAVE PREFERENCES",
+"styleMinimal": "Minimal",
+"styleStreet": "Street",
+"styleCasual": "Casual",
+"styleClassic": "Classic",
+"styleBold": "Bold",
+"styleActive": "Active",
+"colorNeutral": "Neutral",
+"colorDark": "Dark",
+"colorEarthy": "Earthy",
+"colorLight": "Light",
+"colorBold": "Bold",
+"colorPastel": "Pastel",
+"lifestyleEveryday": "Everyday",
+"lifestyleUniversity": "University",
+"lifestyleWork": "Work",
+"lifestyleGoingOut": "Going Out",
+"lifestyleTravel": "Travel",
+"lifestyleOutdoor": "Outdoor",
+"lifestyleGymActive": "Gym / Active",
+"lifestyleEvents": "Events",
+"fitSlim": "Slim",
+"fitRegular": "Regular",
+"fitRelaxed": "Relaxed",
+"fitOversized": "Oversized",
+"fitWide": "Wide",
+"fitCropped": "Cropped",
+"onboardingDiscoverTitle": "Discover your style.",
+"onboardingDiscoverDescription": "Find pieces that feel like you.",
+"onboardingMoreThanClothesTitle": "More than clothes.",
+"onboardingMoreThanClothesDescription": "Discover looks made to be worn together.",
+"onboardingLookIndicator": "LOOK {page} / {total}",
+"@onboardingLookIndicator": {
+  "description": "Current onboarding page indicator.",
+  "placeholders": {
+    "page": {
+      "type": "int"
+    },
+    "total": {
+      "type": "int"
+    }
+  }
+},
+"onboardingSkip": "SKIP",
+"onboardingNext": "NEXT",
+"onboardingFinalTitle": "Made to match you.",
+"onboardingFinalDescription": "Get recommendations based on your style, colors, fit, and lifestyle.",
+"onboardingGetStarted": "Get Started",
+"onboardingContinueAsGuest": "Continue as Guest"
 }

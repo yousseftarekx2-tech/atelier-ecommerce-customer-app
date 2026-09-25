@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/cart/cubit/cart_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -45,19 +46,48 @@ class _LooksScreenState extends State<LooksScreen> {
         .toList();
   }
 
-  void _showComingSoon(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text('This feature will be connected soon.')),
-    );
-  }
-
   void _openLookDetails(BuildContext context, String lookId) {
     context.push(Routes.lookDetailsPath(lookId));
+  }
+
+  String _localizedFilter(AppLocalizations l10n, String filter) {
+    switch (filter) {
+      case 'Minimal':
+        return l10n.lookFilterMinimal;
+      case 'Street':
+        return l10n.lookFilterStreet;
+      case 'Casual':
+        return l10n.lookFilterCasual;
+      case 'Classic':
+        return l10n.lookFilterClassic;
+      case 'Bold':
+        return l10n.lookFilterBold;
+      case 'Active':
+        return l10n.lookFilterActive;
+      default:
+        return l10n.lookFilterAll;
+    }
+  }
+
+  String _localizedDescription(AppLocalizations l10n, Look look) {
+    switch (look.id) {
+      case 'light-after-dark':
+        return l10n.lookLightAfterDarkDescription;
+      case 'city-static':
+        return l10n.lookCityStaticDescription;
+      case 'off-duty':
+        return l10n.lookOffDutyDescription;
+      case 'after-hours':
+        return l10n.lookAfterHoursDescription;
+      default:
+        return look.description;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final l10n = AppLocalizations.of(context)!;
     final topSafeArea = MediaQuery.paddingOf(context).top;
     final headerHeight = topSafeArea + 56;
 
@@ -76,7 +106,7 @@ class _LooksScreenState extends State<LooksScreen> {
                     AppSpacing.s20,
                     0,
                   ),
-                  child: _buildIntro(),
+                  child: _buildIntro(l10n),
                 ),
               ),
               SliverToBoxAdapter(
@@ -85,7 +115,7 @@ class _LooksScreenState extends State<LooksScreen> {
                     top: AppSpacing.s24,
                     bottom: AppSpacing.s24,
                   ),
-                  child: _buildFilters(),
+                  child: _buildFilters(l10n),
                 ),
               ),
               SliverPadding(
@@ -97,6 +127,8 @@ class _LooksScreenState extends State<LooksScreen> {
 
                     return _LookCard(
                       look: look,
+                      description: _localizedDescription(l10n, look),
+                      piecesLabel: l10n.lookPieces(look.products.length),
                       onTap: () => _openLookDetails(context, look.id),
                     );
                   },
@@ -115,7 +147,7 @@ class _LooksScreenState extends State<LooksScreen> {
               builder: (context, cartItemCount) {
                 return HomeHeader(
                   cartItemCount: cartItemCount,
-                  onNotificationsPressed: () => _showComingSoon(context),
+                  onNotificationsPressed: () {},
                   onCartPressed: () => context.push(Routes.cart),
                 );
               },
@@ -126,26 +158,23 @@ class _LooksScreenState extends State<LooksScreen> {
     );
   }
 
-  Widget _buildIntro() {
+  Widget _buildIntro(AppLocalizations l10n) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'LOOKS',
+          l10n.looksEyebrow,
           style: AppTextStyles.labelMedium.copyWith(letterSpacing: 2),
         ),
         const Gap(AppSpacing.s8),
-        Text('Wear it together.', style: AppTextStyles.displayMedium),
+        Text(l10n.looksTitle, style: AppTextStyles.displayMedium),
         const Gap(AppSpacing.s8),
-        Text(
-          'Curated outfits built from ATELIER pieces.',
-          style: AppTextStyles.bodyMedium,
-        ),
+        Text(l10n.looksSubtitle, style: AppTextStyles.bodyMedium),
       ],
     );
   }
 
-  Widget _buildFilters() {
+  Widget _buildFilters(AppLocalizations l10n) {
     return SizedBox(
       height: 40,
       child: ListView.separated(
@@ -160,7 +189,7 @@ class _LooksScreenState extends State<LooksScreen> {
           final selected = filter == _selectedFilter;
 
           return ChoiceChip(
-            label: Text(filter),
+            label: Text(_localizedFilter(l10n, filter)),
             selected: selected,
             onSelected: (_) {
               setState(() {
@@ -182,9 +211,16 @@ class _LooksScreenState extends State<LooksScreen> {
 }
 
 class _LookCard extends StatelessWidget {
-  const _LookCard({required this.look, required this.onTap});
+  const _LookCard({
+    required this.look,
+    required this.description,
+    required this.piecesLabel,
+    required this.onTap,
+  });
 
   final Look look;
+  final String description;
+  final String piecesLabel;
   final VoidCallback onTap;
 
   @override
@@ -215,7 +251,7 @@ class _LookCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(AppRadius.pill),
                       ),
                       child: Text(
-                        '${look.products.length} PIECES',
+                        piecesLabel,
                         style: AppTextStyles.labelSmall.copyWith(
                           color: Colors.white,
                           letterSpacing: 1,
@@ -241,7 +277,7 @@ class _LookCard extends StatelessWidget {
             style: AppTextStyles.labelSmall.copyWith(letterSpacing: 1.4),
           ),
           const Gap(AppSpacing.s8),
-          Text(look.description, style: AppTextStyles.bodyMedium),
+          Text(description, style: AppTextStyles.bodyMedium),
         ],
       ),
     );

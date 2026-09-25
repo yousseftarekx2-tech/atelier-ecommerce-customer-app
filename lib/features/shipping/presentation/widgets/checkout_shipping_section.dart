@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,28 +11,38 @@ class CheckoutShippingSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<ShippingCubit, ShippingState>(
       builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text(
-              '03  SHIPPING METHOD',
+            Text(
+              '03  ' + l10n.checkoutShippingMethod.toUpperCase(),
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1.2,
+                color: colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: 12),
             ...ShippingMethod.availableMethods.map((method) {
               final isSelected = method.id == state.selectedMethod.id;
 
-              final price = method.id == ShippingMethod.standard.id
-                  ? state.subtotal >= 5000
-                        ? 0
-                        : 80
-                  : 150;
+              final price = isSelected
+                  ? state.shippingCost
+                  : method.costFor(subtotal: state.subtotal);
+
+              final name = method.id == ShippingMethod.standard.id
+                  ? l10n.shippingStandard
+                  : l10n.shippingExpress;
+
+              final description = method.id == ShippingMethod.standard.id
+                  ? l10n.shippingStandardDescription
+                  : l10n.shippingExpressDescription;
 
               return Padding(
                 padding: const EdgeInsets.only(bottom: 10),
@@ -44,10 +55,11 @@ class CheckoutShippingSection extends StatelessWidget {
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
                     decoration: BoxDecoration(
+                      color: colorScheme.surface,
                       border: Border.all(
                         color: isSelected
-                            ? Colors.black
-                            : const Color(0xFFE6E4E0),
+                            ? colorScheme.onSurface
+                            : colorScheme.outlineVariant,
                       ),
                       borderRadius: BorderRadius.circular(12),
                     ),
@@ -58,6 +70,7 @@ class CheckoutShippingSection extends StatelessWidget {
                               ? Icons.radio_button_checked
                               : Icons.radio_button_off,
                           size: 22,
+                          color: colorScheme.onSurface,
                         ),
                         const SizedBox(width: 12),
                         Expanded(
@@ -65,28 +78,32 @@ class CheckoutShippingSection extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                method.name,
-                                style: const TextStyle(
+                                name,
+                                style: TextStyle(
                                   fontSize: 14,
                                   fontWeight: FontWeight.w700,
+                                  color: colorScheme.onSurface,
                                 ),
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                method.description,
-                                style: const TextStyle(
+                                description,
+                                style: TextStyle(
                                   fontSize: 12,
-                                  color: Color(0xFF777777),
+                                  color: colorScheme.onSurfaceVariant,
                                 ),
                               ),
                             ],
                           ),
                         ),
                         Text(
-                          price == 0 ? 'Free' : 'EGP $price',
-                          style: const TextStyle(
+                          price == 0
+                              ? l10n.checkoutFree
+                              : 'EGP ' + price.toString(),
+                          style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
+                            color: colorScheme.onSurface,
                           ),
                         ),
                       ],

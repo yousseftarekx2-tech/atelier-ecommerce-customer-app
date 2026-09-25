@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,6 +29,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final backgroundColor = isDark
@@ -49,7 +51,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         surfaceTintColor: Colors.transparent,
         elevation: 0,
         title: Text(
-          'Notifications',
+          l10n.notificationsTitle,
           style: AppTextStyles.bodyMedium.copyWith(color: primaryTextColor),
         ),
         actions: [
@@ -64,7 +66,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                   context.read<NotificationsCubit>().markAllAsRead();
                 },
                 child: Text(
-                  'Mark all as read',
+                  l10n.notificationsMarkAllRead,
                   style: AppTextStyles.labelMedium.copyWith(
                     color: primaryTextColor,
                   ),
@@ -156,6 +158,8 @@ class _NotificationCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     final surfaceColor = isDark
         ? AppColors.darkSurface
         : AppColors.lightSurface;
@@ -213,7 +217,7 @@ class _NotificationCard extends StatelessWidget {
                         ),
                         const SizedBox(width: AppSpacing.s8),
                         Text(
-                          _formatDate(notification.createdAt),
+                          _formatDate(l10n, notification.createdAt),
                           style: AppTextStyles.labelSmall.copyWith(
                             color: secondaryTextColor,
                           ),
@@ -250,24 +254,24 @@ class _NotificationCard extends StatelessWidget {
     );
   }
 
-  String _formatDate(DateTime date) {
+  String _formatDate(AppLocalizations l10n, DateTime date) {
     final now = DateTime.now();
     final difference = now.difference(date);
 
     if (difference.inMinutes < 1) {
-      return 'Now';
+      return l10n.notificationsNow;
     }
 
     if (difference.inMinutes < 60) {
-      return '${difference.inMinutes}m';
+      return l10n.notificationsMinutesAgo(difference.inMinutes);
     }
 
     if (difference.inHours < 24) {
-      return '${difference.inHours}h';
+      return l10n.notificationsHoursAgo(difference.inHours);
     }
 
     if (difference.inDays < 7) {
-      return '${difference.inDays}d';
+      return l10n.notificationsDaysAgo(difference.inDays);
     }
 
     return '${date.day}/${date.month}/${date.year}';
@@ -338,6 +342,8 @@ class _EmptyView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s32),
@@ -351,13 +357,13 @@ class _EmptyView extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.s16),
             Text(
-              'No notifications yet',
+              l10n.notificationsEmptyTitle,
               style: AppTextStyles.bodySmall.copyWith(color: primaryTextColor),
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.s8),
             Text(
-              'We will let you know when there is something new.',
+              l10n.notificationsEmptyDescription,
               style: AppTextStyles.bodyMedium.copyWith(
                 color: secondaryTextColor,
               ),
@@ -385,6 +391,8 @@ class _ErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSpacing.s32),
@@ -398,7 +406,7 @@ class _ErrorView extends StatelessWidget {
             ),
             const SizedBox(height: AppSpacing.s16),
             Text(
-              'Something went wrong',
+              l10n.notificationsErrorTitle,
               style: AppTextStyles.bodySmall.copyWith(color: primaryTextColor),
               textAlign: TextAlign.center,
             ),
@@ -411,7 +419,10 @@ class _ErrorView extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
             const SizedBox(height: AppSpacing.s20),
-            OutlinedButton(onPressed: onRetry, child: const Text('Try again')),
+            OutlinedButton(
+              onPressed: onRetry,
+              child: Text(l10n.notificationsTryAgain),
+            ),
           ],
         ),
       ),

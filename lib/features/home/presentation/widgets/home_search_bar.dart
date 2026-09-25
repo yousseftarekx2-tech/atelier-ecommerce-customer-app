@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/app_radius.dart';
@@ -48,6 +49,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final isFocused = _focusNode.hasFocus;
+    final l10n = AppLocalizations.of(context)!;
 
     return AnimatedContainer(
       duration: const Duration(milliseconds: 180),
@@ -81,7 +83,7 @@ class _HomeSearchBarState extends State<HomeSearchBar> {
               ),
               cursorColor: colorScheme.onSurface,
               decoration: InputDecoration(
-                hintText: 'Search pieces, styles, colors...',
+                hintText: l10n.homeSearchHint,
                 hintStyle: AppTextStyles.bodyMedium.copyWith(
                   color: colorScheme.onSurface.withValues(alpha: 0.45),
                 ),

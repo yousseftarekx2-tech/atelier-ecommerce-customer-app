@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/core/theme/app_colors.dart';
 import 'package:atelier_customer/core/theme/app_radius.dart';
 import 'package:atelier_customer/core/theme/app_spacing.dart';
@@ -23,6 +24,7 @@ class _MyStyleView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isDark = Theme.of(context).brightness == Brightness.dark;
 
     final backgroundColor = isDark
@@ -86,7 +88,7 @@ class _MyStyleView extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            'MY STYLE',
+                            l10n.myStyleTitle,
                             style: AppTextStyles.labelSmall.copyWith(
                               color: secondaryTextColor,
                               letterSpacing: 1.8,
@@ -105,7 +107,9 @@ class _MyStyleView extends StatelessWidget {
                               ),
                             ),
                             child: Text(
-                              '${preferences.selectedCount} SELECTED',
+                              l10n.myStyleSelectedCount(
+                                preferences.selectedCount,
+                              ),
                               style: AppTextStyles.labelSmall.copyWith(
                                 color: primaryTextColor,
                                 letterSpacing: 1.2,
@@ -114,33 +118,26 @@ class _MyStyleView extends StatelessWidget {
                           ),
                         ],
                       ),
-
                       const SizedBox(height: AppSpacing.s8),
-
                       Text(
-                        'Tell us what feels like you.',
+                        l10n.myStyleIntroTitle,
                         style: AppTextStyles.headingLarge.copyWith(
                           color: primaryTextColor,
                           fontWeight: FontWeight.w300,
                         ),
                       ),
-
                       const SizedBox(height: AppSpacing.s8),
-
                       Text(
-                        'Your preferences help us personalize what you discover.',
+                        l10n.myStyleIntroDescription,
                         style: AppTextStyles.bodyMedium.copyWith(
                           color: secondaryTextColor,
                         ),
                       ),
-
                       const SizedBox(height: AppSpacing.s32),
-
                       _PreferenceSection(
                         number: '01',
-                        title: 'STYLE',
-                        description:
-                            'Choose the aesthetics you naturally gravitate toward.',
+                        title: l10n.myStyleSectionStyle,
+                        description: l10n.myStyleSectionStyleDescription,
                         options: StylePreferenceOptions.styles,
                         selectedValues: preferences.styles,
                         onToggle: context.read<StyleCubit>().toggleStyle,
@@ -150,14 +147,11 @@ class _MyStyleView extends StatelessWidget {
                         secondaryTextColor: secondaryTextColor,
                         layout: _PreferenceLayout.gridTwo,
                       ),
-
                       const SizedBox(height: AppSpacing.s32),
-
                       _PreferenceSection(
                         number: '02',
-                        title: 'COLORS',
-                        description:
-                            'Choose the tones you naturally reach for.',
+                        title: l10n.myStyleSectionColors,
+                        description: l10n.myStyleSectionColorsDescription,
                         options: StylePreferenceOptions.colors,
                         selectedValues: preferences.colors,
                         onToggle: context.read<StyleCubit>().toggleColor,
@@ -175,13 +169,11 @@ class _MyStyleView extends StatelessWidget {
                           'Pastel': Color(0xFFB8C5D6),
                         },
                       ),
-
                       const SizedBox(height: AppSpacing.s32),
-
                       _PreferenceSection(
                         number: '03',
-                        title: 'LIFESTYLE',
-                        description: 'What do you dress for most?',
+                        title: l10n.myStyleSectionLifestyle,
+                        description: l10n.myStyleSectionLifestyleDescription,
                         options: StylePreferenceOptions.lifestyles,
                         selectedValues: preferences.lifestyles,
                         onToggle: context.read<StyleCubit>().toggleLifestyle,
@@ -191,13 +183,11 @@ class _MyStyleView extends StatelessWidget {
                         secondaryTextColor: secondaryTextColor,
                         layout: _PreferenceLayout.pills,
                       ),
-
                       const SizedBox(height: AppSpacing.s32),
-
                       _PreferenceSection(
                         number: '04',
-                        title: 'FIT',
-                        description: 'Choose the silhouettes you prefer.',
+                        title: l10n.myStyleSectionFit,
+                        description: l10n.myStyleSectionFitDescription,
                         options: StylePreferenceOptions.fits,
                         selectedValues: preferences.fits,
                         onToggle: context.read<StyleCubit>().toggleFit,
@@ -211,7 +201,6 @@ class _MyStyleView extends StatelessWidget {
                   ),
                 ),
               ),
-
               _BottomActions(
                 backgroundColor: backgroundColor,
                 primaryTextColor: primaryTextColor,
@@ -226,6 +215,39 @@ class _MyStyleView extends StatelessWidget {
 }
 
 enum _PreferenceLayout { gridTwo, pills, gridThree }
+
+String _localizedStyleOption(BuildContext context, String option) {
+  final l10n = AppLocalizations.of(context)!;
+
+  return switch (option) {
+    'Minimal' => l10n.styleMinimal,
+    'Street' => l10n.styleStreet,
+    'Casual' => l10n.styleCasual,
+    'Classic' => l10n.styleClassic,
+    'Bold' => l10n.styleBold,
+    'Active' => l10n.styleActive,
+    'Neutral' => l10n.colorNeutral,
+    'Dark' => l10n.colorDark,
+    'Earthy' => l10n.colorEarthy,
+    'Light' => l10n.colorLight,
+    'Pastel' => l10n.colorPastel,
+    'Everyday' => l10n.lifestyleEveryday,
+    'University' => l10n.lifestyleUniversity,
+    'Work' => l10n.lifestyleWork,
+    'Going Out' => l10n.lifestyleGoingOut,
+    'Travel' => l10n.lifestyleTravel,
+    'Outdoor' => l10n.lifestyleOutdoor,
+    'Gym / Active' => l10n.lifestyleGymActive,
+    'Events' => l10n.lifestyleEvents,
+    'Slim' => l10n.fitSlim,
+    'Regular' => l10n.fitRegular,
+    'Relaxed' => l10n.fitRelaxed,
+    'Oversized' => l10n.fitOversized,
+    'Wide' => l10n.fitWide,
+    'Cropped' => l10n.fitCropped,
+    _ => option,
+  };
+}
 
 class _PreferenceSection extends StatelessWidget {
   const _PreferenceSection({
@@ -282,21 +304,15 @@ class _PreferenceSection extends StatelessWidget {
             ),
           ],
         ),
-
         const SizedBox(height: AppSpacing.s4),
-
         Text(
           description,
           style: AppTextStyles.bodySmall.copyWith(color: secondaryTextColor),
         ),
-
         const SizedBox(height: AppSpacing.s16),
-
         if (layout == _PreferenceLayout.gridTwo) _buildTwoColumnGrid(),
-
         if (layout == _PreferenceLayout.gridThree) _buildThreeColumnGrid(),
-
-        if (layout == _PreferenceLayout.pills) _buildPills(),
+        if (layout == _PreferenceLayout.pills) _buildPills(context),
       ],
     );
   }
@@ -314,9 +330,10 @@ class _PreferenceSection extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final option = options[index];
+        final localizedOption = _localizedStyleOption(context, option);
 
         return _GridPreferenceChip(
-          label: option,
+          label: localizedOption,
           selected: selectedValues.contains(option),
           onTap: () => onToggle(option),
           surfaceColor: surfaceColor,
@@ -342,9 +359,10 @@ class _PreferenceSection extends StatelessWidget {
       ),
       itemBuilder: (context, index) {
         final option = options[index];
+        final localizedOption = _localizedStyleOption(context, option);
 
         return _FitPreferenceChip(
-          label: option,
+          label: localizedOption,
           selected: selectedValues.contains(option),
           onTap: () => onToggle(option),
           surfaceColor: surfaceColor,
@@ -356,13 +374,15 @@ class _PreferenceSection extends StatelessWidget {
     );
   }
 
-  Widget _buildPills() {
+  Widget _buildPills(BuildContext context) {
     return Wrap(
       spacing: AppSpacing.s8,
       runSpacing: AppSpacing.s8,
       children: options.map((option) {
+        final localizedOption = _localizedStyleOption(context, option);
+
         return _LifestylePreferenceChip(
-          label: option,
+          label: localizedOption,
           selected: selectedValues.contains(option),
           onTap: () => onToggle(option),
           surfaceColor: surfaceColor,
@@ -596,6 +616,8 @@ class _BottomActions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.fromLTRB(
         AppSpacing.s20,
@@ -629,7 +651,7 @@ class _BottomActions extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'RESET',
+                  l10n.myStyleReset,
                   style: AppTextStyles.labelMedium.copyWith(
                     color: primaryTextColor,
                     letterSpacing: 1.0,
@@ -653,7 +675,7 @@ class _BottomActions extends StatelessWidget {
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        const SnackBar(content: Text('PREFERENCES SAVED')),
+                        SnackBar(content: Text(l10n.myStyleSaved)),
                       );
                   } catch (_) {
                     if (!context.mounted) {
@@ -663,9 +685,7 @@ class _BottomActions extends StatelessWidget {
                     ScaffoldMessenger.of(context)
                       ..hideCurrentSnackBar()
                       ..showSnackBar(
-                        const SnackBar(
-                          content: Text('FAILED TO SAVE PREFERENCES'),
-                        ),
+                        SnackBar(content: Text(l10n.myStyleSaveFailed)),
                       );
                   }
                 },
@@ -676,7 +696,7 @@ class _BottomActions extends StatelessWidget {
                   ),
                 ),
                 child: Text(
-                  'SAVE PREFERENCES',
+                  l10n.myStyleSave,
                   style: AppTextStyles.labelMedium.copyWith(
                     letterSpacing: 1.0,
                     fontWeight: FontWeight.w600,

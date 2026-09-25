@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -67,36 +68,40 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
               children: [
                 _OrderHeader(order: order),
                 const SizedBox(height: 24),
-
                 _OrderStatusCard(order: order),
                 const SizedBox(height: 24),
-
                 _SectionTitle(
-                  title: 'ITEMS IN THIS ORDER',
+                  title: AppLocalizations.of(context)!.orderItemsTitle,
                   trailing: '${order.items.length}',
                 ),
                 const SizedBox(height: 10),
                 _OrderItemsCard(items: order.items),
                 const SizedBox(height: 24),
-
-                const _SectionTitle(title: 'DELIVERY & ADDRESS'),
+                _SectionTitle(
+                  title: AppLocalizations.of(
+                    context,
+                  )!.orderDeliveryAddressTitle,
+                ),
                 const SizedBox(height: 10),
                 _DeliveryCard(order: order),
                 const SizedBox(height: 24),
-
-                const _SectionTitle(title: 'PAYMENT'),
+                _SectionTitle(
+                  title: AppLocalizations.of(context)!.orderPaymentTitle,
+                ),
                 const SizedBox(height: 10),
                 _PaymentCard(order: order),
                 const SizedBox(height: 24),
-
-                const _SectionTitle(title: 'ORDER SUMMARY'),
+                _SectionTitle(
+                  title: AppLocalizations.of(context)!.orderSummaryTitle,
+                ),
                 const SizedBox(height: 10),
                 _OrderSummary(order: order),
                 const SizedBox(height: 28),
-
                 OutlinedButton(
                   onPressed: () => context.go(Routes.home),
-                  child: const Text('CONTINUE SHOPPING'),
+                  child: Text(
+                    AppLocalizations.of(context)!.orderContinueShopping,
+                  ),
                 ),
               ],
             ),
@@ -114,6 +119,7 @@ class _OrderHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -125,7 +131,7 @@ class _OrderHeader extends StatelessWidget {
           children: [
             Expanded(
               child: Text(
-                'ORDER DETAILS',
+                l10n.orderDetailsEyebrow,
                 style: theme.textTheme.labelMedium?.copyWith(
                   fontWeight: FontWeight.w700,
                   letterSpacing: 1.2,
@@ -138,7 +144,7 @@ class _OrderHeader extends StatelessWidget {
         ),
         const SizedBox(height: 6),
         Text(
-          'Order ${order.orderNumber}',
+          l10n.orderNumber(order.orderNumber),
           style: theme.textTheme.headlineSmall?.copyWith(
             fontWeight: FontWeight.w700,
             letterSpacing: -0.5,
@@ -146,8 +152,7 @@ class _OrderHeader extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          'Placed on ${_formatDate(order.createdAt)} · '
-          '${order.items.length} ${order.items.length == 1 ? 'item' : 'items'}',
+          l10n.orderPlacedOn(_formatDate(order.createdAt), order.items.length),
           style: theme.textTheme.bodySmall?.copyWith(
             color: colorScheme.onSurfaceVariant,
           ),
@@ -164,9 +169,9 @@ class _OrderStatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
-
     final currentStep = _statusStep(order.status);
 
     return Card(
@@ -184,7 +189,7 @@ class _OrderStatusCard extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        order.status.toUpperCase(),
+                        localizedOrderStatus(l10n, order.status).toUpperCase(),
                         style: theme.textTheme.titleSmall?.copyWith(
                           fontWeight: FontWeight.w700,
                           letterSpacing: 0.8,
@@ -192,7 +197,7 @@ class _OrderStatusCard extends StatelessWidget {
                       ),
                       const SizedBox(height: 3),
                       Text(
-                        _statusDescription(order.status),
+                        localizedOrderStatusDescription(l10n, order.status),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
@@ -225,102 +230,97 @@ class _StatusTimeline extends StatelessWidget {
 
   final int currentStep;
 
-  static const _steps = [
-    'Placed',
-    'Confirmed',
-    'Shipped',
-    'Out for Delivery',
-    'Delivered',
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(_steps.length, (index) {
-            final isCompleted = index <= currentStep;
-            final isCurrent = index == currentStep;
+    final steps = [
+      l10n.orderStatusPlaced,
+      l10n.orderStatusConfirmed,
+      l10n.orderStatusShipped,
+      l10n.orderStatusOutForDelivery,
+      l10n.orderStatusDelivered,
+    ];
 
-            return Expanded(
-              child: Stack(
-                clipBehavior: Clip.none,
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: List.generate(steps.length, (index) {
+        final isCompleted = index <= currentStep;
+        final isCurrent = index == currentStep;
+
+        return Expanded(
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              if (index < steps.length - 1)
+                Positioned(
+                  left: 10,
+                  right: 0,
+                  top: 10,
+                  child: Container(
+                    height: 2,
+                    color: index < currentStep
+                        ? colorScheme.onSurface
+                        : colorScheme.outlineVariant,
+                  ),
+                ),
+              Column(
                 children: [
-                  if (index < _steps.length - 1)
-                    Positioned(
-                      left: 10,
-                      right: 0,
-                      top: 10,
-                      child: Container(
-                        height: 2,
-                        color: index < currentStep
+                  Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: isCompleted
+                          ? colorScheme.onSurface
+                          : colorScheme.surface,
+                      border: Border.all(
+                        color: isCompleted
                             ? colorScheme.onSurface
                             : colorScheme.outlineVariant,
+                        width: 1.5,
                       ),
+                      boxShadow: isCurrent
+                          ? [
+                              BoxShadow(
+                                color: colorScheme.onSurface.withValues(
+                                  alpha: 0.12,
+                                ),
+                                blurRadius: 0,
+                                spreadRadius: 4,
+                              ),
+                            ]
+                          : null,
                     ),
-                  Column(
-                    children: [
-                      Container(
-                        width: 20,
-                        height: 20,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: isCompleted
-                              ? colorScheme.onSurface
-                              : colorScheme.surface,
-                          border: Border.all(
-                            color: isCompleted
-                                ? colorScheme.onSurface
-                                : colorScheme.outlineVariant,
-                            width: 1.5,
-                          ),
-                          boxShadow: isCurrent
-                              ? [
-                                  BoxShadow(
-                                    color: colorScheme.onSurface.withValues(
-                                      alpha: 0.12,
-                                    ),
-                                    blurRadius: 0,
-                                    spreadRadius: 4,
-                                  ),
-                                ]
-                              : null,
-                        ),
-                        child: isCompleted
-                            ? Icon(
-                                Icons.check_rounded,
-                                size: 12,
-                                color: colorScheme.surface,
-                              )
-                            : null,
-                      ),
-                      const SizedBox(height: 7),
-                      Text(
-                        _steps[index],
-                        textAlign: TextAlign.center,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: theme.textTheme.labelSmall?.copyWith(
-                          fontWeight: isCurrent
-                              ? FontWeight.w700
-                              : FontWeight.w500,
-                          color: isCompleted
-                              ? colorScheme.onSurface
-                              : colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ],
+                    child: isCompleted
+                        ? Icon(
+                            Icons.check_rounded,
+                            size: 12,
+                            color: colorScheme.surface,
+                          )
+                        : null,
+                  ),
+                  const SizedBox(height: 7),
+                  Text(
+                    steps[index],
+                    textAlign: TextAlign.center,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: theme.textTheme.labelSmall?.copyWith(
+                      fontWeight: isCurrent ? FontWeight.w700 : FontWeight.w500,
+                      color: isCompleted
+                          ? colorScheme.onSurface
+                          : colorScheme.onSurfaceVariant,
+                    ),
                   ),
                 ],
               ),
-            );
-          }),
+            ],
+          ),
         );
-      },
+      }),
     );
   }
 }
@@ -355,6 +355,7 @@ class _OrderItemTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -410,7 +411,7 @@ class _OrderItemTile extends StatelessWidget {
                 ),
                 const SizedBox(height: 4),
                 Text(
-                  _itemVariant(item),
+                  _itemVariant(l10n, item),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: theme.textTheme.bodySmall?.copyWith(
@@ -422,7 +423,7 @@ class _OrderItemTile extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Text(
-                        'Qty: ${item.quantity}',
+                        l10n.orderQuantity(item.quantity),
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: colorScheme.onSurfaceVariant,
                         ),
@@ -452,6 +453,7 @@ class _DeliveryCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final address = order.shippingAddress;
 
@@ -462,7 +464,7 @@ class _DeliveryCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _InfoLabel(label: 'SHIPPING METHOD'),
+            _InfoLabel(label: l10n.orderShippingMethod),
             const SizedBox(height: 7),
             Row(
               children: [
@@ -485,7 +487,7 @@ class _DeliveryCard extends StatelessWidget {
             const SizedBox(height: 16),
             const Divider(),
             const SizedBox(height: 14),
-            _InfoLabel(label: 'DELIVERY ADDRESS'),
+            _InfoLabel(label: l10n.orderDeliveryAddress),
             const SizedBox(height: 7),
             Text(
               address.fullName,
@@ -519,6 +521,7 @@ class _PaymentCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -546,14 +549,14 @@ class _PaymentCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    order.paymentMethod,
+                    localizedPaymentMethod(l10n, order.paymentMethod),
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w600,
                     ),
                   ),
                   const SizedBox(height: 2),
                   Text(
-                    _paymentDescription(order.paymentMethod),
+                    paymentDescription(l10n, order.paymentMethod),
                     style: theme.textTheme.bodySmall?.copyWith(
                       color: colorScheme.onSurfaceVariant,
                     ),
@@ -574,6 +577,7 @@ class _PaymentStatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
@@ -583,7 +587,7 @@ class _PaymentStatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(999),
       ),
       child: Text(
-        'COMPLETED',
+        l10n.orderPaymentCompleted,
         style: Theme.of(context).textTheme.labelSmall?.copyWith(
           fontWeight: FontWeight.w700,
           color: colorScheme.primary,
@@ -600,6 +604,7 @@ class _OrderSummary extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
@@ -609,10 +614,13 @@ class _OrderSummary extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _SummaryRow(label: 'Subtotal', value: _formatPrice(order.subtotal)),
+            _SummaryRow(
+              label: l10n.orderSubtotal,
+              value: _formatPrice(order.subtotal),
+            ),
             const SizedBox(height: 10),
             _SummaryRow(
-              label: 'Shipping',
+              label: l10n.orderShipping,
               value: _formatPrice(order.shippingCost),
             ),
             const SizedBox(height: 12),
@@ -622,7 +630,7 @@ class _OrderSummary extends StatelessWidget {
               children: [
                 Expanded(
                   child: Text(
-                    'Total',
+                    l10n.orderTotal,
                     style: theme.textTheme.bodyMedium?.copyWith(
                       fontWeight: FontWeight.w700,
                     ),
@@ -640,7 +648,9 @@ class _OrderSummary extends StatelessWidget {
             Align(
               alignment: AlignmentDirectional.centerEnd,
               child: Text(
-                'Payment: ${order.paymentMethod}',
+                l10n.orderPaymentMethod(
+                  localizedPaymentMethod(l10n, order.paymentMethod),
+                ),
                 style: theme.textTheme.labelSmall?.copyWith(
                   color: colorScheme.onSurfaceVariant,
                 ),
@@ -747,6 +757,7 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Container(
@@ -769,7 +780,7 @@ class _StatusBadge extends StatelessWidget {
           ),
           const SizedBox(width: 6),
           Text(
-            status,
+            localizedOrderStatus(l10n, status),
             style: Theme.of(
               context,
             ).textTheme.labelSmall?.copyWith(fontWeight: FontWeight.w600),
@@ -785,6 +796,8 @@ class _OrderNotFoundView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Scaffold(
       appBar: AppBar(title: const Text('ATELIER'), centerTitle: true),
       body: Center(
@@ -796,14 +809,14 @@ class _OrderNotFoundView extends StatelessWidget {
               const Icon(Icons.receipt_long_outlined, size: 42),
               const SizedBox(height: 16),
               Text(
-                'Order not found.',
+                l10n.orderNotFound,
                 style: Theme.of(
                   context,
                 ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w600),
               ),
               const SizedBox(height: 8),
               Text(
-                'This order may no longer be available.',
+                l10n.orderNotFoundDescription,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.bodySmall,
               ),
@@ -813,6 +826,62 @@ class _OrderNotFoundView extends StatelessWidget {
       ),
     );
   }
+}
+
+String localizedOrderStatus(AppLocalizations l10n, String status) {
+  switch (status.toLowerCase()) {
+    case 'confirmed':
+      return l10n.orderStatusConfirmed;
+    case 'shipped':
+      return l10n.orderStatusShipped;
+    case 'out for delivery':
+      return l10n.orderStatusOutForDelivery;
+    case 'delivered':
+      return l10n.orderStatusDelivered;
+    case 'cancelled':
+      return l10n.orderStatusCancelled;
+    case 'placed':
+    default:
+      return l10n.orderStatusPlaced;
+  }
+}
+
+String localizedOrderStatusDescription(AppLocalizations l10n, String status) {
+  switch (status.toLowerCase()) {
+    case 'confirmed':
+      return l10n.orderStatusDescriptionConfirmed;
+    case 'shipped':
+      return l10n.orderStatusDescriptionShipped;
+    case 'out for delivery':
+      return l10n.orderStatusDescriptionOutForDelivery;
+    case 'delivered':
+      return l10n.orderStatusDescriptionDelivered;
+    case 'cancelled':
+      return l10n.orderStatusDescriptionCancelled;
+    case 'placed':
+    default:
+      return l10n.orderStatusDescriptionPlaced;
+  }
+}
+
+String localizedPaymentMethod(AppLocalizations l10n, String paymentMethod) {
+  if (paymentMethod.toLowerCase().contains('cash')) {
+    return l10n.paymentCashOnDelivery;
+  }
+
+  if (paymentMethod.toLowerCase().contains('card')) {
+    return l10n.paymentCard;
+  }
+
+  return paymentMethod;
+}
+
+String paymentDescription(AppLocalizations l10n, String paymentMethod) {
+  if (paymentMethod.toLowerCase().contains('cash')) {
+    return l10n.paymentCashOnDeliveryDescription;
+  }
+
+  return l10n.paymentMethodDescription;
 }
 
 int _statusStep(String status) {
@@ -830,24 +899,6 @@ int _statusStep(String status) {
     case 'placed':
     default:
       return 0;
-  }
-}
-
-String _statusDescription(String status) {
-  switch (status.toLowerCase()) {
-    case 'confirmed':
-      return 'Your order has been confirmed and is being prepared.';
-    case 'shipped':
-      return 'Your order has been handed over for delivery.';
-    case 'out for delivery':
-      return 'Your order is on its way to you.';
-    case 'delivered':
-      return 'Your order was delivered successfully.';
-    case 'cancelled':
-      return 'This order has been cancelled.';
-    case 'placed':
-    default:
-      return 'Your order has been placed successfully.';
   }
 }
 
@@ -869,10 +920,10 @@ IconData _statusIcon(String status) {
   }
 }
 
-String _itemVariant(OrderItem item) {
+String _itemVariant(AppLocalizations l10n, OrderItem item) {
   final variants = <String>[
     if (item.color.trim().isNotEmpty) item.color,
-    if (item.size.trim().isNotEmpty) 'Size ${item.size}',
+    if (item.size.trim().isNotEmpty) l10n.orderSize(item.size),
   ];
 
   return variants.join(' · ');
@@ -880,14 +931,6 @@ String _itemVariant(OrderItem item) {
 
 bool _isCompletedPayment(String status) {
   return status.toLowerCase() == 'delivered';
-}
-
-String _paymentDescription(String paymentMethod) {
-  if (paymentMethod.toLowerCase().contains('cash')) {
-    return 'Paid upon doorstep delivery';
-  }
-
-  return 'Payment method used for this order';
 }
 
 String _formatPrice(int value) {

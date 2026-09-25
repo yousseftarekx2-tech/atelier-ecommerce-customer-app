@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/address/cubit/address_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,8 +91,20 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
     super.dispose();
   }
 
+  String _labelText(AppLocalizations l10n, String label) {
+    switch (label) {
+      case 'Home':
+        return l10n.addressLabelHome;
+      case 'Work':
+        return l10n.addressLabelWork;
+      default:
+        return l10n.addressLabelOther;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final isEditing = widget.isEditing;
 
     return Scaffold(
@@ -105,7 +118,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
           icon: const Icon(Icons.arrow_back),
         ),
         title: Text(
-          isEditing ? 'EDIT ADDRESS' : 'NEW ADDRESS',
+          isEditing ? l10n.addressEditTitle : l10n.addressNewTitle,
           style: const TextStyle(
             fontSize: 14,
             fontWeight: FontWeight.w700,
@@ -121,8 +134,8 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
           children: [
             Text(
               isEditing
-                  ? 'Update your delivery address.'
-                  : 'Add a new delivery address.',
+                  ? l10n.addressUpdateDescription
+                  : l10n.addressAddDescription,
               style: const TextStyle(
                 fontSize: 28,
                 height: 1.15,
@@ -131,9 +144,9 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
               ),
             ),
             const SizedBox(height: 12),
-            const Text(
-              'Save your details for a faster checkout experience.',
-              style: TextStyle(
+            Text(
+              l10n.addressSaveDescription,
+              style: const TextStyle(
                 fontSize: 14,
                 height: 1.5,
                 color: Color(0xFF6F6D69),
@@ -142,23 +155,23 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
             const SizedBox(height: 32),
             _Field(
               controller: _fullNameController,
-              label: 'FULL NAME',
-              hint: 'Youssef Tarek',
+              label: l10n.addressFullName,
+              hint: l10n.addressFullNameHint,
               textInputAction: TextInputAction.next,
               validator: _requiredValidator,
             ),
             const SizedBox(height: 20),
             _Field(
               controller: _phoneController,
-              label: 'PHONE NUMBER',
-              hint: '+20 10 9876 5432',
+              label: l10n.addressPhoneNumber,
+              hint: l10n.addressPhoneHint,
               keyboardType: TextInputType.phone,
               textInputAction: TextInputAction.next,
             ),
             const SizedBox(height: 20),
-            const Text(
-              'ADDRESS LABEL',
-              style: TextStyle(
+            Text(
+              l10n.addressLabelTitle,
+              style: const TextStyle(
                 fontSize: 11,
                 fontWeight: FontWeight.w700,
                 letterSpacing: 1,
@@ -172,7 +185,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                 final selected = _selectedLabel == label;
 
                 return ChoiceChip(
-                  label: Text(label),
+                  label: Text(_labelText(l10n, label)),
                   selected: selected,
                   onSelected: _isSaving
                       ? null
@@ -198,24 +211,24 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
             const SizedBox(height: 20),
             _Field(
               controller: _streetController,
-              label: 'STREET ADDRESS',
-              hint: '15 El-Nasr Street, Apt 4B',
+              label: l10n.addressStreet,
+              hint: l10n.addressStreetHint,
               textInputAction: TextInputAction.next,
               validator: _requiredValidator,
             ),
             const SizedBox(height: 20),
             _Field(
               controller: _cityController,
-              label: 'CITY',
-              hint: 'Beni Suef',
+              label: l10n.addressCity,
+              hint: l10n.addressCityHint,
               textInputAction: TextInputAction.next,
               validator: _requiredValidator,
             ),
             const SizedBox(height: 20),
             _Field(
               controller: _governorateController,
-              label: 'GOVERNORATE',
-              hint: 'Beni Suef',
+              label: l10n.addressGovernorate,
+              hint: l10n.addressGovernorateHint,
               textInputAction: TextInputAction.done,
             ),
             const SizedBox(height: 24),
@@ -232,18 +245,18 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text(
-                          'DEFAULT ADDRESS',
-                          style: TextStyle(
+                        Text(
+                          l10n.addressDefaultTitle,
+                          style: const TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w700,
                             letterSpacing: 0.8,
                           ),
                         ),
                         const SizedBox(height: 5),
-                        const Text(
-                          'Use this address as your primary delivery address.',
-                          style: TextStyle(
+                        Text(
+                          l10n.addressDefaultDescription,
+                          style: const TextStyle(
                             fontSize: 12,
                             height: 1.4,
                             color: Color(0xFF77736E),
@@ -288,7 +301,7 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
                         ),
                       )
                     : Text(
-                        isEditing ? 'SAVE CHANGES' : 'SAVE ADDRESS',
+                        isEditing ? l10n.addressSaveChanges : l10n.addressSave,
                         style: const TextStyle(
                           fontSize: 11,
                           fontWeight: FontWeight.w700,
@@ -304,8 +317,10 @@ class _AddressFormScreenState extends State<AddressFormScreen> {
   }
 
   String? _requiredValidator(String? value) {
+    final l10n = AppLocalizations.of(context)!;
+
     if (value == null || value.trim().isEmpty) {
-      return 'This field is required';
+      return l10n.addressRequiredField;
     }
 
     return null;

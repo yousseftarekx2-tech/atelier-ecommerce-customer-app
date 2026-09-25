@@ -1,3 +1,8 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
+import 'package:atelier_customer/core/theme/app_colors.dart';
+import 'package:atelier_customer/core/theme/app_radius.dart';
+import 'package:atelier_customer/core/theme/app_spacing.dart';
+import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class CartSummary extends StatelessWidget {
@@ -6,10 +11,13 @@ class CartSummary extends StatelessWidget {
   final int subtotal;
 
   static const int freeDeliveryThreshold = 5000;
-  static const int standardShipping = 150;
+  static const int standardShipping = 80;
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     final hasFreeShipping = subtotal >= freeDeliveryThreshold;
     final shipping = hasFreeShipping ? 0 : standardShipping;
     final total = subtotal + shipping;
@@ -17,67 +25,72 @@ class CartSummary extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSpacing.s16),
           decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: const Color(0xFFE6E4E0)),
+            color: colorScheme.surface,
+            borderRadius: BorderRadius.circular(AppRadius.r12),
+            border: Border.all(color: colorScheme.outlineVariant),
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'SUMMARY',
-                style: TextStyle(
-                  color: Color(0xFF151515),
-                  fontSize: 12,
+              Text(
+                l10n.cartSummary,
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.w800,
                   letterSpacing: 1.2,
                 ),
               ),
-              const SizedBox(height: 16),
-              _SummaryRow(label: 'Subtotal', value: _formatPrice(subtotal)),
-              const SizedBox(height: 11),
+              const SizedBox(height: AppSpacing.s16),
               _SummaryRow(
-                label: 'Estimated shipping',
+                label: l10n.cartSubtotal,
+                value: _formatPrice(subtotal),
+              ),
+              const SizedBox(height: AppSpacing.s10),
+              _SummaryRow(
+                label: l10n.cartEstimatedShipping,
                 value: hasFreeShipping
-                    ? 'FREE'
+                    ? l10n.cartFree
                     : _formatPrice(standardShipping),
                 valueColor: hasFreeShipping
-                    ? const Color(0xFF3D7A4A)
-                    : const Color(0xFF151515),
+                    ? AppColors.success
+                    : colorScheme.onSurface,
               ),
-              const Padding(
-                padding: EdgeInsets.symmetric(vertical: 15),
-                child: Divider(height: 1, color: Color(0xFFE6E4E0)),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: AppSpacing.s14),
+                child: Divider(height: 1, color: colorScheme.outlineVariant),
               ),
               _SummaryRow(
-                label: 'Total',
+                label: l10n.cartTotal,
                 value: _formatPrice(total),
                 isTotal: true,
               ),
-              const SizedBox(height: 8),
-              const Text(
-                'Taxes included where applicable.',
-                style: TextStyle(color: Color(0xFF999999), fontSize: 10),
+              const SizedBox(height: AppSpacing.s8),
+              Text(
+                l10n.cartTaxesIncluded,
+                style: AppTextStyles.labelSmall.copyWith(
+                  color: colorScheme.onSurfaceVariant,
+                  fontSize: 10,
+                ),
               ),
             ],
           ),
         ),
-        const SizedBox(height: 12),
-        const Row(
+        const SizedBox(height: AppSpacing.s12),
+        Row(
           children: [
             Expanded(
               child: _TrustBadge(
                 icon: Icons.lock_outline,
-                text: 'Secure Checkout',
+                text: l10n.cartSecureCheckout,
               ),
             ),
-            SizedBox(width: 8),
+            const SizedBox(width: AppSpacing.s8),
             Expanded(
               child: _TrustBadge(
                 icon: Icons.assignment_return_outlined,
-                text: '14-Day Free Returns',
+                text: l10n.cartFreeReturns,
               ),
             ),
           ],
@@ -106,15 +119,17 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       children: [
         Expanded(
           child: Text(
             label,
-            style: TextStyle(
+            style: AppTextStyles.bodySmall.copyWith(
               color: isTotal
-                  ? const Color(0xFF151515)
-                  : const Color(0xFF666666),
+                  ? colorScheme.onSurface
+                  : colorScheme.onSurfaceVariant,
               fontSize: isTotal ? 14 : 12,
               fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
             ),
@@ -122,8 +137,8 @@ class _SummaryRow extends StatelessWidget {
         ),
         Text(
           value,
-          style: TextStyle(
-            color: valueColor ?? const Color(0xFF151515),
+          style: AppTextStyles.priceMedium.copyWith(
+            color: valueColor ?? colorScheme.onSurface,
             fontSize: isTotal ? 16 : 12,
             fontWeight: isTotal ? FontWeight.w800 : FontWeight.w700,
           ),
@@ -141,26 +156,28 @@ class _TrustBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       height: 42,
-      padding: const EdgeInsets.symmetric(horizontal: 10),
+      padding: const EdgeInsets.symmetric(horizontal: AppSpacing.s10),
       decoration: BoxDecoration(
-        color: const Color(0xFFF4F3F0),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFE6E4E0)),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(AppRadius.r9),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(icon, size: 15, color: const Color(0xFF666666)),
-          const SizedBox(width: 6),
+          Icon(icon, size: 15, color: colorScheme.onSurfaceVariant),
+          const SizedBox(width: AppSpacing.s6),
           Flexible(
             child: Text(
               text,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
-                color: Color(0xFF666666),
+              style: AppTextStyles.labelSmall.copyWith(
+                color: colorScheme.onSurfaceVariant,
                 fontSize: 9,
                 fontWeight: FontWeight.w600,
               ),

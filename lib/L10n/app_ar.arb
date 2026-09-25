@@ -88,5 +88,659 @@
 "aboutCopyright": "حقوق النشر",
 "aboutPrivacy": "الخصوصية والبيانات",
 "aboutSupport": "المساعدة والدعم",
-"aboutMadeFor": "صُمم وطُوّر بعناية لتقديم تجربة ATELIER."
+"aboutMadeFor": "صُمم وطُوّر بعناية لتقديم تجربة ATELIER.",
+ "@@locale": "ar",
+  "settingsTitle": "الإعدادات",
+  "settingsSubtitle": "اجعل ATELIER يعمل بالطريقة التي تناسبك.",
+  "settingsPreferences": "التفضيلات",
+  "settingsAccount": "الحساب",
+  "settingsPrivacy": "الخصوصية",
+  "settingsSupport": "الدعم",
+  "settingsAppearance": "المظهر",
+  "settingsAppearanceSubtitle": "اختر مظهر ATELIER.",
+  "settingsLanguage": "اللغة",
+  "settingsLanguageSubtitle": "الإنجليزية أو العربية",
+  "settingsAccountInformation": "معلومات الحساب",
+  "settingsAccountInformationSubtitle": "إدارة بيانات حسابك",
+  "settingsPasswordSecurity": "كلمة المرور والأمان",
+  "settingsPasswordSecuritySubtitle": "إدارة كلمة المرور وإعدادات الأمان",
+  "settingsPrivacyData": "الخصوصية والبيانات",
+  "settingsPrivacyDataSubtitle": "إدارة تفضيلات الخصوصية",
+  "settingsHelpSupport": "المساعدة والدعم",
+  "settingsHelpSupportSubtitle": "احصل على المساعدة في ATELIER",
+  "settingsAbout": "عن ATELIER",
+  "settingsAboutSubtitle": "معلومات التطبيق والإصدار",
+  "appearanceSystem": "النظام",
+  "appearanceLight": "فاتح",
+  "appearanceDark": "داكن",
+  "languageEnglish": "الإنجليزية",
+  "languageArabic": "العربية",
+  "aboutLegalese": "© 2026 ATELIER",
+  "accountInformationTitle": "معلومات الحساب",
+  "accountInformationIntro": "إدارة البيانات الشخصية المرتبطة بحسابك على ATELIER.",
+  "accountInformationFullName": "الاسم الكامل",
+  "accountInformationFullNameHint": "أدخل اسمك الكامل",
+  "accountInformationEmail": "البريد الإلكتروني",
+  "accountInformationSave": "حفظ التغييرات",
+  "accountInformationSaved": "تم تحديث معلومات حسابك.",
+  "accountInformationUnavailable": "معلومات الحساب غير متاحة.",
+  "passwordSecurityTitle": "كلمة المرور والأمان",
+  "passwordSecurityIntro": "حافظ على أمان حسابك في ATELIER من خلال تحديث كلمة المرور.",
+  "passwordSecurityNewPassword": "كلمة المرور الجديدة",
+  "passwordSecurityNewPasswordHint": "أدخل كلمة المرور الجديدة",
+  "passwordSecurityConfirmPassword": "تأكيد كلمة المرور",
+  "passwordSecurityConfirmPasswordHint": "أعد إدخال كلمة المرور الجديدة",
+  "passwordSecurityPasswordHint": "استخدم كلمة مرور قوية لا تستخدمها في حسابات أخرى.",
+  "passwordSecuritySave": "حفظ كلمة المرور",
+  "passwordSecurityUpdated": "تم تحديث كلمة المرور.",
+  "passwordSecurityFieldsRequired": "يرجى ملء حقلي كلمة المرور.",
+  "passwordSecurityMismatch": "كلمتا المرور غير متطابقتين.",
+  "passwordSecurityMinimumLength": "يجب أن تتكون كلمة المرور من 6 أحرف على الأقل.",
+  "privacyDataTitle": "الخصوصية والبيانات",
+  "privacyDataIntro": "إدارة البيانات التي يخزنها ATELIER محليًا ومعرفة كيفية استخدام معلومات حسابك.",
+  "privacyLocalDataTitle": "البيانات المحلية",
+  "privacyLocalDataDescription": "يتم تخزين بعض تفضيلات التطبيق والمنتجات التي شاهدتها مؤخرًا محليًا على جهازك.",
+  "privacyRecentlyViewed": "شاهدتها مؤخرًا",
+  "privacyRecentlyViewedCount": "{count, plural, =0 {لا توجد منتجات محفوظة} =1 {منتج واحد محفوظ} =2 {منتجان محفوظان} few {# منتجات محفوظة} many {# منتجًا محفوظًا} other {# منتج محفوظ}}",
+  "privacyLoading": "جارٍ التحميل...",
+  "privacyClearRecentlyViewedTitle": "مسح المنتجات التي شاهدتها مؤخرًا؟",
+  "privacyClearRecentlyViewedMessage": "سيؤدي هذا إلى إزالة جميع المنتجات التي شاهدتها مؤخرًا من هذا الجهاز.",
+  "privacyCancel": "إلغاء",
+  "privacyClear": "مسح",
+  "privacyRecentlyViewedCleared": "تم مسح المنتجات التي شاهدتها مؤخرًا.",
+  "privacyAccountDataTitle": "بيانات الحساب",
+  "privacyAccountDataDescription": "تتم إدارة معلومات حسابك بأمان من خلال حسابك في ATELIER.",
+  "privacyAccountData": "معلومات الحساب",
+  "privacyAccountDataSubtitle": "اسمك وبريدك الإلكتروني مرتبطان بحسابك.",
+  "helpSupportTitle": "المساعدة والدعم",
+  "helpSupportIntro": "اعثر على إجابات أو تواصل مع فريق دعم ATELIER.",
+  "helpSupportContactTitle": "التواصل",
+  "helpSupportContact": "تواصل مع الدعم",
+  "helpSupportContactSubtitle": "أرسل لنا بريدًا إلكترونيًا وسنرد عليك.",
+  "helpSupportFaqTitle": "الأسئلة الشائعة",
+  "helpSupportFaq1Question": "كيف يمكنني تغيير كلمة المرور؟",
+  "helpSupportFaq1Answer": "افتح الإعدادات، ثم اختر كلمة المرور والأمان، وبعدها أدخل كلمة المرور الجديدة وأكدها.",
+  "helpSupportFaq2Question": "كيف يمكنني تغيير اللغة؟",
+  "helpSupportFaq2Answer": "افتح الإعدادات، ثم اختر اللغة، وبعدها اختر الإنجليزية أو العربية.",
+  "helpSupportFaq3Question": "كيف يمكنني مسح المنتجات التي شاهدتها مؤخرًا؟",
+  "helpSupportFaq3Answer": "افتح الإعدادات، ثم اختر الخصوصية والبيانات، وبعدها اختر المنتجات التي شاهدتها مؤخرًا وقم بمسحها.",
+  "helpSupportProblemTitle": "مشكلة",
+  "helpSupportReportProblem": "الإبلاغ عن مشكلة",
+  "helpSupportReportProblemSubtitle": "أخبرنا إذا كان هناك شيء لا يعمل كما هو متوقع.",
+  "helpSupportEmailSubject": "طلب دعم ATELIER",
+  "helpSupportEmailBody": "مرحبًا فريق دعم ATELIER،\n\nأحتاج إلى المساعدة في:\n\n",
+  "helpSupportProblemSubject": "الإبلاغ عن مشكلة في ATELIER",
+  "helpSupportProblemBody": "مرحبًا فريق دعم ATELIER،\n\nواجهت مشكلة في تطبيق ATELIER:\n\n",
+  "helpSupportEmailUnavailable": "تعذر فتح تطبيق البريد الإلكتروني.",
+  "aboutTitle": "عن ATELIER",
+  "aboutDescription": "تجربة أزياء عصرية مبنية حول الاكتشاف والأسلوب والبساطة.",
+  "aboutVersion": "الإصدار",
+  "aboutCopyright": "حقوق النشر",
+  "aboutPrivacy": "الخصوصية والبيانات",
+  "aboutSupport": "المساعدة والدعم",
+  "aboutMadeFor": "صُمم وطُوّر بعناية لتقديم تجربة ATELIER.",
+  "homeFeatured": "مميز",
+  "homePickedForYou": "مختارات لك",
+  "homePickedForYouDescription": "قطع تناسب أسلوبك.",
+  "homeViewAll": "عرض الكل",
+  "homeTrendingNow": "الأكثر رواجًا",
+  "homeNewArrivals": "وصل حديثًا",
+  "homeNewArrivalsDescription": "قطع جديدة وصلت للتو.",
+  "homeExploreCollections": "استكشف المجموعات",
+  "homeNoPiecesFound": "لم يتم العثور على قطع",
+  "homeTryAnotherSearch": "جرّب بحثًا آخر.",
+  "homeSearchResults": "نتائج البحث",
+  "homeSearchHint": "ابحث عن قطع، أساليب، ألوان...",
+  "homeHeroEyebrow": "الإصدار 01 — AFTER DARK",
+  "homeHeroTitle": "قطع جديدة\nلما بعد الساعات.",
+  "homeExploreDrop": "استكشف الإصدار",
+  "homeShopTheLookEyebrow": "LIGHT AFTER DARK",
+  "homeShopTheLookTitle": "تيشيرت واسع +\nجينز Baggy + بومبر",
+  "homeShop": "تسوق",
+  "homeArchiveEyebrow": "ATELIER ARCHIVE",
+  "homeArchiveTitle": "مصمم ليناسبك.",
+  "homeArchiveDescription": "اكتشف قطعًا وإطلالات وأساليب تشبهك.",
+  "homeExploreAll": "استكشف الكل",
+    "cartItemCount": "{count, plural, =0 {حقيبتك (0)} =1 {حقيبتك (عنصر واحد)} =2 {حقيبتك (عنصران)} few {حقيبتك (# عناصر)} many {حقيبتك (# عنصرًا)} other {حقيبتك (# عنصر)}}",
+  "cartDeliveryUnlockedTitle": "توصيل مجاني",
+  "cartDeliveryAvailableTitle": "التوصيل المجاني متاح",
+  "cartFreeStandardShipping": "الشحن العادي مجاني لطلبك",
+  "cartAddToFreeDelivery": "أضف {amount} EGP للحصول على التوصيل المجاني",
+  "cartUnlocked": "متاح",
+  "cartItems": "عناصر الحقيبة",
+  "cartPricesInclVat": "الأسعار شاملة الضريبة",
+  "cartPromoCode": "كود الخصم",
+  "cartApply": "تطبيق",
+  "cartSummary": "الملخص",
+  "cartSubtotal": "الإجمالي الفرعي",
+  "cartEstimatedShipping": "الشحن المتوقع",
+  "cartFree": "مجاني",
+  "cartTotal": "الإجمالي",
+  "cartTaxesIncluded": "الضرائب مشمولة حيثما ينطبق.",
+  "cartSecureCheckout": "دفع آمن",
+  "cartFreeReturns": "إرجاع مجاني خلال 14 يومًا",
+  "cartEmptyTitle": "حقيبتك فارغة",
+  "cartEmptyDescription": "اكتشف قطعًا صُممت لساعاتك الخاصة.",
+  "cartContinueShopping": "متابعة التسوق",
+  "cartExploreCategories": "استكشف الفئات",
+  "cartCategoryOvershirts": "قمصان خارجية",
+  "cartCategoryWidePants": "بناطيل واسعة",
+  "cartCategoryBoxyTees": "تيشيرتات Boxy",
+  "cartTotalBag": "إجمالي الحقيبة",
+  "cartProceedToCheckout": "المتابعة إلى الدفع",
+  "cartProductUnavailable": "هذا المنتج لم يعد متاحًا.",
+  "cartSize": "المقاس {size}",
+  "@cartItemCount": {
+    "description": "عدد العناصر في الحقيبة.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "@cartAddToFreeDelivery": {
+    "description": "المبلغ المتبقي للحصول على التوصيل المجاني.",
+    "placeholders": {
+      "amount": {
+        "type": "String"
+      }
+    }
+  },
+  "@cartSize": {
+    "description": "مقاس المنتج المعروض في الحقيبة.",
+    "placeholders": {
+      "size": {
+        "type": "String"
+      }
+    }
+  },
+"checkoutTitle": "الدفع",
+"checkoutEmptyBag": "حقيبتك فارغة",
+"checkoutCompleteOrder": "أكمل طلبك",
+"checkoutItemCount": "{count, plural, =0 {لا توجد منتجات في حقيبتك} =1 {منتج واحد في حقيبتك} =2 {منتجان في حقيبتك} few {# منتجات في حقيبتك} many {# منتجًا في حقيبتك} other {# منتج في حقيبتك}}",
+"@checkoutItemCount": {
+  "description": "عدد المنتجات الموجودة في حقيبة الشراء.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"checkoutContact": "بيانات التواصل",
+"checkoutAccountUnavailable": "معلومات الحساب غير متاحة.",
+"checkoutPhoneOptional": "رقم الهاتف",
+"checkoutPhoneHint": "أدخل رقم هاتفك",
+"checkoutShippingAddress": "عنوان الشحن",
+"checkoutNoAddress": "لم يتم اختيار عنوان للتوصيل.",
+"checkoutChange": "تغيير",
+"checkoutShippingMethod": "طريقة الشحن",
+"shippingStandard": "الشحن العادي",
+"shippingStandardDescription": "من 3 إلى 5 أيام عمل",
+"shippingExpress": "الشحن السريع",
+"shippingExpressDescription": "من يوم إلى يومين عمل",
+"checkoutFree": "مجانًا",
+"checkoutPayment": "الدفع",
+"checkoutCod": "الدفع عند الاستلام",
+"checkoutCodSubtitle": "ادفع عند وصول طلبك",
+"checkoutCard": "الدفع بالبطاقة",
+"checkoutCardSubtitle": "بطاقة ائتمان أو خصم",
+"checkoutComingSoon": "قريبًا",
+"checkoutOrderSummary": "ملخص الطلب",
+"checkoutSubtotal": "الإجمالي الفرعي",
+"checkoutTotal": "الإجمالي",
+"checkoutPlaceOrder": "تأكيد الطلب",
+"checkoutSignInRequired": "يرجى تسجيل الدخول قبل تأكيد الطلب",
+"checkoutAddressRequired": "يرجى اختيار عنوان الشحن",
+"checkoutBagEmpty": "حقيبتك فارغة",
+"checkoutProfileRequired": "يرجى إكمال بيانات ملفك الشخصي",
+"checkoutProductNotFound": "المنتج غير موجود: {productId}",
+"@checkoutProductNotFound": {
+  "description": "تظهر عند عدم العثور على منتج موجود في الحقيبة.",
+  "placeholders": {
+    "productId": {
+      "type": "String"
+    }
+  }
+},
+"shopTitle": "المتجر",
+"shopSearchHint": "ابحث عن المنتجات والستايلات والألوان...",
+"shopAll": "الكل",
+"shopTops": "تيشيرتات وقطع علوية",
+"shopBottoms": "بناطيل",
+"shopOuterwear": "جاكيتات",
+"shopAccessories": "إكسسوارات",
+"shopPieces": "{count} قطعة",
+"shopPiece": "قطعة واحدة",
+"shopFilter": "تصفية",
+"shopSort": "ترتيب",
+"shopClear": "مسح",
+"shopApply": "تطبيق",
+"shopPrice": "السعر",
+"shopSize": "المقاس",
+"shopAvailableOnly": "المتاح فقط",
+"shopSortNewest": "الأحدث",
+"shopSortPriceLowToHigh": "السعر: من الأقل للأعلى",
+"shopSortPriceHighToLow": "السعر: من الأعلى للأقل",
+"shopSortName": "الاسم",
+"shopNoProducts": "لا توجد منتجات",
+"shopTryAdjustingFilters": "جرّب تعديل البحث أو خيارات التصفية.",
+"shopNoResults": "لا توجد نتائج",
+"shopAddToCart": "أضف إلى الحقيبة",
+"shopOutOfStock": "غير متوفر",
+"shopFilterProducts": "تصفية المنتجات",
+"shopSortProducts": "ترتيب المنتجات",
+"shopSearchHint": "ابحث عن المنتجات والستايلات والألوان...",
+"shopAll": "الكل",
+"shopTops": "القطع العلوية",
+"shopBottoms": "البناطيل",
+"shopOuterwear": "الملابس الخارجية",
+"shopAccessories": "الإكسسوارات",
+"shopPiece": "قطعة واحدة",
+"shopPieces": "{count} قطع",
+"shopFilter": "تصفية",
+"shopSort": "ترتيب",
+"shopApply": "تطبيق",
+"shopPrice": "السعر",
+"shopSize": "المقاس",
+"shopAvailableOnly": "المتاح فقط",
+"shopSortRecommended": "المقترح",
+"shopSortPriceLowToHigh": "السعر: من الأقل للأعلى",
+"shopSortPriceHighToLow": "السعر: من الأعلى للأقل",
+"shopSortNewest": "الأحدث",
+"shopSortNameAToZ": "الاسم: من A إلى Z",
+"shopNoProducts": "لا توجد منتجات",
+"shopTryAdjustingFilters": "جرّب تغيير البحث أو خيارات التصفية.",
+"shopFilterProducts": "تصفية المنتجات",
+"shopSortProducts": "ترتيب المنتجات",
+"@shopPiece": {
+  "description": "عدد المنتجات عندما تكون النتيجة قطعة واحدة.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"@shopPieces": {
+  "description": "عدد المنتجات عندما تكون النتيجة أكثر من قطعة.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"productNotFound": "المنتج غير موجود",
+"productReviews": "تقييمات",
+"productColor": "اللون",
+"productSize": "المقاس",
+"productSizeGuide": "دليل المقاسات",
+"productFit": "القصة",
+"productAvailable": "متاح",
+"productOutOfStock": "غير متوفر",
+"productOutOfStockButton": "غير متوفر",
+"productAddedToCart": "تمت الإضافة إلى الحقيبة.",
+"productAddedToCartButton": "تمت الإضافة إلى الحقيبة",
+"productAddToCart": "أضف إلى الحقيبة",
+"productQuickAdd": "إضافة سريعة",
+"productSelectSize": "اختر المقاس",
+"productMaterialComposition": "الخامة والتركيب",
+"productFitSilhouette": "القصة والشكل",
+"productStyleAesthetics": "الستايل والمظهر",
+"productCareInstructions": "تعليمات العناية",
+"productDeliveryReturns": "التوصيل والاسترجاع",
+"productMaterialFallback": "خامة عالية الجودة مصممة للاستخدام اليومي.",
+"productFitFallback": "قصة مريحة مصممة لتناسب تنسيقاتك اليومية.",
+"productStyleFallback": "تصميم بسيط وعصري وسهل التنسيق.",
+"productCareFallback": "اتبع تعليمات العناية الموجودة على بطاقة المنتج للحصول على أفضل نتيجة.",
+"productDeliveryFallback": "ستتوفر معلومات التوصيل والاسترجاع عند إتمام الطلب.",
+"productCompleteTheLook": "أكمل الإطلالة",
+"productCompleteTheLookSubtitle": "قطع تتناسق بشكل مثالي مع هذا المنتج.",
+"productYouMayAlsoLike": "قد يعجبك أيضًا",
+"productCustomerReviews": "تقييمات العملاء",
+"productWhatCustomersAreSaying": "آراء العملاء",
+"productCommunityRatings": "تقييمات من العملاء",
+"productVerifiedCustomer": "عميل موثّق",
+"productReviewTwoWeeksAgo": "منذ أسبوعين",
+"productReviewOneMonthAgo": "منذ شهر",
+"productReviewGreatFit": "القصة ممتازة وسهلة التنسيق. الخامة تبدو عالية الجودة.",
+"productReviewCleanSilhouette": "التصميم نظيف والمنتج مطابق تمامًا لما توقعته.",
+"productViewAllReviews": "عرض جميع التقييمات ({count})",
+"@productViewAllReviews": {
+  "description": "زر يعرض عدد تقييمات المنتج.",
+  "placeholders": {
+    "count": {
+      "type": "num"
+    }
+  }
+},
+"productSizeGuideDescription": "اختر مقاسك المعتاد للحصول على القصة المطلوبة. سيتم ربط قياسات المنتجات بالبيانات لاحقًا.",
+"favoritesEyebrow": "المفضلة",
+"favoritesTitle": "محفوظة لوقت لاحق.",
+"favoritesSubtitle": "احتفظ بالقطع التي تحبها بالقرب منك.",
+"favoritesItemCount": "{count, plural, =0 {0 قطعة} =1 {قطعة واحدة} =2 {قطعتان} few {# قطع} many {# قطعة} other {# قطعة}}",
+"@favoritesItemCount": {
+  "description": "عدد المنتجات الموجودة في المفضلة.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"favoritesEmptyTitle": "لا توجد قطع محفوظة بعد.",
+"favoritesEmptyDescription": "احفظ القطع التي تشبه ذوقك وارجع إليها في أي وقت.",
+"favoritesExploreShop": "استكشف المتجر",
+"recentlyViewedTitle": "شوهدت مؤخرًا",
+"recentlyViewedItemCount": "{count, plural, =0 {0 قطعة} =1 {قطعة واحدة} =2 {قطعتان} few {# قطع} many {# قطعة} other {# قطعة}}",
+"@recentlyViewedItemCount": {
+  "description": "عدد المنتجات التي تمت مشاهدتها مؤخرًا.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"recentlyViewedDescription": "القطع التي تصفحتها مؤخرًا.",
+"recentlyViewedDescriptionSecondary": "مجموعة مختارة من المنتجات التي استكشفتها أثناء التصفح.",
+"recentlyViewedClearTitle": "مسح المشاهدة الأخيرة",
+"recentlyViewedClearConfirmation": "هل أنت متأكد أنك تريد مسح سجل المنتجات التي شاهدتها مؤخرًا؟",
+"recentlyViewedClearHistory": "مسح سجل المشاهدة الأخيرة",
+"recentlyViewedLocalStorageNote": "يتم الاحتفاظ بالمنتجات التي شاهدتها محليًا بين زياراتك.",
+"recentlyViewedEmptyTitle": "لا توجد منتجات هنا بعد",
+"recentlyViewedEmptyDescription": "المنتجات التي تستكشفها ستظهر هنا.",
+"recentlyViewedErrorTitle": "حدث خطأ ما",
+"tryAgain": "حاول مرة أخرى",
+"cancel": "إلغاء",
+"clear": "مسح",
+"looksEyebrow": "الإطلالات",
+"looksTitle": "نسّقها معًا.",
+"looksSubtitle": "إطلالات مختارة من قطع ATELIER.",
+"lookFilterAll": "الكل",
+"lookFilterMinimal": "مينيمال",
+"lookFilterStreet": "ستريت",
+"lookFilterCasual": "كاجوال",
+"lookFilterClassic": "كلاسيك",
+"lookFilterBold": "جريء",
+"lookFilterActive": "أكتيف",
+"lookPieces": "{count} {count, plural, =1 {قطعة} =2 {قطعتان} few {قطع} many {قطعة} other {قطع}}",
+"lookLightAfterDarkDescription": "إطلالة بطبقات نظيفة ومتكاملة لساعات المدينة المتأخرة وافتتاحات المعارض.",
+"lookCityStaticDescription": "هيكل نظيف بلمسة ستريت واضحة مع قطع خارجية بطابع تقني.",
+"lookOffDutyDescription": "قطع بقصّات مريحة مصممة للحركة اليومية بأسلوب عفوي.",
+"lookAfterHoursDescription": "قصّات بدرجات لونية أكثر حدة، مصممة من وقت الغروب وحتى السهرات.",
+"look01": "الإطلالة 01",
+"look02": "الإطلالة 02",
+"look03": "الإطلالة 03",
+"look04": "الإطلالة 04",
+"lookNotFound": "الإطلالة غير موجودة",
+"lookShopTheLook": "تسوّق الإطلالة",
+"lookAvailableCount": "{count} متاح",
+"lookShopTheLookDescription": "أكمل الإطلالة بالقطع المختارة لهذا اللوك.",
+"lookBundleTotal": "إجمالي الإطلالة",
+"lookAddAvailableItems": "أضف القطع المتاحة ({count})",
+"lookItemsAddedToBag": "تمت إضافة {count} قطع إلى حقيبتك",
+"lookSoldOut": "نفدت الكمية",
+"profileTitle": "الملف الشخصي",
+"profileAccountSection": "الحساب",
+"profilePersonalSection": "شخصي",
+"profileAppSection": "التطبيق",
+"profileMyOrders": "طلباتي",
+"profileMyOrdersSubtitle": "تابع مشترياتك وأدرها.",
+"profileMyStyle": "أسلوبي",
+"profileStyleBadge": "مكتمل",
+"profileMyStyleSubtitle": "إدارة أسلوبك وألوانك والمقاس وتفضيلات نمط حياتك.",
+"profileRecentlyViewed": "شوهدت مؤخرًا",
+"profileRecentlyViewedSubtitle": "ارجع إلى القطع التي استكشفتها مؤخرًا.",
+"profileAddresses": "العناوين",
+"profileAddressesSubtitle": "إدارة عناوين التوصيل المحفوظة.",
+"profileNotifications": "الإشعارات",
+"profileNotificationsSubtitle": "إدارة إشعاراتك وتفضيلاتك.",
+"profileSettings": "الإعدادات",
+"profileSettingsSubtitle": "اللغة والمظهر والتفضيلات.",
+"profileLogoutTitle": "تسجيل الخروج من ATELIER؟",
+"profileLogoutMessage": "يمكنك تسجيل الدخول مرة أخرى في أي وقت للوصول إلى حسابك.",
+"profileCancel": "إلغاء",
+"profileLogout": "تسجيل الخروج",
+"profileMyAccount": "حسابي",
+"profileWelcomeBack": "مرحبًا بعودتك.",
+"profileGuestTitle": "مرحبًا بك في ATELIER.",
+"profileGuestDescription": "سجّل الدخول لإدارة طلباتك وتفضيلات أسلوبك وعناوين التوصيل.",
+"profileSignIn": "تسجيل الدخول",
+"profileCreateAccount": "إنشاء حساب",
+"ordersEyebrow": "طلباتي",
+"ordersTitle": "مشترياتك.",
+"ordersSubtitle": "تابع طلباتك وارجع إلى ما اشتريته.",
+"orderNumber": "الطلب {number}",
+"@orderNumber": {
+  "description": "رقم الطلب.",
+  "placeholders": {
+    "number": {
+      "type": "String"
+    }
+  }
+},
+"orderItemCount": "{count, plural, =1 {قطعة واحدة} =2 {قطعتان} few {# قطع} many {# قطعة} other {# قطعة}}",
+"@orderItemCount": {
+  "description": "عدد القطع الموجودة في الطلب.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"orderTotalLabel": "الإجمالي",
+"orderTrack": "تتبع الطلب",
+"orderView": "عرض الطلب",
+"ordersEmptyTitle": "لا توجد طلبات بعد",
+"ordersEmptyDescription": "ستظهر مشترياتك هنا بعد إتمام أول طلب.",
+"ordersStartShopping": "ابدأ التسوق",
+"ordersErrorTitle": "تعذر تحميل طلباتك",
+"orderDetailsEyebrow": "تفاصيل الطلب",
+"orderPlacedOn": "تم الطلب في {date} · {count} {count, plural, =1 {قطعة} =2 {قطعتين} few {قطع} many {قطعة} other {قطعة}}",
+"@orderPlacedOn": {
+  "description": "تاريخ الطلب وعدد القطع.",
+  "placeholders": {
+    "date": {
+      "type": "String"
+    },
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"orderItemsTitle": "القطع في هذا الطلب",
+"orderDeliveryAddressTitle": "التوصيل والعنوان",
+"orderPaymentTitle": "الدفع",
+"orderSummaryTitle": "ملخص الطلب",
+"orderContinueShopping": "متابعة التسوق",
+"orderShippingMethod": "طريقة الشحن",
+"orderDeliveryAddress": "عنوان التوصيل",
+"orderQuantity": "الكمية: {count}",
+"@orderQuantity": {
+  "description": "كمية المنتج في الطلب.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"orderPaymentCompleted": "مكتمل",
+"orderSubtotal": "المجموع الفرعي",
+"orderShipping": "الشحن",
+"orderTotal": "الإجمالي",
+"orderPaymentMethod": "طريقة الدفع: {method}",
+"@orderPaymentMethod": {
+  "description": "طريقة الدفع في ملخص الطلب.",
+  "placeholders": {
+    "method": {
+      "type": "String"
+    }
+  }
+},
+"orderNotFound": "الطلب غير موجود.",
+"orderNotFoundDescription": "قد لا يكون هذا الطلب متاحًا anymore.",
+"orderSize": "المقاس {size}",
+"@orderSize": {
+  "description": "مقاس المنتج داخل الطلب.",
+  "placeholders": {
+    "size": {
+      "type": "String"
+    }
+  }
+},
+"orderStatusPlaced": "تم الطلب",
+"orderStatusConfirmed": "تم التأكيد",
+"orderStatusShipped": "تم الشحن",
+"orderStatusOutForDelivery": "خرج للتوصيل",
+"orderStatusDelivered": "تم التوصيل",
+"orderStatusCancelled": "تم الإلغاء",
+"orderStatusDescriptionPlaced": "تم إنشاء طلبك بنجاح.",
+"orderStatusDescriptionConfirmed": "تم تأكيد طلبك ويجري تجهيزه.",
+"orderStatusDescriptionShipped": "تم تسليم طلبك لشركة التوصيل.",
+"orderStatusDescriptionOutForDelivery": "طلبك في طريقه إليك.",
+"orderStatusDescriptionDelivered": "تم توصيل طلبك بنجاح.",
+"orderStatusDescriptionCancelled": "تم إلغاء هذا الطلب.",
+"paymentCashOnDelivery": "الدفع عند الاستلام",
+"paymentCard": "الدفع بالبطاقة",
+"paymentCashOnDeliveryDescription": "الدفع عند وصول الطلب",
+"paymentMethodDescription": "طريقة الدفع المستخدمة لهذا الطلب",
+"notificationsTitle": "الإشعارات",
+"notificationsMarkAllRead": "تحديد الكل كمقروء",
+"notificationsNow": "الآن",
+"notificationsMinutesAgo": "منذ {count} د",
+"@notificationsMinutesAgo": {
+  "description": "عدد الدقائق منذ إنشاء الإشعار.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"notificationsHoursAgo": "منذ {count} س",
+"@notificationsHoursAgo": {
+  "description": "عدد الساعات منذ إنشاء الإشعار.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"notificationsDaysAgo": "منذ {count} يوم",
+"@notificationsDaysAgo": {
+  "description": "عدد الأيام منذ إنشاء الإشعار.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"notificationsEmptyTitle": "لا توجد إشعارات بعد",
+"notificationsEmptyDescription": "سنخبرك عندما يكون هناك شيء جديد.",
+"notificationsErrorTitle": "حدث خطأ ما",
+"notificationsTryAgain": "حاول مرة أخرى",
+"addressEditTitle": "تعديل العنوان",
+"addressNewTitle": "عنوان جديد",
+"addressUpdateDescription": "حدّث عنوان التوصيل الخاص بك.",
+"addressAddDescription": "أضف عنوان توصيل جديدًا.",
+"addressSaveDescription": "احفظ بياناتك لتجربة دفع أسرع.",
+"addressFullName": "الاسم الكامل",
+"addressFullNameHint": "يوسف طارق",
+"addressPhoneNumber": "رقم الهاتف",
+"addressPhoneHint": "+20 10 9876 5432",
+"addressLabelTitle": "نوع العنوان",
+"addressLabelHome": "المنزل",
+"addressLabelWork": "العمل",
+"addressLabelOther": "آخر",
+"addressStreet": "عنوان الشارع",
+"addressStreetHint": "15 شارع النصر، شقة 4B",
+"addressCity": "المدينة",
+"addressCityHint": "بني سويف",
+"addressGovernorate": "المحافظة",
+"addressGovernorateHint": "بني سويف",
+"addressDefaultTitle": "العنوان الافتراضي",
+"addressDefaultDescription": "استخدم هذا العنوان كعنوان التوصيل الأساسي.",
+"addressSaveChanges": "حفظ التغييرات",
+"addressSave": "حفظ العنوان",
+"addressRequiredField": "هذا الحقل مطلوب",
+"addressDeliveryTitle": "عنوان التوصيل",
+"addressAddNew": "إضافة عنوان جديد",
+"addressAddNewDescription": "اختر الطريقة التي تريد بها إضافة عنوان التوصيل.",
+"addressEnterManually": "إدخال يدوي",
+"addressEnterManuallyDescription": "أدخل بيانات عنوانك بنفسك.",
+"addressChooseOnMap": "اختيار من الخريطة",
+"addressChooseOnMapDescription": "اختر موقعًا وأكمل بيانات العنوان.",
+"locationPickerTitle": "اختيار الموقع",
+"locationPickerConfirm": "تأكيد الموقع",
+"checkoutShippingAddressTitle": "02  عنوان التوصيل",
+"checkoutNoAddressSelected": "لم يتم اختيار عنوان توصيل.",
+"addressChange": "تغيير",
+"myStyleTitle": "أسلوبي",
+"myStyleSelectedCount": "{count} محدد",
+"@myStyleSelectedCount": {
+  "description": "عدد تفضيلات الأسلوب المحددة.",
+  "placeholders": {
+    "count": {
+      "type": "int"
+    }
+  }
+},
+"myStyleIntroTitle": "اختر ما يشبهك.",
+"myStyleIntroDescription": "تساعدنا تفضيلاتك على تخصيص ما تكتشفه.",
+"myStyleSectionStyle": "الأسلوب",
+"myStyleSectionStyleDescription": "اختر الأساليب الجمالية التي تميل إليها بشكل طبيعي.",
+"myStyleSectionColors": "الألوان",
+"myStyleSectionColorsDescription": "اختر الدرجات التي تفضل ارتداءها بشكل طبيعي.",
+"myStyleSectionLifestyle": "نمط الحياة",
+"myStyleSectionLifestyleDescription": "لأي نوع من المناسبات تختار ملابسك غالبًا؟",
+"myStyleSectionFit": "القَصّة",
+"myStyleSectionFitDescription": "اختر القصّات التي تفضلها.",
+"myStyleReset": "إعادة تعيين",
+"myStyleSaved": "تم حفظ التفضيلات",
+"myStyleSaveFailed": "تعذر حفظ التفضيلات",
+"myStyleSave": "حفظ التفضيلات",
+"styleMinimal": "مينيمال",
+"styleStreet": "ستريت",
+"styleCasual": "كاجوال",
+"styleClassic": "كلاسيك",
+"styleBold": "جريء",
+"styleActive": "أكتيف",
+"colorNeutral": "محايد",
+"colorDark": "داكن",
+"colorEarthy": "ترابي",
+"colorLight": "فاتح",
+"colorBold": "جريء",
+"colorPastel": "باستيل",
+"lifestyleEveryday": "يومي",
+"lifestyleUniversity": "الجامعة",
+"lifestyleWork": "العمل",
+"lifestyleGoingOut": "الخروج",
+"lifestyleTravel": "السفر",
+"lifestyleOutdoor": "أنشطة خارجية",
+"lifestyleGymActive": "الجيم / أكتيف",
+"lifestyleEvents": "المناسبات",
+"fitSlim": "Slim",
+"fitRegular": "Regular",
+"fitRelaxed": "Relaxed",
+"fitOversized": "Oversized",
+"fitWide": "Wide",
+"fitCropped": "Cropped",
+"onboardingDiscoverTitle": "اكتشف أسلوبك.",
+"onboardingDiscoverDescription": "اكتشف قطعًا تشبهك.",
+"onboardingMoreThanClothesTitle": "أكثر من مجرد ملابس.",
+"onboardingMoreThanClothesDescription": "اكتشف إطلالات صُممت لتُرتدى معًا.",
+"onboardingLookIndicator": "الإطلالة {page} / {total}",
+"@onboardingLookIndicator": {
+  "description": "مؤشر صفحة الـOnboarding الحالية.",
+  "placeholders": {
+    "page": {
+      "type": "int"
+    },
+    "total": {
+      "type": "int"
+    }
+  }
+},
+"onboardingSkip": "تخطي",
+"onboardingNext": "التالي",
+"onboardingFinalTitle": "مصممة لتناسبك.",
+"onboardingFinalDescription": "احصل على توصيات بناءً على أسلوبك وألوانك وقصّاتك ونمط حياتك.",
+"onboardingGetStarted": "ابدأ الآن",
+"onboardingContinueAsGuest": "المتابعة كزائر"
 }

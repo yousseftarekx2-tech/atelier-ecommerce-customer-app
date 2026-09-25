@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/shipping/cubit/shipping_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,12 +6,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../cart/cubit/cart_state.dart';
 import '../../../shipping/cubit/shipping_state.dart';
+import '../../../shipping/domain/entities/shipping_method.dart';
 
 class CheckoutOrderSummary extends StatelessWidget {
   const CheckoutOrderSummary({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final colorScheme = Theme.of(context).colorScheme;
+
     return BlocBuilder<CartCubit, CartState>(
       builder: (context, cartState) {
         return BlocBuilder<ShippingCubit, ShippingState>(
@@ -22,12 +27,13 @@ class CheckoutOrderSummary extends StatelessWidget {
             return Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text(
-                  '05  ORDER SUMMARY',
+                Text(
+                  '05  ' + l10n.checkoutOrderSummary.toUpperCase(),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
                     letterSpacing: 1.2,
+                    color: colorScheme.onSurface,
                   ),
                 ),
                 const SizedBox(height: 12),
@@ -35,24 +41,34 @@ class CheckoutOrderSummary extends StatelessWidget {
                   width: double.infinity,
                   padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    border: Border.all(color: const Color(0xFFE6E4E0)),
+                    color: colorScheme.surface,
+                    border: Border.all(color: colorScheme.outlineVariant),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Column(
                     children: [
-                      _SummaryRow(label: 'Subtotal', value: 'EGP $subtotal'),
+                      _SummaryRow(
+                        label: l10n.checkoutSubtotal,
+                        value: 'EGP ' + subtotal.toString(),
+                      ),
                       const SizedBox(height: 12),
                       _SummaryRow(
-                        label: shippingState.selectedMethod.name,
-                        value: shippingCost == 0 ? 'Free' : 'EGP $shippingCost',
+                        label:
+                            shippingState.selectedMethod.id ==
+                                ShippingMethod.standard.id
+                            ? l10n.shippingStandard
+                            : l10n.shippingExpress,
+                        value: shippingCost == 0
+                            ? l10n.checkoutFree
+                            : 'EGP ' + shippingCost.toString(),
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
                         child: Divider(height: 1),
                       ),
                       _SummaryRow(
-                        label: 'Total',
-                        value: 'EGP $total',
+                        label: l10n.checkoutTotal,
+                        value: 'EGP ' + total.toString(),
                         isTotal: true,
                       ),
                     ],
@@ -80,6 +96,8 @@ class _SummaryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Row(
       children: [
         Expanded(
@@ -88,7 +106,9 @@ class _SummaryRow extends StatelessWidget {
             style: TextStyle(
               fontSize: isTotal ? 15 : 13,
               fontWeight: isTotal ? FontWeight.w700 : FontWeight.w500,
-              color: isTotal ? Colors.black : const Color(0xFF777777),
+              color: isTotal
+                  ? colorScheme.onSurface
+                  : colorScheme.onSurfaceVariant,
             ),
           ),
         ),
@@ -97,6 +117,7 @@ class _SummaryRow extends StatelessWidget {
           style: TextStyle(
             fontSize: isTotal ? 16 : 13,
             fontWeight: FontWeight.w700,
+            color: colorScheme.onSurface,
           ),
         ),
       ],

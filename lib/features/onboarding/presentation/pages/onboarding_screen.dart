@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/core/routing/routes.dart';
 import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
@@ -27,16 +28,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
     'assets/images/onboarding_01.png',
     'assets/images/onboarding_02.png',
     'assets/images/onboarding_03.png',
-  ];
-
-  static const List<String> _titles = [
-    'Discover your style.',
-    'More than clothes.',
-  ];
-
-  static const List<String> _descriptions = [
-    'Find pieces that feel like you.',
-    'Discover looks made to be worn together.',
   ];
 
   @override
@@ -81,6 +72,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
+    const titles = ['Discover your style.', 'More than clothes.'];
+
+    const descriptions = [
+      'Find pieces that feel like you.',
+      'Discover looks made to be worn together.',
+    ];
+
     return Scaffold(
       backgroundColor: AppColors.black,
       body: PageView.builder(
@@ -92,8 +92,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
           if (index < 2) {
             return OnboardingContent(
               image: _images[index],
-              title: _titles[index],
-              description: _descriptions[index],
+              title: index == 0
+                  ? l10n.onboardingDiscoverTitle
+                  : l10n.onboardingMoreThanClothesTitle,
+              description: index == 0
+                  ? l10n.onboardingDiscoverDescription
+                  : l10n.onboardingMoreThanClothesDescription,
               pageNumber: index + 1,
               totalPages: _totalPages,
               onNext: _nextPage,
@@ -125,6 +129,7 @@ class _FinalOnboardingContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     const foregroundColor = AppColors.lightBackground;
 
     return Stack(
@@ -165,7 +170,7 @@ class _FinalOnboardingContent extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        'LOOK 03 / 03',
+                        l10n.onboardingLookIndicator(3, 3),
                         style: AppTextStyles.labelSmall.copyWith(
                           color: foregroundColor.withValues(alpha: 0.80),
                           letterSpacing: 1.2,
@@ -216,7 +221,7 @@ class _FinalOnboardingContent extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.s20),
                     Text(
-                      'Made to match you.',
+                      l10n.onboardingFinalTitle,
                       style: AppTextStyles.displayMedium.copyWith(
                         color: foregroundColor,
                         fontSize: 32,
@@ -227,7 +232,7 @@ class _FinalOnboardingContent extends StatelessWidget {
                     ),
                     const SizedBox(height: AppSpacing.s10),
                     Text(
-                      'Get recommendations based on your style, colors, fit, and lifestyle.',
+                      l10n.onboardingFinalDescription,
                       style: AppTextStyles.bodyLarge.copyWith(
                         color: foregroundColor.withValues(alpha: 0.72),
                         fontSize: 15,
@@ -250,7 +255,7 @@ class _FinalOnboardingContent extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Text(
-                              'Get Started',
+                              l10n.onboardingGetStarted,
                               style: AppTextStyles.button.copyWith(
                                 color: AppColors.black,
                               ),
@@ -272,7 +277,7 @@ class _FinalOnboardingContent extends StatelessWidget {
                           ),
                         ),
                         child: Text(
-                          'Continue as Guest',
+                          l10n.onboardingContinueAsGuest,
                           style: AppTextStyles.button.copyWith(
                             color: foregroundColor.withValues(alpha: 0.80),
                             decoration: TextDecoration.underline,

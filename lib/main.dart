@@ -18,6 +18,8 @@ import 'features/auth/data/datasources/auth_remote_data_source.dart';
 import 'features/auth/data/repositories/auth_repository_impl.dart';
 import 'features/cart/cubit/cart_cubit.dart';
 import 'features/favorites/cubit/favorites_cubit.dart';
+import 'features/favorites/data/datasource/favorites_remote_data_source.dart';
+import 'features/favorites/data/repositories/favorites_repository_impl.dart';
 import 'features/home/cubit/home_cubit.dart';
 import 'features/notifications/cubit/notifications_cubit.dart';
 import 'features/notifications/data/datasource/notifications_remote_data_source.dart';
@@ -61,7 +63,9 @@ Future<void> main() async {
 
   await addressCubit.loadAddresses();
 
-  final notificationsRemoteDataSource = NotificationsRemoteDataSource(supabase);
+  final notificationsRemoteDataSource = NotificationsRemoteDataSource(
+    supabase,
+  );
 
   final notificationsRepository = NotificationsRepositoryImpl(
     notificationsRemoteDataSource,
@@ -72,6 +76,14 @@ Future<void> main() async {
   final ordersRemoteDataSource = OrdersRemoteDataSource(supabase);
 
   final ordersRepository = OrdersRepositoryImpl(ordersRemoteDataSource);
+
+  final favoritesRemoteDataSource = FavoritesRemoteDataSource(supabase);
+
+  final favoritesRepository = FavoritesRepositoryImpl(
+    favoritesRemoteDataSource,
+  );
+
+  final favoritesCubit = FavoritesCubit(favoritesRepository);
 
   final prefs = await SharedPreferences.getInstance();
 
@@ -96,7 +108,7 @@ Future<void> main() async {
       providers: [
         BlocProvider.value(value: authCubit),
         BlocProvider(create: (_) => CartCubit()),
-        BlocProvider(create: (_) => FavoritesCubit()),
+        BlocProvider.value(value: favoritesCubit),
         BlocProvider.value(value: recentlyViewedCubit),
         BlocProvider.value(value: addressCubit),
         BlocProvider.value(value: notificationsCubit),

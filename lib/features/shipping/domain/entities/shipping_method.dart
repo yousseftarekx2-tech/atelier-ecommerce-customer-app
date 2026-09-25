@@ -22,4 +22,12 @@ class ShippingMethod {
   );
 
   static const List<ShippingMethod> availableMethods = [standard, express];
+
+  int costFor({required int subtotal}) {
+    if (id == standard.id) {
+      return subtotal >= 5000 ? 0 : 80;
+    }
+
+    return 150;
+  }
 }

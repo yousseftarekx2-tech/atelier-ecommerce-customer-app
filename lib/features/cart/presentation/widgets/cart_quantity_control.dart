@@ -1,3 +1,5 @@
+import 'package:atelier_customer/core/theme/app_radius.dart';
+import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 
 class CartQuantityControl extends StatelessWidget {
@@ -14,12 +16,14 @@ class CartQuantityControl extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Container(
       height: 36,
       decoration: BoxDecoration(
-        color: const Color(0xFFF4F3F0),
-        borderRadius: BorderRadius.circular(10),
-        border: Border.all(color: const Color(0xFFE6E4E0)),
+        color: colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(AppRadius.r9),
+        border: Border.all(color: colorScheme.outlineVariant),
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -30,10 +34,9 @@ class CartQuantityControl extends StatelessWidget {
             child: Center(
               child: Text(
                 '$quantity',
-                style: const TextStyle(
-                  fontSize: 13,
+                style: AppTextStyles.labelMedium.copyWith(
+                  color: colorScheme.onSurface,
                   fontWeight: FontWeight.w700,
-                  color: Color(0xFF151515),
                 ),
               ),
             ),
@@ -53,15 +56,17 @@ class _QuantityButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
         onTap: onPressed,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppRadius.r8),
         child: SizedBox(
           width: 32,
           height: 32,
-          child: Icon(icon, size: 15, color: const Color(0xFF151515)),
+          child: Icon(icon, size: 15, color: colorScheme.onSurface),
         ),
       ),
     );

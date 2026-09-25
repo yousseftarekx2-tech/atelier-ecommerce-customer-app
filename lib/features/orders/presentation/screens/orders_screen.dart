@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/core/routing/routes.dart';
 import 'package:atelier_customer/features/orders/domain/entities/order_item.dart';
 import 'package:flutter/material.dart';
@@ -32,6 +33,7 @@ class _OrdersScreenState extends State<OrdersScreen> {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: const Color(0xFFF9F9F7),
       appBar: AppBar(
@@ -161,32 +163,34 @@ class _OrdersHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    final l10n = AppLocalizations.of(context)!;
+
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'MY ORDERS',
-          style: TextStyle(
+          l10n.ordersEyebrow,
+          style: const TextStyle(
             fontSize: 10,
             fontWeight: FontWeight.w700,
             letterSpacing: 2,
             color: Color(0xFF8E8E8E),
           ),
         ),
-        SizedBox(height: 6),
+        const SizedBox(height: 6),
         Text(
-          'Your purchases.',
-          style: TextStyle(
+          l10n.ordersTitle,
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
             letterSpacing: -0.5,
             color: Color(0xFF151515),
           ),
         ),
-        SizedBox(height: 4),
+        const SizedBox(height: 4),
         Text(
-          'Track your orders and revisit what you’ve bought.',
-          style: TextStyle(fontSize: 12, color: Color(0xFF737373)),
+          l10n.ordersSubtitle,
+          style: const TextStyle(fontSize: 12, color: Color(0xFF737373)),
         ),
       ],
     );
@@ -247,6 +251,8 @@ class _OrderHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -255,7 +261,7 @@ class _OrderHeader extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'ORDER ${order.orderNumber}',
+                l10n.orderNumber(order.orderNumber),
                 style: const TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.w700,
@@ -288,6 +294,8 @@ class _StatusBadge extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
       decoration: BoxDecoration(
@@ -296,7 +304,7 @@ class _StatusBadge extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
       ),
       child: Text(
-        status.toUpperCase(),
+        localizedOrderStatus(l10n, status).toUpperCase(),
         style: const TextStyle(
           fontSize: 9,
           fontWeight: FontWeight.w700,
@@ -315,6 +323,7 @@ class _OrderProducts extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final visibleItems = order.items.take(3).toList();
 
     return Row(
@@ -333,7 +342,7 @@ class _OrderProducts extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '${order.items.length} ITEMS',
+                  l10n.orderItemCount(order.items.length),
                   style: const TextStyle(
                     fontSize: 11,
                     fontWeight: FontWeight.w600,
@@ -395,6 +404,7 @@ class _OrderFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final canTrack = _canTrack(order.status);
 
     return Row(
@@ -403,9 +413,9 @@ class _OrderFooter extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'TOTAL',
-                style: TextStyle(
+              Text(
+                l10n.orderTotalLabel,
+                style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w500,
                   letterSpacing: 1.1,
@@ -440,9 +450,9 @@ class _OrderFooter extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
               ),
-              child: const Text(
-                'TRACK ORDER',
-                style: TextStyle(
+              child: Text(
+                l10n.orderTrack,
+                style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w600,
                   letterSpacing: 0.8,
@@ -459,20 +469,24 @@ class _OrderFooter extends StatelessWidget {
             minimumSize: const Size(0, 40),
             padding: const EdgeInsets.symmetric(horizontal: 8),
           ),
-          child: const Row(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'VIEW ORDER',
-                style: TextStyle(
+                l10n.orderView,
+                style: const TextStyle(
                   fontSize: 10,
                   fontWeight: FontWeight.w700,
                   letterSpacing: 0.8,
                   color: Color(0xFF151515),
                 ),
               ),
-              SizedBox(width: 4),
-              Icon(Icons.chevron_right, size: 16, color: Color(0xFF151515)),
+              const SizedBox(width: 4),
+              const Icon(
+                Icons.chevron_right,
+                size: 16,
+                color: Color(0xFF151515),
+              ),
             ],
           ),
         ),
@@ -486,6 +500,8 @@ class _EmptyOrdersView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -498,15 +514,15 @@ class _EmptyOrdersView extends StatelessWidget {
               color: Color(0xFF8E8E8E),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'No orders yet',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+            Text(
+              l10n.ordersEmptyTitle,
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
-            const Text(
-              'Your purchases will appear here once you place your first order.',
+            Text(
+              l10n.ordersEmptyDescription,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 13,
                 color: Color(0xFF737373),
                 height: 1.5,
@@ -519,7 +535,7 @@ class _EmptyOrdersView extends StatelessWidget {
                 onPressed: () {
                   context.go('/shop');
                 },
-                child: const Text('Start Shopping'),
+                child: Text(l10n.ordersStartShopping),
               ),
             ),
           ],
@@ -537,6 +553,8 @@ class _OrdersErrorView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(32),
@@ -549,10 +567,10 @@ class _OrdersErrorView extends StatelessWidget {
               color: Color(0xFF8E8E8E),
             ),
             const SizedBox(height: 20),
-            const Text(
-              'Couldn’t load your orders',
+            Text(
+              l10n.ordersErrorTitle,
               textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
+              style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w600),
             ),
             const SizedBox(height: 8),
             Text(
@@ -569,7 +587,7 @@ class _OrdersErrorView extends StatelessWidget {
               height: 48,
               child: ElevatedButton(
                 onPressed: onRetry,
-                child: const Text('Try Again'),
+                child: Text(l10n.tryAgain),
               ),
             ),
           ],
@@ -599,6 +617,24 @@ class _InlineErrorMessage extends StatelessWidget {
         style: const TextStyle(fontSize: 12, color: Color(0xFF737373)),
       ),
     );
+  }
+}
+
+String localizedOrderStatus(AppLocalizations l10n, String status) {
+  switch (status.toLowerCase()) {
+    case 'confirmed':
+      return l10n.orderStatusConfirmed;
+    case 'shipped':
+      return l10n.orderStatusShipped;
+    case 'out for delivery':
+      return l10n.orderStatusOutForDelivery;
+    case 'delivered':
+      return l10n.orderStatusDelivered;
+    case 'cancelled':
+      return l10n.orderStatusCancelled;
+    case 'placed':
+    default:
+      return l10n.orderStatusPlaced;
   }
 }
 

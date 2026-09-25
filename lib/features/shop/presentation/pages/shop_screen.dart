@@ -1,3 +1,4 @@
+import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -22,28 +23,25 @@ class ShopScreen extends StatelessWidget {
     context.push(Routes.productDetailsPath(productId));
   }
 
-Future<void> _openFilterSheet(
-  BuildContext context,
-  ShopLoaded state,
-) async {
-  final result = await showModalBottomSheet<ShopFilterResult>(
-    context: context,
-    isScrollControlled: true,
-    backgroundColor: Theme.of(context).colorScheme.surface,
-    builder: (_) {
-      return ShopFilterSheet(
-        selectedMinPrice: state.selectedMinPrice,
-        selectedMaxPrice: state.selectedMaxPrice,
-        onlyAvailable: state.onlyAvailable,
-        selectedSizes: state.selectedSizes,
-      );
-    },
-  );
+  Future<void> _openFilterSheet(BuildContext context, ShopLoaded state) async {
+    final result = await showModalBottomSheet<ShopFilterResult>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      builder: (_) {
+        return ShopFilterSheet(
+          selectedMinPrice: state.selectedMinPrice,
+          selectedMaxPrice: state.selectedMaxPrice,
+          onlyAvailable: state.onlyAvailable,
+          selectedSizes: state.selectedSizes,
+        );
+      },
+    );
 
-  if (result != null && context.mounted) {
-    context.read<ShopCubit>().applyFilters(result);
+    if (result != null && context.mounted) {
+      context.read<ShopCubit>().applyFilters(result);
+    }
   }
-}
 
   Future<void> _openSortSheet(BuildContext context, ShopLoaded state) async {
     final result = await showModalBottomSheet<ShopSortOption>(
@@ -61,6 +59,7 @@ Future<void> _openFilterSheet(
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final theme = Theme.of(context);
     final topSafeArea = MediaQuery.paddingOf(context).top;
     final headerHeight = topSafeArea + 56;
@@ -107,7 +106,9 @@ Future<void> _openFilterSheet(
                           Row(
                             children: [
                               Text(
-                                '${state.products.length} pieces',
+                                state.products.length == 1
+                                    ? l10n.shopPiece(state.products.length)
+                                    : l10n.shopPieces(state.products.length),
                                 style: Theme.of(context).textTheme.bodySmall,
                               ),
                               const Spacer(),
@@ -116,7 +117,7 @@ Future<void> _openFilterSheet(
                                   _openFilterSheet(context, state);
                                 },
                                 icon: const Icon(Icons.tune_rounded, size: 17),
-                                label: const Text('Filter'),
+                                label: Text(l10n.shopFilter),
                               ),
                               const SizedBox(width: AppSpacing.s4),
                               TextButton.icon(
@@ -127,7 +128,7 @@ Future<void> _openFilterSheet(
                                   Icons.swap_vert_rounded,
                                   size: 17,
                                 ),
-                                label: const Text('Sort'),
+                                label: Text(l10n.shopSort),
                               ),
                             ],
                           ),
@@ -176,6 +177,7 @@ class _EmptyShopResult extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
     final colorScheme = Theme.of(context).colorScheme;
 
     return Padding(
@@ -189,12 +191,12 @@ class _EmptyShopResult extends StatelessWidget {
           ),
           const SizedBox(height: AppSpacing.s16),
           Text(
-            'No pieces found',
+            l10n.shopNoProducts,
             style: Theme.of(context).textTheme.titleMedium,
           ),
           const SizedBox(height: AppSpacing.s6),
           Text(
-            'Try changing your filters or search.',
+            l10n.shopTryAdjustingFilters,
             textAlign: TextAlign.center,
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
               color: colorScheme.onSurface.withValues(alpha: 0.55),
