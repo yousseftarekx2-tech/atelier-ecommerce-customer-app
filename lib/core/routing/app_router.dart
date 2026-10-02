@@ -58,7 +58,10 @@ class AppRouter {
     redirect: (context, state) {
       final location = state.matchedLocation;
       final session = Supabase.instance.client.auth.currentSession;
-      final isPublic = _publicRoutes.contains(location);
+      final isPublic =
+          _publicRoutes.contains(location) ||
+          location.startsWith('/looks/') ||
+          location.startsWith('/product/');
 
       if (session == null && !isPublic) {
         final from = Uri.encodeComponent(state.uri.toString());
