@@ -104,11 +104,6 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
         return;
       }
 
-      if (item.quantity > product.stock) {
-        _showMessage(context, l10n.checkoutProductNotFound(item.productId));
-        return;
-      }
-
       items.add(
         OrderItem(
           productId: item.productId,
