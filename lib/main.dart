@@ -26,7 +26,9 @@ import 'features/notifications/data/datasource/notifications_remote_data_source.
 import 'features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'features/orders/data/datasource/orders_remote_data_source.dart';
 import 'features/orders/data/repositories/orders_repository_impl.dart';
+import 'features/products/data/datasources/product_remote_data_source.dart';
 import 'features/products/data/repositories/product_repository_impl.dart';
+import 'features/products/domain/repositories/product_repository.dart';
 import 'features/recently_viewed/cubit/recently_viewed_cubit.dart';
 import 'features/recently_viewed/data/datasource/recently_viewed_local_data_source.dart';
 import 'features/recently_viewed/data/repositories/recently_viewed_repository_impl.dart';
@@ -47,7 +49,11 @@ Future<void> main() async {
 
   final authCubit = AuthCubit(authRepository);
 
-  final productRepository = ProductRepositoryImpl();
+  final productRemoteDataSource = ProductRemoteDataSource(supabase);
+
+  final productRepository = ProductRepositoryImpl(productRemoteDataSource);
+
+  await productRepository.loadProducts();
 
   final styleRemoteDataSource = StyleRemoteDataSource(supabase);
 
@@ -107,6 +113,7 @@ Future<void> main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider.value(value: authCubit),
+        RepositoryProvider<ProductRepository>.value(value: productRepository),
         BlocProvider(create: (_) => CartCubit()),
         BlocProvider.value(value: favoritesCubit),
         BlocProvider.value(value: recentlyViewedCubit),
