@@ -17,6 +17,7 @@ import '../core/routing/app_router.dart';
 import '../core/routing/routes.dart';
 import '../core/theme/app_theme.dart';
 import '../features/auth/cubit/auth_cubit.dart';
+import '../features/address/cubit/address_cubit.dart';
 
 class AtelierApp extends StatefulWidget {
   const AtelierApp({
@@ -45,6 +46,7 @@ class _AtelierAppState extends State<AtelierApp> {
     final auth = supabase.Supabase.instance.client.auth;
     final notificationsCubit = context.read<NotificationsCubit>();
     final favoritesCubit = context.read<FavoritesCubit>();
+    final addressCubit = context.read<AddressCubit>();
 
     _authStateSubscription = auth.onAuthStateChange.listen((authState) {
       if (authState.event == supabase.AuthChangeEvent.passwordRecovery) {
@@ -55,11 +57,13 @@ class _AtelierAppState extends State<AtelierApp> {
           authState.event == supabase.AuthChangeEvent.initialSession) {
         notificationsCubit.loadNotifications();
         favoritesCubit.loadFavorites();
+        addressCubit.loadAddresses();
       }
 
       if (authState.event == supabase.AuthChangeEvent.signedOut) {
-        notificationsCubit.loadNotifications();
+        notificationsCubit.clear();
         favoritesCubit.clear();
+        addressCubit.clear();
       }
     }, onError: (_) {});
   }
@@ -82,11 +86,13 @@ class _AtelierAppState extends State<AtelierApp> {
           if (state is AuthAuthenticated) {
             context.read<NotificationsCubit>().loadNotifications();
             context.read<FavoritesCubit>().loadFavorites();
+            context.read<AddressCubit>().loadAddresses();
           }
 
           if (state is AuthUnauthenticated) {
-            context.read<NotificationsCubit>().loadNotifications();
+            context.read<NotificationsCubit>().clear();
             context.read<FavoritesCubit>().clear();
+            context.read<AddressCubit>().clear();
           }
         },
         child: BlocBuilder<SettingsCubit, SettingsState>(
