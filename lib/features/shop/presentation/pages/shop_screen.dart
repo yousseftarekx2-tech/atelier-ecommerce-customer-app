@@ -98,6 +98,7 @@ class ShopScreen extends StatelessWidget {
                           ),
                           const SizedBox(height: AppSpacing.s20),
                           ShopCategoryChips(
+                            categories: context.read<ShopCubit>().categories,
                             selectedCategory: state.selectedCategory,
                             onCategorySelected: context
                                 .read<ShopCubit>()
