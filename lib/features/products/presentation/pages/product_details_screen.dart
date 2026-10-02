@@ -704,7 +704,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buildRecommendations(BuildContext context, Product product) {
     final l10n = AppLocalizations.of(context)!;
 
-    final products = ProductMockData.products
+    final products = context
+        .read<ProductRepository>()
+        .getProducts()
         .where((item) => item.id != product.id)
         .take(4)
         .toList();
