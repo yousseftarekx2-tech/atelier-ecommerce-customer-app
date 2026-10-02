@@ -37,17 +37,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
 
-    _product = context.read<ProductRepository>().getProductById(widget.productId);
+    final product = context
+        .read<ProductRepository>()
+        .getProductById(widget.productId);
 
-    if (_product != null) {
+    _product = product;
+
+    if (product != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
 
-        context.read<RecentlyViewedCubit>().addProduct(_product.id);
+        context.read<RecentlyViewedCubit>().addProduct(product.id);
       });
 
-      _selectedColor = _product.colors.first;
-      _selectedSize = _product.sizes.contains('M') ? 'M' : _product.sizes.first;
+      _selectedColor = product.colors.isNotEmpty ? product.colors.first : '';
+      _selectedSize = product.sizes.isEmpty
+          ? ''
+          : product.sizes.contains('M')
+          ? 'M'
+          : product.sizes.first;
     } else {
       _selectedColor = '';
       _selectedSize = '';
@@ -679,12 +687,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buildCompleteTheLook(BuildContext context, Product product) {
     final l10n = AppLocalizations.of(context)!;
 
-    final products = context.read<ProductRepository>().getProducts()
-        .where(
-          (item) =>
-              item.id != product.id &&
-              ['product_004', 'product_005', 'product_006'].contains(item.id),
-        )
+    final allProducts = context.read<ProductRepository>().getProducts();
+
+    final relatedProducts = allProducts.where((item) {
+      if (item.id == product.id) {
+        return false;
+      }
+
+      final sharedLifestyleTags = item.lifestyleTags
+          .where(product.lifestyleTags.contains)
+          .length;
+      final sharedStyleTags = item.styleTags
+          .where(product.styleTags.contains)
+          .length;
+
+      return sharedLifestyleTags > 0 || sharedStyleTags > 0;
+    }).toList();
+
+    final products = (relatedProducts.isNotEmpty ? relatedProducts : allProducts)
+        .where((item) => item.id != product.id)
+        .take(3)
         .toList();
 
     if (products.isEmpty) {
