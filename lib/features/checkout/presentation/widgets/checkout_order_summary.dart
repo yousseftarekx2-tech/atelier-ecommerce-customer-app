@@ -28,7 +28,7 @@ class CheckoutOrderSummary extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  '05  ' + l10n.checkoutOrderSummary.toUpperCase(),
+                  '05  ${l10n.checkoutOrderSummary.toUpperCase()}',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.w700,
@@ -49,7 +49,7 @@ class CheckoutOrderSummary extends StatelessWidget {
                     children: [
                       _SummaryRow(
                         label: l10n.checkoutSubtotal,
-                        value: 'EGP ' + subtotal.toString(),
+                        value: 'EGP $subtotal',
                       ),
                       const SizedBox(height: 12),
                       _SummaryRow(
@@ -60,7 +60,7 @@ class CheckoutOrderSummary extends StatelessWidget {
                             : l10n.shippingExpress,
                         value: shippingCost == 0
                             ? l10n.checkoutFree
-                            : 'EGP ' + shippingCost.toString(),
+                            : 'EGP $shippingCost',
                       ),
                       const Padding(
                         padding: EdgeInsets.symmetric(vertical: 16),
@@ -68,7 +68,7 @@ class CheckoutOrderSummary extends StatelessWidget {
                       ),
                       _SummaryRow(
                         label: l10n.checkoutTotal,
-                        value: 'EGP ' + total.toString(),
+                        value: 'EGP $total',
                         isTotal: true,
                       ),
                     ],

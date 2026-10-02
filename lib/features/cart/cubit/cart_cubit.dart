@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/src/shared_preferences_legacy.dart';
 
 import '../domain/entities/cart_item.dart';
 import 'cart_state.dart';
 
 class CartCubit extends Cubit<CartState> {
-  CartCubit() : super(const CartInitial());
+  CartCubit(SharedPreferences prefs) : super(const CartInitial());
 
   void addItem({
     required String productId,

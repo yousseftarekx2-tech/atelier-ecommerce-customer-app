@@ -197,7 +197,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   image: images[index],
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,
                 );
               },
             ),

@@ -1,5 +1,6 @@
 import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/cart/cubit/cart_state.dart';
+import 'package:atelier_customer/features/products/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -34,12 +35,19 @@ class _LooksScreenState extends State<LooksScreen> {
 
   String _selectedFilter = 'All';
 
+  List<Look> get _looks {
+    final repository = context.read<ProductRepository>();
+    return LookMockData.getLooks(repository);
+  }
+
   List<Look> get _filteredLooks {
+    final looks = _looks;
+
     if (_selectedFilter == 'All') {
-      return LookMockData.looks;
+      return looks;
     }
 
-    return LookMockData.looks
+    return looks
         .where(
           (look) => look.tag.toLowerCase() == _selectedFilter.toLowerCase(),
         )
@@ -148,7 +156,9 @@ class _LooksScreenState extends State<LooksScreen> {
                 return HomeHeader(
                   cartItemCount: cartItemCount,
                   onNotificationsPressed: () {},
-                  onCartPressed: () => context.push(Routes.cart),
+                  onCartPressed: () {
+                    context.push(Routes.cart);
+                  },
                 );
               },
             ),

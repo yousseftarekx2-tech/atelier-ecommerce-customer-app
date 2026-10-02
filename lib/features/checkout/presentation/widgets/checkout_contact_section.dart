@@ -20,7 +20,7 @@ class CheckoutContactSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '01  ' + l10n.checkoutContact.toUpperCase(),
+          '01  ${l10n.checkoutContact.toUpperCase()}',
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,

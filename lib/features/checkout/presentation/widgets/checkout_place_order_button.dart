@@ -1,7 +1,7 @@
 import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/orders/cubit/oeder_cubit.dart';
 import 'package:atelier_customer/features/orders/cubit/order_state.dart';
-import 'package:atelier_customer/features/products/data/repositories/product_repository_impl.dart';
+import 'package:atelier_customer/features/products/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -68,6 +68,7 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
     final cartState = context.read<CartCubit>().state;
     final addressState = context.read<AddressCubit>().state;
     final shippingState = context.read<ShippingCubit>().state;
+    final productRepository = context.read<ProductRepository>();
 
     if (authState is! AuthAuthenticated) {
       _showMessage(context, l10n.checkoutSignInRequired);
@@ -93,25 +94,28 @@ class CheckoutPlaceOrderButton extends StatelessWidget {
       return;
     }
 
-    final productRepository = ProductRepositoryImpl();
+    final items = <OrderItem>[];
 
-    final items = cartState.items.map((item) {
+    for (final item in cartState.items) {
       final product = productRepository.getProductById(item.productId);
 
       if (product == null) {
-        throw Exception(l10n.checkoutProductNotFound(item.productId));
+        _showMessage(context, l10n.checkoutProductNotFound(item.productId));
+        return;
       }
 
-      return OrderItem(
-        productId: item.productId,
-        productName: product.name,
-        image: product.image,
-        size: item.size,
-        color: item.color,
-        quantity: item.quantity,
-        unitPrice: item.unitPrice,
+      items.add(
+        OrderItem(
+          productId: item.productId,
+          productName: product.name,
+          image: product.image,
+          size: item.size,
+          color: item.color,
+          quantity: item.quantity,
+          unitPrice: item.unitPrice,
+        ),
       );
-    }).toList();
+    }
 
     final shippingAddress = OrderAddressSnapshot(
       fullName: address.fullName,

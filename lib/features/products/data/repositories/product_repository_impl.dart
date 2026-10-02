@@ -8,22 +8,41 @@ class ProductRepositoryImpl implements ProductRepository {
   final ProductRemoteDataSource _remoteDataSource;
 
   List<Product> _products = const [];
+  Future<void>? _loadFuture;
   Object? _loadError;
 
-  Future<void> loadProducts() async {
+  @override
+  // ignore: override_on_non_overriding_member
+  Future<void> loadProducts() {
+    final existingLoad = _loadFuture;
+
+    if (existingLoad != null) {
+      return existingLoad;
+    }
+
+    final future = _loadProducts();
+    _loadFuture = future;
+    return future;
+  }
+
+  Future<void> _loadProducts() async {
     try {
-      _products = await _remoteDataSource.getProducts();
+      final products = await _remoteDataSource.getProducts();
+
+      _products = List.unmodifiable(products);
       _loadError = null;
     } catch (error) {
-      _products = const [];
       _loadError = error;
+      rethrow;
+    } finally {
+      _loadFuture = null;
     }
   }
 
   @override
   List<Product> getProducts() {
     _throwIfLoadFailed();
-    return List.unmodifiable(_products);
+    return _products;
   }
 
   @override

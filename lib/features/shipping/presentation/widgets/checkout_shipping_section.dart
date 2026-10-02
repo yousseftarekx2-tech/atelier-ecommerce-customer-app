@@ -20,7 +20,7 @@ class CheckoutShippingSection extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '03  ' + l10n.checkoutShippingMethod.toUpperCase(),
+              '03  ${l10n.checkoutShippingMethod.toUpperCase()}',
               style: TextStyle(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
@@ -99,7 +99,7 @@ class CheckoutShippingSection extends StatelessWidget {
                         Text(
                           price == 0
                               ? l10n.checkoutFree
-                              : 'EGP ' + price.toString(),
+                              : 'EGP $price',
                           style: TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.w700,
