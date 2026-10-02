@@ -28,6 +28,7 @@ import 'package:atelier_customer/features/shop/presentation/pages/shop_screen.da
 import 'package:atelier_customer/features/splash/presentation/pages/splash_screen.dart';
 import 'package:atelier_customer/features/style/presentation/screens/my_style_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import 'routes.dart';
@@ -35,8 +36,45 @@ import 'routes.dart';
 class AppRouter {
   AppRouter._();
 
+  static const _publicRoutes = {
+    Routes.splash,
+    Routes.onboarding,
+    Routes.login,
+    Routes.register,
+    Routes.forgotPassword,
+    Routes.resetPassword,
+    Routes.home,
+    Routes.shop,
+    Routes.looks,
+    Routes.lookDetails,
+    Routes.productDetails,
+  };
+
   static final GoRouter router = GoRouter(
     initialLocation: Routes.splash,
+    refreshListenable: GoRouterRefreshStream(
+      Supabase.instance.client.auth.onAuthStateChange,
+    ),
+    redirect: (context, state) {
+      final location = state.matchedLocation;
+      final session = Supabase.instance.client.auth.currentSession;
+      final isPublic = _publicRoutes.contains(location);
+
+      if (session == null && !isPublic) {
+        final from = Uri.encodeComponent(state.uri.toString());
+        return Routes.login + '?redirect=' + from;
+      }
+
+      if (session != null &&
+          (location == Routes.login ||
+              location == Routes.register ||
+              location == Routes.forgotPassword ||
+              location == Routes.onboarding)) {
+        return Routes.home;
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: Routes.splash,
