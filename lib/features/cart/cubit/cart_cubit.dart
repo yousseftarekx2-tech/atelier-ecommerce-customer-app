@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -90,7 +91,7 @@ class CartCubit extends Cubit<CartState> {
     }
 
     emit(CartUpdated(updatedItems));
-    _persist(updatedItems);
+    unawaited(_persist(updatedItems));
   }
 
   void updateQuantity({required String itemKey, required int quantity}) {
@@ -142,7 +143,7 @@ class CartCubit extends Cubit<CartState> {
 
   void clear() {
     emit(const CartUpdated([]));
-    _preferences.remove(_storageKey);
+    unawaited(_preferences.remove(_storageKey));
   }
 
   CartItem? _findItem(String itemKey) {
