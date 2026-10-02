@@ -48,6 +48,7 @@ Future<void> main() async {
   final authRepository = AuthRepositoryImpl(authRemoteDataSource);
 
   final authCubit = AuthCubit(authRepository);
+  authCubit.restoreSession();
 
   final productRemoteDataSource = ProductRemoteDataSource(supabase);
 
@@ -67,7 +68,9 @@ Future<void> main() async {
 
   final addressCubit = AddressCubit(addressRepository);
 
-  await addressCubit.loadAddresses();
+  if (authCubit.state is AuthAuthenticated) {
+    await addressCubit.loadAddresses();
+  }
 
   final notificationsRemoteDataSource = NotificationsRemoteDataSource(
     supabase,
