@@ -117,7 +117,7 @@ Future<void> main() async {
       providers: [
         BlocProvider.value(value: authCubit),
         RepositoryProvider<ProductRepository>.value(value: productRepository),
-        BlocProvider(create: (_) => CartCubit()),
+        BlocProvider(create: (_) => CartCubit(prefs)),
         BlocProvider.value(value: favoritesCubit),
         BlocProvider.value(value: recentlyViewedCubit),
         BlocProvider.value(value: addressCubit),
