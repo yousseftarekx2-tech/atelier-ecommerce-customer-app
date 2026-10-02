@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../products/data/repositories/product_repository_impl.dart';
 import '../../products/domain/entities/product.dart';
 import '../../products/domain/repositories/product_repository.dart';
 import '../presentation/widgets/shop_filter_sheet.dart';
@@ -8,9 +7,7 @@ import '../presentation/widgets/shop_sort_sheet.dart';
 import 'shop_state.dart';
 
 class ShopCubit extends Cubit<ShopState> {
-  ShopCubit()
-    : _repository = ProductRepositoryImpl(),
-      super(const ShopInitial()) {
+  ShopCubit(this._repository) : super(const ShopInitial()) {
     loadProducts();
   }
 
