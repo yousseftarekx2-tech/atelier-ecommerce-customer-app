@@ -11,8 +11,9 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../favorites/cubit/favorites_cubit.dart';
-import '../../data/product_mock_data.dart';
+import '../../domain/repositories/product_repository.dart';
 import '../../domain/entities/product.dart';
+import '../widgets/product_image.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({required this.productId, super.key});
@@ -36,7 +37,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
 
-    _product = ProductMockData.findById(widget.productId);
+    _product = context.read<ProductRepository>().getProductById(widget.productId);
 
     if (_product != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -678,7 +679,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buildCompleteTheLook(BuildContext context, Product product) {
     final l10n = AppLocalizations.of(context)!;
 
-    final products = ProductMockData.products
+    final products = context.read<ProductRepository>().getProducts()
         .where(
           (item) =>
               item.id != product.id &&
