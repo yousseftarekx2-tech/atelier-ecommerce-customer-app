@@ -14,6 +14,14 @@ class ShopCubit extends Cubit<ShopState> {
   final ProductRepository _repository;
 
   late final List<Product> _allProducts;
+  List<String> get categories {
+    final values = _allProducts.map((product) => product.category.trim())
+        .where((category) => category.isNotEmpty)
+        .toSet()
+        .toList();
+    values.sort();
+    return ['All', ...values];
+  }
 
   static const double minPrice = 0;
   static const double maxPrice = 10000;
