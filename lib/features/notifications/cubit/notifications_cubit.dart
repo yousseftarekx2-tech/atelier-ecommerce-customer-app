@@ -10,6 +10,10 @@ class NotificationsCubit extends Cubit<NotificationsState> {
 
   final NotificationsRepository _notificationsRepository;
 
+  void clear() {
+    emit(const NotificationsLoaded(notifications: []));
+  }
+
   List<NotificationItem> get notifications => state.notifications;
 
   int get unreadCount => state.unreadCount;

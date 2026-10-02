@@ -147,7 +147,7 @@ class HomeScreen extends StatelessWidget {
                 builder: (context, cartItemCount) {
                   return HomeHeader(
                     cartItemCount: cartItemCount,
-                    onNotificationsPressed: () {},
+                    onNotificationsPressed: () => context.push(Routes.notifications),
                     onCartPressed: () => context.push(Routes.cart),
                   );
                 },
