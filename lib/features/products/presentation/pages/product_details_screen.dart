@@ -192,8 +192,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 });
               },
               itemBuilder: (context, index) {
-                return Image.asset(
-                  images[index],
+                return ProductImage(
+                  image: images[index],
                   width: double.infinity,
                   fit: BoxFit.cover,
                   alignment: Alignment.topCenter,
@@ -1355,8 +1355,8 @@ class _ProductMiniCard extends StatelessWidget {
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        product.image,
+                      child: ProductImage(
+                        image: product.image,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),
