@@ -1,70 +1,46 @@
 import '../../domain/entities/product.dart';
 import '../../domain/repositories/product_repository.dart';
-import '../datasources/product_remote_data_source.dart';
+import '../product_mock_data.dart';
 
 class ProductRepositoryImpl implements ProductRepository {
-  ProductRepositoryImpl(this._remoteDataSource);
-
-  final ProductRemoteDataSource _remoteDataSource;
-
-  List<Product> _products = const [];
-  Object? _loadError;
-
-  Future<void> loadProducts() async {
-    try {
-      _products = await _remoteDataSource.getProducts();
-      _loadError = null;
-    } catch (error) {
-      _products = const [];
-      _loadError = error;
-    }
-  }
-
   @override
   List<Product> getProducts() {
-    _throwIfLoadFailed();
-    return List.unmodifiable(_products);
+    return ProductMockData.products;
   }
 
   @override
   Product? getProductById(String id) {
-    _throwIfLoadFailed();
-
-    for (final product in _products) {
-      if (product.id == id) {
-        return product;
-      }
-    }
-
-    return null;
+    return ProductMockData.findById(id);
   }
 
   @override
   List<Product> getFeaturedProducts() {
-    return _filter((product) => product.isFeatured);
+    return ProductMockData.products
+        .where((product) => product.isFeatured)
+        .toList();
   }
 
   @override
   List<Product> getNewArrivals() {
-    return _filter((product) => product.isNew);
+    return ProductMockData.products.where((product) => product.isNew).toList();
   }
 
   @override
   List<Product> getTrendingProducts() {
-    return _filter((product) => product.isTrending);
+    return ProductMockData.products
+        .where((product) => product.isTrending)
+        .toList();
   }
 
   @override
   List<Product> searchProducts(String query) {
-    _throwIfLoadFailed();
-
     final normalizedQuery = query.trim().toLowerCase();
 
     if (normalizedQuery.isEmpty) {
       return const [];
     }
 
-    return _products.where((product) {
+    return ProductMockData.products.where((product) {
       final searchableText = [
         product.name,
         product.subtitle,
@@ -76,18 +52,5 @@ class ProductRepositoryImpl implements ProductRepository {
 
       return searchableText.contains(normalizedQuery);
     }).toList();
-  }
-
-  List<Product> _filter(bool Function(Product product) predicate) {
-    _throwIfLoadFailed();
-    return _products.where(predicate).toList();
-  }
-
-  void _throwIfLoadFailed() {
-    final error = _loadError;
-
-    if (error != null) {
-      throw StateError('Unable to load products: $error');
-    }
   }
 }
