@@ -8,6 +8,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../cart/cubit/cart_state.dart';
 import '../../../home/presentation/widgets/home_header.dart';
+import '../../../products/domain/repositories/product_repository.dart';
 import '../../cubit/shop_cubit.dart';
 import '../../cubit/shop_state.dart';
 import '../widgets/shop_category_chips.dart';
@@ -65,7 +66,7 @@ class ShopScreen extends StatelessWidget {
     final headerHeight = topSafeArea + 56;
 
     return BlocProvider(
-      create: (_) => ShopCubit(),
+      create: (context) => ShopCubit(context.read<ProductRepository>()),
       child: Scaffold(
         backgroundColor: theme.colorScheme.surfaceContainerLowest,
         body: Stack(
