@@ -27,6 +27,8 @@ import 'package:atelier_customer/features/settings/presentation/screens/settings
 import 'package:atelier_customer/features/shop/presentation/pages/shop_screen.dart';
 import 'package:atelier_customer/features/splash/presentation/pages/splash_screen.dart';
 import 'package:atelier_customer/features/style/presentation/screens/my_style_screen.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
@@ -53,9 +55,7 @@ class AppRouter {
 
   static final GoRouter router = GoRouter(
     initialLocation: Routes.splash,
-    refreshListenable: GoRouterRefreshStream(
-      Supabase.instance.client.auth.onAuthStateChange,
-    ),
+    refreshListenable: _AuthRefreshListenable(),
     redirect: (context, state) {
       final location = state.matchedLocation;
       final session = Supabase.instance.client.auth.currentSession;
@@ -295,3 +295,20 @@ class AppRouter {
   );
 }
 
+
+
+class _AuthRefreshListenable extends ChangeNotifier {
+  _AuthRefreshListenable() {
+    _subscription = Supabase.instance.client.auth.onAuthStateChange.listen((_) {
+      notifyListeners();
+    });
+  }
+
+  late final StreamSubscription<AuthState> _subscription;
+
+  @override
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
+  }
+}
