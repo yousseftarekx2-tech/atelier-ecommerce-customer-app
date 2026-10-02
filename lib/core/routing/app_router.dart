@@ -32,6 +32,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import 'routes.dart';
+import '../../app/app_shell.dart';
 
 class AppRouter {
   AppRouter._();
@@ -235,7 +236,7 @@ class AppRouter {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return _AppShell(navigationShell: navigationShell);
+          return AppShell(navigationShell: navigationShell);
         },
         branches: [
           StatefulShellBranch(
@@ -294,54 +295,3 @@ class AppRouter {
   );
 }
 
-class _AppShell extends StatelessWidget {
-  const _AppShell({required this.navigationShell});
-
-  final StatefulNavigationShell navigationShell;
-
-  void _onDestinationSelected(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: _onDestinationSelected,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.shopping_bag_outlined),
-            selectedIcon: Icon(Icons.shopping_bag),
-            label: 'Shop',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.auto_awesome_outlined),
-            selectedIcon: Icon(Icons.auto_awesome),
-            label: 'Looks',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.favorite_border),
-            selectedIcon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-    );
-  }
-}
