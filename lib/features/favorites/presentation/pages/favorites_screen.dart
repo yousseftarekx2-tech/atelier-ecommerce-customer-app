@@ -1,4 +1,5 @@
 import 'package:atelier_customer/L10n/app_localizations.dart';
+import 'package:atelier_customer/features/products/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -8,7 +9,6 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../cart/cubit/cart_state.dart';
 import '../../../home/presentation/widgets/home_header.dart';
-import '../../../products/data/repositories/product_repository_impl.dart';
 import '../../cubit/favorites_cubit.dart';
 import '../../cubit/favorites_state.dart';
 import '../widgets/favorites_product_grid.dart';
@@ -23,7 +23,7 @@ class FavoritesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final repository = ProductRepositoryImpl();
+    final repository = context.read<ProductRepository>();
 
     return Scaffold(
       backgroundColor: theme.colorScheme.surfaceContainerLowest,

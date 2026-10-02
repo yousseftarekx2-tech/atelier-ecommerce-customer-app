@@ -1,6 +1,8 @@
 import '../entities/product.dart';
 
 abstract interface class ProductRepository {
+  Future<void> loadProducts();
+
   List<Product> getProducts();
 
   Product? getProductById(String id);

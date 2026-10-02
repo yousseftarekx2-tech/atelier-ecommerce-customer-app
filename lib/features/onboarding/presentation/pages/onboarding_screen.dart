@@ -74,13 +74,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    const titles = ['Discover your style.', 'More than clothes.'];
-
-    const descriptions = [
-      'Find pieces that feel like you.',
-      'Discover looks made to be worn together.',
-    ];
-
     return Scaffold(
       backgroundColor: AppColors.black,
       body: PageView.builder(

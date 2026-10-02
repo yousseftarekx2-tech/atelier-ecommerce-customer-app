@@ -1,5 +1,6 @@
 import 'package:atelier_customer/L10n/app_localizations.dart';
 import 'package:atelier_customer/features/products/domain/entities/product.dart';
+import 'package:atelier_customer/features/products/domain/repositories/product_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gap/gap.dart';
@@ -32,7 +33,8 @@ class _LookDetailsScreenState extends State<LookDetailsScreen> {
   void initState() {
     super.initState();
 
-    _look = LookMockData.findById(widget.lookId);
+    final repository = context.read<ProductRepository>();
+    _look = LookMockData.findById(repository, widget.lookId);
 
     final look = _look;
 

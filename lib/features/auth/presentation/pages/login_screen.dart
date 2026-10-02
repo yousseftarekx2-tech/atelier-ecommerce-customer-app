@@ -121,7 +121,15 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocConsumer<AuthCubit, AuthState>(
       listener: (context, state) {
         if (state is AuthAuthenticated) {
-          context.go(Routes.home);
+          final redirect = GoRouterState.of(
+            context,
+          ).uri.queryParameters['redirect'];
+
+          if (redirect != null && redirect.isNotEmpty) {
+            context.go(Uri.decodeComponent(redirect));
+          } else {
+            context.go(Routes.home);
+          }
         }
 
         if (state is AuthFailure) {

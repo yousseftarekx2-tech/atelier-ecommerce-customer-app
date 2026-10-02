@@ -9,6 +9,10 @@ class AddressCubit extends Cubit<AddressState> {
 
   final AddressRepository _repository;
 
+  void clear() {
+    emit(const AddressLoaded(addresses: [], selectedAddressId: null));
+  }
+
   Future<void> loadAddresses() async {
     emit(
       AddressLoading(

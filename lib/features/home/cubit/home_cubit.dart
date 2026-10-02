@@ -13,8 +13,8 @@ class HomeCubit extends Cubit<HomeState> {
     this._productRepository, {
     PersonalizationService? personalizationService,
   }) : _personalizationService =
-          personalizationService ?? const PersonalizationService(),
-      super(const HomeInitial());
+           personalizationService ?? const PersonalizationService(),
+       super(const HomeInitial());
 
   final ProductRepository _productRepository;
   final PersonalizationService _personalizationService;
@@ -48,7 +48,7 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  void loadHome() {
+  Future<void> loadHome() async {
     emit(
       HomeLoading(
         pickedForYou: state.pickedForYou,
@@ -60,6 +60,12 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     try {
+      await _productRepository.loadProducts();
+
+      if (isClosed) {
+        return;
+      }
+
       final featuredProducts = _productRepository.getFeaturedProducts();
 
       _featuredProducts = featuredProducts;
@@ -83,6 +89,10 @@ class HomeCubit extends Cubit<HomeState> {
         ),
       );
     } catch (error) {
+      if (isClosed) {
+        return;
+      }
+
       emit(
         HomeError(
           message: error.toString(),
@@ -123,6 +133,10 @@ class HomeCubit extends Cubit<HomeState> {
     );
 
     _searchDebounce = Timer(const Duration(milliseconds: 300), () {
+      if (isClosed) {
+        return;
+      }
+
       final results = _productRepository.searchProducts(normalizedQuery);
 
       emit(

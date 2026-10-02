@@ -4,8 +4,8 @@ import 'package:atelier_customer/core/theme/app_radius.dart';
 import 'package:atelier_customer/core/theme/app_spacing.dart';
 import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:atelier_customer/features/home/presentation/widgets/home_product_card.dart';
-import 'package:atelier_customer/features/products/data/product_mock_data.dart';
 import 'package:atelier_customer/features/products/domain/entities/product.dart';
+import 'package:atelier_customer/features/products/domain/repositories/product_repository.dart';
 import 'package:atelier_customer/features/recently_viewed/cubit/recently_viewed_cubit.dart';
 import 'package:atelier_customer/features/recently_viewed/cubit/recently_viewed_state.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +35,10 @@ class _RecentlyViewedScreenState extends State<RecentlyViewedScreen> {
   }
 
   List<Product> _resolveProducts(List<String> productIds) {
+    final repository = context.read<ProductRepository>();
+
     return productIds
-        .map(ProductMockData.findById)
+        .map(repository.getProductById)
         .whereType<Product>()
         .toList();
   }

@@ -9,19 +9,13 @@ class ShopCategoryChips extends StatelessWidget {
   const ShopCategoryChips({
     required this.selectedCategory,
     required this.onCategorySelected,
+    required this.categories,
     super.key,
   });
 
   final String selectedCategory;
   final ValueChanged<String> onCategorySelected;
-
-  static const categories = [
-    'All',
-    'Tops',
-    'Bottoms',
-    'Outerwear',
-    'Accessories',
-  ];
+  final List<String> categories;
 
   String _localizedCategory(BuildContext context, String category) {
     final l10n = AppLocalizations.of(context)!;

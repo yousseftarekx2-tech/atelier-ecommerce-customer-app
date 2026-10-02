@@ -26,7 +26,9 @@ import 'features/notifications/data/datasource/notifications_remote_data_source.
 import 'features/notifications/data/repositories/notifications_repository_impl.dart';
 import 'features/orders/data/datasource/orders_remote_data_source.dart';
 import 'features/orders/data/repositories/orders_repository_impl.dart';
+import 'features/products/data/datasources/product_remote_data_source.dart';
 import 'features/products/data/repositories/product_repository_impl.dart';
+import 'features/products/domain/repositories/product_repository.dart';
 import 'features/recently_viewed/cubit/recently_viewed_cubit.dart';
 import 'features/recently_viewed/data/datasource/recently_viewed_local_data_source.dart';
 import 'features/recently_viewed/data/repositories/recently_viewed_repository_impl.dart';
@@ -35,79 +37,63 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Supabase.initialize(
-    url: const String.fromEnvironment('SUPABASE_URL'),
-    publishableKey: const String.fromEnvironment('SUPABASE_ANON_KEY'),
+    url: 'https://jhemucierwzjkdclqlmz.supabase.co',
+    publishableKey: 'sb_publishable_iS-TUq8kmp5f7TkvzARV0g_QXUNu1p0',
   );
 
   final supabase = Supabase.instance.client;
 
   final authRemoteDataSource = AuthRemoteDataSource(supabase);
-
   final authRepository = AuthRepositoryImpl(authRemoteDataSource);
-
   final authCubit = AuthCubit(authRepository);
 
-  final productRepository = ProductRepositoryImpl();
+  final productRemoteDataSource = ProductRemoteDataSource(supabase);
+  final ProductRepository productRepository = ProductRepositoryImpl(
+    productRemoteDataSource,
+  );
 
   final styleRemoteDataSource = StyleRemoteDataSource(supabase);
-
   final styleRepository = StyleRepositoryImpl(styleRemoteDataSource);
-
   final styleCubit = StyleCubit(styleRepository);
 
   final addressRemoteDataSource = AddressRemoteDataSource(supabase);
-
   final addressRepository = AddressRepositoryImpl(addressRemoteDataSource);
-
   final addressCubit = AddressCubit(addressRepository);
 
-  await addressCubit.loadAddresses();
-
-  final notificationsRemoteDataSource = NotificationsRemoteDataSource(
-    supabase,
-  );
-
+  final notificationsRemoteDataSource = NotificationsRemoteDataSource(supabase);
   final notificationsRepository = NotificationsRepositoryImpl(
     notificationsRemoteDataSource,
   );
-
   final notificationsCubit = NotificationsCubit(notificationsRepository);
 
   final ordersRemoteDataSource = OrdersRemoteDataSource(supabase);
-
   final ordersRepository = OrdersRepositoryImpl(ordersRemoteDataSource);
 
   final favoritesRemoteDataSource = FavoritesRemoteDataSource(supabase);
-
   final favoritesRepository = FavoritesRepositoryImpl(
     favoritesRemoteDataSource,
   );
-
   final favoritesCubit = FavoritesCubit(favoritesRepository);
 
   final prefs = await SharedPreferences.getInstance();
 
   final settingsLocalDataSource = SettingsLocalDataSource(prefs);
-
   final settingsRepository = SettingsRepositoryImpl(settingsLocalDataSource);
-
   final settingsCubit = SettingsCubit(settingsRepository);
 
   settingsCubit.loadSettings();
 
   final recentlyViewedDataSource = RecentlyViewedLocalDataSource(prefs);
-
   final recentlyViewedRepository = RecentlyViewedRepositoryImpl(
     recentlyViewedDataSource,
   );
-
   final recentlyViewedCubit = RecentlyViewedCubit(recentlyViewedRepository);
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider.value(value: authCubit),
-        BlocProvider(create: (_) => CartCubit()),
+        BlocProvider(create: (_) => CartCubit(prefs)),
         BlocProvider.value(value: favoritesCubit),
         BlocProvider.value(value: recentlyViewedCubit),
         BlocProvider.value(value: addressCubit),
@@ -115,9 +101,12 @@ Future<void> main() async {
         BlocProvider(create: (_) => HomeCubit(productRepository)..loadHome()),
         BlocProvider.value(value: settingsCubit),
       ],
-      child: AtelierApp(
-        styleCubit: styleCubit,
-        ordersRepository: ordersRepository,
+      child: RepositoryProvider<ProductRepository>.value(
+        value: productRepository,
+        child: AtelierApp(
+          styleCubit: styleCubit,
+          ordersRepository: ordersRepository,
+        ),
       ),
     ),
   );

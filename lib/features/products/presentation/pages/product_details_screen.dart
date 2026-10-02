@@ -11,8 +11,9 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../cart/cubit/cart_cubit.dart';
 import '../../../favorites/cubit/favorites_cubit.dart';
-import '../../data/product_mock_data.dart';
+import '../../domain/repositories/product_repository.dart';
 import '../../domain/entities/product.dart';
+import '../widgets/product_image.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({required this.productId, super.key});
@@ -36,17 +37,25 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   void initState() {
     super.initState();
 
-    _product = ProductMockData.findById(widget.productId);
+    final product = context
+        .read<ProductRepository>()
+        .getProductById(widget.productId);
 
-    if (_product != null) {
+    _product = product;
+
+    if (product != null) {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (!mounted) return;
 
-        context.read<RecentlyViewedCubit>().addProduct(_product.id);
+        context.read<RecentlyViewedCubit>().addProduct(product.id);
       });
 
-      _selectedColor = _product.colors.first;
-      _selectedSize = _product.sizes.contains('M') ? 'M' : _product.sizes.first;
+      _selectedColor = product.colors.isNotEmpty ? product.colors.first : '';
+      _selectedSize = product.sizes.isEmpty
+          ? ''
+          : product.sizes.contains('M')
+          ? 'M'
+          : product.sizes.first;
     } else {
       _selectedColor = '';
       _selectedSize = '';
@@ -192,11 +201,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 });
               },
               itemBuilder: (context, index) {
-                return Image.asset(
-                  images[index],
+                return ProductImage(
+                  image: images[index],
                   width: double.infinity,
                   fit: BoxFit.cover,
-                  alignment: Alignment.topCenter,
                 );
               },
             ),
@@ -678,12 +686,26 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buildCompleteTheLook(BuildContext context, Product product) {
     final l10n = AppLocalizations.of(context)!;
 
-    final products = ProductMockData.products
-        .where(
-          (item) =>
-              item.id != product.id &&
-              ['product_004', 'product_005', 'product_006'].contains(item.id),
-        )
+    final allProducts = context.read<ProductRepository>().getProducts();
+
+    final relatedProducts = allProducts.where((item) {
+      if (item.id == product.id) {
+        return false;
+      }
+
+      final sharedLifestyleTags = item.lifestyleTags
+          .where(product.lifestyleTags.contains)
+          .length;
+      final sharedStyleTags = item.styleTags
+          .where(product.styleTags.contains)
+          .length;
+
+      return sharedLifestyleTags > 0 || sharedStyleTags > 0;
+    }).toList();
+
+    final products = (relatedProducts.isNotEmpty ? relatedProducts : allProducts)
+        .where((item) => item.id != product.id)
+        .take(3)
         .toList();
 
     if (products.isEmpty) {
@@ -703,7 +725,9 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget _buildRecommendations(BuildContext context, Product product) {
     final l10n = AppLocalizations.of(context)!;
 
-    final products = ProductMockData.products
+    final products = context
+        .read<ProductRepository>()
+        .getProducts()
         .where((item) => item.id != product.id)
         .take(4)
         .toList();
@@ -1355,8 +1379,8 @@ class _ProductMiniCard extends StatelessWidget {
                   Positioned.fill(
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(12),
-                      child: Image.asset(
-                        product.image,
+                      child: ProductImage(
+                        image: product.image,
                         width: double.infinity,
                         fit: BoxFit.cover,
                       ),

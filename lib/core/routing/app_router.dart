@@ -27,16 +27,58 @@ import 'package:atelier_customer/features/settings/presentation/screens/settings
 import 'package:atelier_customer/features/shop/presentation/pages/shop_screen.dart';
 import 'package:atelier_customer/features/splash/presentation/pages/splash_screen.dart';
 import 'package:atelier_customer/features/style/presentation/screens/my_style_screen.dart';
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:go_router/go_router.dart';
 
 import 'routes.dart';
+import '../../app/app_shell.dart';
 
 class AppRouter {
   AppRouter._();
 
+  static const _publicRoutes = {
+    Routes.splash,
+    Routes.onboarding,
+    Routes.login,
+    Routes.register,
+    Routes.forgotPassword,
+    Routes.resetPassword,
+    Routes.home,
+    Routes.shop,
+    Routes.looks,
+    Routes.lookDetails,
+    Routes.productDetails,
+  };
+
   static final GoRouter router = GoRouter(
     initialLocation: Routes.splash,
+    refreshListenable: _AuthRefreshListenable(),
+    redirect: (context, state) {
+      final location = state.matchedLocation;
+      final session = Supabase.instance.client.auth.currentSession;
+      final isPublic =
+          _publicRoutes.contains(location) ||
+          location.startsWith('/looks/') ||
+          location.startsWith('/product/');
+
+      if (session == null && !isPublic) {
+        final from = Uri.encodeComponent(state.uri.toString());
+        return Routes.login + '?redirect=' + from;
+      }
+
+      if (session != null &&
+          (location == Routes.login ||
+              location == Routes.register ||
+              location == Routes.forgotPassword ||
+              location == Routes.onboarding)) {
+        return Routes.home;
+      }
+
+      return null;
+    },
     routes: [
       GoRoute(
         path: Routes.splash,
@@ -194,7 +236,7 @@ class AppRouter {
       ),
       StatefulShellRoute.indexedStack(
         builder: (context, state, navigationShell) {
-          return _AppShell(navigationShell: navigationShell);
+          return AppShell(navigationShell: navigationShell);
         },
         branches: [
           StatefulShellBranch(
@@ -253,54 +295,20 @@ class AppRouter {
   );
 }
 
-class _AppShell extends StatelessWidget {
-  const _AppShell({required this.navigationShell});
 
-  final StatefulNavigationShell navigationShell;
 
-  void _onDestinationSelected(int index) {
-    navigationShell.goBranch(
-      index,
-      initialLocation: index == navigationShell.currentIndex,
-    );
+class _AuthRefreshListenable extends ChangeNotifier {
+  _AuthRefreshListenable() {
+    _subscription = Supabase.instance.client.auth.onAuthStateChange.listen((_) {
+      notifyListeners();
+    });
   }
 
+  late final StreamSubscription<AuthState> _subscription;
+
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: navigationShell,
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: _onDestinationSelected,
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.shopping_bag_outlined),
-            selectedIcon: Icon(Icons.shopping_bag),
-            label: 'Shop',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.auto_awesome_outlined),
-            selectedIcon: Icon(Icons.auto_awesome),
-            label: 'Looks',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.favorite_border),
-            selectedIcon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
-    );
+  void dispose() {
+    _subscription.cancel();
+    super.dispose();
   }
 }

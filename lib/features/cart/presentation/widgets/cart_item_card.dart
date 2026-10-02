@@ -6,7 +6,7 @@ import 'package:atelier_customer/core/theme/app_text_style.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../products/data/product_mock_data.dart';
+import '../../../products/domain/repositories/product_repository.dart';
 import '../../cubit/cart_cubit.dart';
 import '../../domain/entities/cart_item.dart';
 import 'cart_quantity_control.dart';
@@ -18,7 +18,7 @@ class CartItemCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = ProductMockData.findById(item.productId);
+    final product = context.read<ProductRepository>().getProductById(item.productId);
     final colorScheme = Theme.of(context).colorScheme;
 
     if (product == null) {

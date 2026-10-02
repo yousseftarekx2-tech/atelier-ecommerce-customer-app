@@ -1,6 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../products/data/repositories/product_repository_impl.dart';
 import '../../products/domain/entities/product.dart';
 import '../../products/domain/repositories/product_repository.dart';
 import '../presentation/widgets/shop_filter_sheet.dart';
@@ -8,21 +7,37 @@ import '../presentation/widgets/shop_sort_sheet.dart';
 import 'shop_state.dart';
 
 class ShopCubit extends Cubit<ShopState> {
-  ShopCubit()
-    : _repository = ProductRepositoryImpl(),
-      super(const ShopInitial()) {
+  ShopCubit(this._repository) : super(const ShopInitial()) {
     loadProducts();
   }
 
   final ProductRepository _repository;
 
-  late final List<Product> _allProducts;
+  List<Product> _allProducts = const [];
+
+  List<String> get categories {
+    final values = _allProducts
+        .map((product) => product.category.trim())
+        .where((category) => category.isNotEmpty)
+        .toSet()
+        .toList();
+
+    values.sort();
+
+    return ['All', ...values];
+  }
 
   static const double minPrice = 0;
   static const double maxPrice = 10000;
 
-  void loadProducts() {
+  Future<void> loadProducts() async {
     try {
+      await _repository.loadProducts();
+
+      if (isClosed) {
+        return;
+      }
+
       _allProducts = _repository.getProducts();
 
       emit(
@@ -34,6 +49,10 @@ class ShopCubit extends Cubit<ShopState> {
         ),
       );
     } catch (error) {
+      if (isClosed) {
+        return;
+      }
+
       emit(ShopError(error.toString()));
     }
   }

@@ -20,7 +20,7 @@ class _CheckoutPaymentSectionState extends State<CheckoutPaymentSection> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          '04  ' + l10n.checkoutPayment.toUpperCase(),
+          '04  ${l10n.checkoutPayment.toUpperCase()}',
           style: TextStyle(
             fontSize: 12,
             fontWeight: FontWeight.w700,
