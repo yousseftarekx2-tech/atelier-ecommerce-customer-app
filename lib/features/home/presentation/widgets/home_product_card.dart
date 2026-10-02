@@ -6,6 +6,7 @@ import '../../../../core/theme/app_spacing.dart';
 import '../../../../core/theme/app_text_style.dart';
 import '../../../favorites/cubit/favorites_cubit.dart';
 import '../../../products/domain/entities/product.dart';
+import '../../../products/presentation/widgets/product_image.dart';
 
 class HomeProductCard extends StatelessWidget {
   const HomeProductCard({required this.product, this.onTap, super.key});
@@ -33,7 +34,7 @@ class HomeProductCard extends StatelessWidget {
                 child: Stack(
                   fit: StackFit.expand,
                   children: [
-                    Image.asset(product.image, fit: BoxFit.cover),
+                    ProductImage(image: product.image, fit: BoxFit.cover),
                     if (product.badge != null)
                       Positioned(
                         top: AppSpacing.s12,
